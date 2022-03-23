@@ -3,20 +3,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Rol } from '../models/rol';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RolService {
 
-  private rolesUrl: string;
+  private rolUrl:string;
 
-  constructor(private http: HttpClient) { 
-    this.rolesUrl = 'http://localhost:8080/roles';
+  constructor(private http:HttpClient) {
+    this.rolUrl = 'http://localhost:8080/rol'
+   }
+  
+  public findAll():Observable<Rol[]>{
+    return this.http.get<Rol[]>(this.rolUrl);
   }
-
-  public findAll(): Observable<Rol[]> {
-    return this.http.get<Rol[]>(this.rolesUrl);
-  }
-
-  public save(rol: Rol) {
-    return this.http.post<Rol>(this.rolesUrl, rol);
-  }
+  
 }

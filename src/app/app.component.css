@@ -2,12 +2,12 @@
 .navbar {
     background-color: rgb(83, 91, 98) !important;
     padding: 0px;
-    padding-bottom: 1px;
+    padding-bottom: 8px;
 }
  
 .imagen {
     position: relative; 
-    margin-top: -20px; 
+    margin-top: -25px; 
     margin-left: 20px;
     width: 50px; 
     height: 50px;
@@ -16,7 +16,8 @@
 nav.navbar ul.navbar-nav li a{
     color: white !important;
     font-size: 22px;
-    margin-left: 470px; /*Juntar letras?*/
+    margin-top: 3px;
+    margin-left: 470px; 
     font-style: italic; 
     position: relative;
 }

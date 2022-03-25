@@ -1,6 +1,6 @@
 /*BARRA NAVEGACION*/
 .navbar {
-    background-color: rgb(83, 91, 98) !important;
+    background-color: rgb(27, 71, 107) !important;
     padding: 0px;
     padding-bottom: 8px;
 }
@@ -45,3 +45,7 @@ nav.navbar ul.navbar-nav li a:hover::before {
     transform: scaleX(1); 
 }
 
+/*FOOTER*/
+footer {
+    margin-top: 490px;
+}

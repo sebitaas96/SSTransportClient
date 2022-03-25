@@ -1,5 +1,5 @@
 /* Parte primera*/
-.conatiner-fluid {
+.container-fluid {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../assets/images/pantalla-principal/entrga2.jpg");
     background-size: cover;
     height: 80%;
@@ -12,10 +12,11 @@
     width: 100%;
 }
 
-.contenido {
+.contenido { 
     color: white;
+    /*
     margin-top: 100px;
-    margin-left: -150px;
+    margin-left: -150px; */
     padding: 200px;
     padding-right: 0px;
 }
@@ -63,11 +64,17 @@ button:hover {
 .fondo {
     background-color: rgb(204, 204, 204);
 }
+.tamanio {
+    margin-top: 2px;
+    margin-left: -9px;
+    margin-right: -40px; 
+}
 
 /*Primer cuadro*/
 .intercambio {
+    /*
     margin-top: 2px;
-    margin-left: 15px;
+    margin-left: 15px; */
     height: 30%;
     width: 49.5%;
     border: 4px solid rgb(228, 109, 156);
@@ -77,8 +84,9 @@ button:hover {
 
 /*Segundo cuadro*/
 .pagos {
+    /*
     margin-top: -210px;
-    margin-left: 971px;
+    margin-left: 971px; */
     height: 30%;
     width: 49%;
     border: 4px solid rgb(228, 109, 156);
@@ -88,8 +96,9 @@ button:hover {
 
 /*Tercer cuadro*/
 .ubicacion {
+    /*
     margin-top: 2px;
-    margin-left: 15px;
+    margin-left: 15px; */
     height: 30%;
     width: 49.5%;
     border: 4px solid rgb(228, 109, 156);
@@ -99,8 +108,9 @@ button:hover {
 
 /*Cuarto cuadro*/
 .calendario {
+    /*
     margin-top: -250px;
-    margin-left: 971px;
+    margin-left: 971px; */
     height: 30%;
     width: 49%;
     border: 4px solid rgb(228, 109, 156);

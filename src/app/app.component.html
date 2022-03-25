@@ -1,34 +1,27 @@
-
-<!--
-<mat-toolbar>
-  <span>My Application</span>
-</mat-toolbar>
--->
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="imagen">
-  <a class="navbar-brand" href="#">
-    <a class="nav-link active" aria-current="page" routerLink="/"><img src="../assets/images/camionLogo.png" width="70" height="70" alt="Translationem"></a>
-  </a>
-  </div>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" 
-          data-target="#navbarSupportedContent">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Sign in </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/singup">Sign up</a>
-      </li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="../assets/images/camionLogo.png" height="50" alt="imagen logo empresa"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" id="toggle"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#" id="ONUS">ONUS</a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <button type="button" class="btn btn-link px-3 me-2" id="login">
+          Login
+        </button>
+        <button type="button" class="btn me-3" id="singup">
+          Sign up
+        </button>
+      </div>
+    </div>
   </div>
 </nav>
 
+
 <pantalla-principal></pantalla-principal>
-
-
-
 <router-outlet></router-outlet>

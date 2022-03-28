@@ -23,11 +23,9 @@ export class SingUpComponent implements OnInit {
   paises:Pais[];
   provincias:Provincia[];
   localidades:Localidad[];
-  paisSeleccionado:Pais;
-  provinciaSeleccionada:Provincia;
-
   transporte:Transporte;
-  tipoEmpresa:Rol;
+  codTlf:string;
+
 
 
 
@@ -43,11 +41,7 @@ export class SingUpComponent implements OnInit {
     this.paises = [];
     this.provincias = [];
     this.localidades = [];
-
-    /*Seleccionados para iniciar Selects*/
-    this.tipoEmpresa = new Rol(0,"");
-    this.paisSeleccionado = new Pais(0,"");
-    this.provinciaSeleccionada = new Provincia(0 ,"",new Pais(0,""));
+    this.codTlf = "+34";
 
     /*Iniciamos el tipo de empresa*/
     this.transporte = new Transporte(0, "" , "" , "" , "", 
@@ -66,7 +60,7 @@ export class SingUpComponent implements OnInit {
       /*Aqui seleccion un rol para hacer las dos ventanas*/
       this.roles.forEach(rol =>{
         if(rol.nombre == "Transportes"){
-          this.tipoEmpresa = rol;
+          this.transporte.empresaDeRol = rol;
         }
       });
     });
@@ -82,11 +76,12 @@ export class SingUpComponent implements OnInit {
   }
 
   cambiarRol(rol:Rol){
-    this.tipoEmpresa = rol;    
+    this.transporte.empresaDeRol = rol;    
   }
 
   renewProvincias(pais:Pais){
-    this.paisSeleccionado = pais;
+    this.transporte.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia.provinciaDePais = pais;
+    this.transporte.operadorDeProvincia.provinciaDePais = pais;
     this.paisService.findProvincias(pais.id).subscribe(data=>{
       this.provincias = data;
       this.renewLocalidades(data[0]);
@@ -95,15 +90,21 @@ export class SingUpComponent implements OnInit {
 
   renewLocalidades(provincia:Provincia){
     if(provincia !=null){
-      this.provinciaSeleccionada = provincia;
+      this.transporte.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia = provincia;
+      this.transporte.operadorDeProvincia = provincia;
       this.provinciaService.findLocalidades(provincia.id).subscribe(data=>{
         this.localidades = data;
+        this.transporte.residenteDeDireccion.direccionDeLocalidad = data[0];
       });
     }
     else{
       this.localidades = [];
     }
 
+  }
+
+  aniadirCodTlf():void{
+    this.transporte.telefono = this.codTlf+this.transporte.telefono;
   }
 
 }

@@ -4,7 +4,6 @@ body {
 .page-content {
 	width: 100%;
 	margin:  0 auto;
-	background: #75e2e9;
 	display: flex;
 	display: -webkit-flex;
 	justify-content: center;
@@ -17,9 +16,10 @@ body {
 	-ms-align-items: center;
 	-moz-align-items: center;
 	-webkit-align-items: center;
-	background-image: -moz-linear-gradient( 136deg, rgb(149,153,226) 0%, rgb(139,198,236) 100%);
-    background-image: -webkit-linear-gradient( 136deg, rgb(149,153,226) 0%, rgb(139,198,236) 100%);
-    background-image: -ms-linear-gradient( 136deg, rgb(149,153,226) 0%, rgb(139,198,236) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../assets/images/signup/fondosignup.jpg");
+	background-position-y: 80%;
 }
 .form-v10-content  {
 	background: #fff;
@@ -56,11 +56,11 @@ body {
 	width: 100%;
 }
 .form-v10-content .form-detail .form-left h2 {
-	color: #2271dd;
+	color: #016270;
 }
 .form-v10-content .form-detail .form-right {
 	width: 100%;
-	background: #4835d4;
+	background: rgb(226, 50, 118);
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
 }

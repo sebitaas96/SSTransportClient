@@ -2,7 +2,7 @@
 	<div class="page-content">
 	
 		<div class="form-v10-content">
-			<form class="form-detail"  (ngSubmit)="onSubmit()" id="myform" *ngIf="tipoEmpresa.nombre=='Transportes'">
+			<form class="form-detail"  (ngSubmit)="onSubmit()" id="myform" *ngIf="transporte.empresaDeRol.nombre=='Transportes'">
 				<div class="form-left">
 					<h2>Datos de la Empresa</h2>
 					<div class="form-row">
@@ -20,7 +20,7 @@
 						<input type="text" [(ngModel)]="transporte.documento" name="documento" class="company" id="documento" placeholder="NIF/CIF" required>
 					</div>
 					<div class="form-row">
-						<select name="pais" [(ngModel)]="paisSeleccionado" (ngModelChange)="renewProvincias($event)">
+						<select name="pais" [(ngModel)]="transporte.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia.provinciaDePais" (ngModelChange)="renewProvincias($event)">
 						    <option *ngFor="let pais of paises" [ngValue]="pais" class="option">{{pais.nombre}}</option>
 						</select>
 						<span class="select-btn">
@@ -28,7 +28,7 @@
 						</span>
 					</div>
 					<div class="form-row" >
-						<select name="provincia" [(ngModel)]="provinciaSeleccionada" (ngModelChange)="renewLocalidades($event)">
+						<select name="provincia" [(ngModel)]="this.transporte.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia" (ngModelChange)="renewLocalidades($event)">
 						    <option *ngFor="let provincia of provincias" [ngValue]="provincia" class="option">{{provincia.nombre}}</option>
 						</select>
 						<span class="select-btn">
@@ -36,7 +36,7 @@
 						</span>
 					</div>
 					<div class="form-row">
-						<select name="localidad">
+						<select name="localidad" [(ngModel)]="transporte.residenteDeDireccion.direccionDeLocalidad" >
 							<option *ngFor="let localidad of localidades" [ngValue]="localidad" class="option">{{localidad.nombre}}</option>
 						</select>
 						<span class="select-btn">
@@ -49,33 +49,32 @@
 
 					<div class="form-group">
 						<div class="form-row form-row-1">
-							<select name="calle">
-							    <option value="place">Calle</option>
+							<select name="calle" [(ngModel)]="transporte.residenteDeDireccion.tipo">
+							    <option value="calle" >Calle</option>
 							</select>
 							<span class="select-btn">
 							  	<i class="zmdi zmdi-chevron-down"></i>
 							</span>
 						</div>
 						<div class="form-row form-row-2">
-							<input type="text" name="direccion" class="additional" id="direccion" placeholder="direccion" required>
+							<input type="text" name="direccion" class="additional" id="direccion" placeholder="direccion" required [(ngModel)]="transporte.residenteDeDireccion.nombre"> 
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="form-row form-row-1">
-							<input type="text" name="zip" class="zip" id="zip" placeholder="nº" required>
+							<input type="text" name="numero" class="zip" id="numero" placeholder="nº" required [(ngModel)]="transporte.residenteDeDireccion.numero">
 						</div>
 						<div class="form-row form-row-2">
-							<input type="text" name="street" class="street" id="street" placeholder="Codigo Postal" required>
-
+							<input type="text" name="cp" class="zip" id="cp" readonly  [(ngModel)]="transporte.residenteDeDireccion.direccionDeLocalidad.cp">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<div class="form-row form-row-1">
-							<input type="text" name="code" class="code" id="code" placeholder="+" required>
+							<input type="text" name="code" class="code" id="code" placeholder="+" required (ngModelChange)="aniadirCodTlf()" [(ngModel)]="codTlf">
 						</div>
 						<div class="form-row form-row-2">
-							<input type="text" name="phone" class="phone" id="phone" placeholder="Telefono" required>
+							<input type="text" name="phone" class="phone" id="phone" placeholder="Telefono" required [(ngModel)]="transporte.telefono">
 						</div>
 					</div>
 					<div class="form-row">
@@ -96,7 +95,7 @@
 
 
 			<!--Segundo formulario para los portes para mas adelante-->
-			<form class="form-detail"  (ngSubmit)="onSubmit()" id="myform" *ngIf="tipoEmpresa.nombre=='Portes'">
+			<form class="form-detail"  (ngSubmit)="onSubmit()" id="myform" *ngIf="transporte.empresaDeRol.nombre=='Portes'">
 				<div class="form-left">
 					<h2>Datos de la Empresa</h2>
 					<div class="form-row">

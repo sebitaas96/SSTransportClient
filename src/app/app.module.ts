@@ -12,6 +12,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { PantallaPrincipalComponent } from './pantalla-principal/pantalla-principal.component';
 import { nombreValidatorDirective } from './validators/nombre.validator';
 import { rolValidatorDirective } from './validators/rol.validator';
+import { LoginComponent } from './login/login.component';
+import { PantallaInfoComponent } from './pantalla-info/pantalla-info.component';
+
+
 
 @NgModule({
   declarations: [
@@ -19,7 +23,9 @@ import { rolValidatorDirective } from './validators/rol.validator';
     SingUpComponent,
     PantallaPrincipalComponent,
     nombreValidatorDirective,
-    rolValidatorDirective
+    rolValidatorDirective,
+    LoginComponent,
+    PantallaInfoComponent
   ],
   imports: [
     BrowserModule,

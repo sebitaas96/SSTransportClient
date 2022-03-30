@@ -11,13 +11,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { PantallaPrincipalComponent } from './pantalla-principal/pantalla-principal.component';
 import { LoginComponent } from './login/login.component';
+import { PantallaInfoComponent } from './pantalla-info/pantalla-info.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SingUpComponent,
     PantallaPrincipalComponent,
-    LoginComponent
+    LoginComponent,
+    PantallaInfoComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,12 +10,16 @@ import { SingUpComponent } from './sing-up/sing-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { PantallaPrincipalComponent } from './pantalla-principal/pantalla-principal.component';
+import { nombreValidatorDirective } from './validators/nombre.validator';
+import { rolValidatorDirective } from './validators/rol.validator';
 
 @NgModule({
   declarations: [
     AppComponent,
     SingUpComponent,
-    PantallaPrincipalComponent
+    PantallaPrincipalComponent,
+    nombreValidatorDirective,
+    rolValidatorDirective
   ],
   imports: [
     BrowserModule,
@@ -23,7 +27,8 @@ import { PantallaPrincipalComponent } from './pantalla-principal/pantalla-princi
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

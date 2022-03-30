@@ -12,7 +12,7 @@ export class Empresa {
     residenteDeDireccion:Direccion;
     operadorDeProvincia:Provincia;
     empresaDeRol:Rol;
-    cuentaBancaria:CuentaBancaria;
+    cuentaBancaria:CuentaBancaria|null;
 
     constructor(    
         id:number,
@@ -23,7 +23,7 @@ export class Empresa {
         residenteDeDireccion:Direccion,
         operadorDeProvincia:Provincia,
         empresaDeRol:Rol,
-        cuentaBancaria:CuentaBancaria)
+        cuentaBancaria:CuentaBancaria|null)
         {
             this.id = id;
             this.nombre = nombre;

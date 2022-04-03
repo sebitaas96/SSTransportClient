@@ -12,6 +12,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { PantallaPrincipalComponent } from './pantalla-principal/pantalla-principal.component';
 import { LoginComponent } from './login/login.component';
 import { PantallaInfoComponent } from './pantalla-info/pantalla-info.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { PantallaInfoComponent } from './pantalla-info/pantalla-info.component';
     SingUpComponent,
     PantallaPrincipalComponent,
     LoginComponent,
-    PantallaInfoComponent
+    PantallaInfoComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

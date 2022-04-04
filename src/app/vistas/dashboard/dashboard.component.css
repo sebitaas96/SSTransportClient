@@ -1,0 +1,146 @@
+/* Barra tools */
+.searchbar{
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 60px;
+    background-color: rgb(223, 102, 148);
+    border-radius: 30px;
+    padding: 10px;
+    }
+
+    .search_input{
+    color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    width: 0;
+    caret-color:transparent;
+    line-height: 40px;
+    transition: width 0.4s linear;
+    }
+
+    .searchbar:hover > .search_input{
+    padding: 0 10px;
+    width: 300px;
+    caret-color:white;
+    transition: width 0.4s linear;
+    }
+
+    .searchbar:hover > .search_icon{
+    background: white;
+    color: white;
+    }
+
+    .search_icon{
+    height: 40px;
+    width: 40px;
+    float: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color:white;
+    text-decoration:none;
+    }
+
+    .navbar{
+        background-color: #016270;
+    }
+
+    #ONUS {
+        color: white;
+    }
+
+    #navbarDropdownMenuLink {
+        margin-left: 450px;
+        color: white;
+    }
+
+/* Menu izquierdo */
+.sidebar-container {
+    width: 220px;
+    height: 100%;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #016270;
+    color: #fff;
+  }
+  
+  .content-container {
+    padding-top: 20px;
+  }
+  
+  .sidebar-logo {
+    padding: 10px 15px 10px 30px;
+    font-size: 20px;
+    background-color: rgb(223, 102, 148);
+  }
+  
+  .sidebar-navigation {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    position: relative;
+  }
+  
+  .sidebar-navigation li {
+    background-color: transparent;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    line-height: 20px;
+  }
+  
+  .sidebar-navigation li a {
+    padding: 10px 15px 10px 30px;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .sidebar-navigation li .fa {
+    margin-right: 10px;
+  }
+  
+  ul.sidebar-navigation li a{
+    position: relative;
+    color:white;
+    margin: 0px 15px;
+}
+ul.sidebar-navigation li a:after{
+    position: absolute;
+    bottom: 10px;
+    left: 0px;
+    width: 100%;
+    height: 4px;
+    background-color: rgb(223, 102, 148);
+    content: "";
+    opacity: 0;
+    transition: opacity 0.3s ease 0s, transform 0.3s ease 0s;
+    transform: translateY(20px);        
+}
+ul.sidebar-navigation li a:hover:after{
+    opacity:1;
+    transform: translateY(15px)
+}
+  
+.sidebar-navigation .header {
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: #003741;
+    padding: 10px 15px 10px 30px;
+  }
+  
+  .sidebar-navigation .header::before {
+    background-color: transparent;
+  }
+
+  .btn {
+    margin-top: 580px;
+    margin-left: 40px;
+    background-color: rgb(223, 102, 148);
+  }
+  .btn:hover {
+    background-color: rgb(234, 123, 165);
+  }

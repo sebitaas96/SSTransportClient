@@ -12,6 +12,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { PantallaPrincipalComponent } from './vistas/pantalla-principal/pantalla-principal.component';
 import { nombreValidatorDirective } from './validators/nombre.validator';
 import { LoginComponent } from './vistas/login/login.component';
+import { DashboardComponent } from './vistas/dashboard/dashboard.component';
 import { PantallaInfoComponent } from './vistas/pantalla-info/pantalla-info.component';
 import { documentoValidatorDirective } from './validators/documento.validator';
 import { paisValidatorDirective } from './validators/pais.validator';
@@ -29,6 +30,7 @@ import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.vali
 import { tipoEmpresaValidatorDirective } from './validators/tipoEmpresa.validator';
 import * as $ from 'jquery';
 import * as bootstrap from 'bootstrap';
+
 
 
 
@@ -53,7 +55,8 @@ import * as bootstrap from 'bootstrap';
     passwordValidatorDirective,
     nombreUsuarioValidatorDirective,
     LoginComponent,
-    PantallaInfoComponent
+    PantallaInfoComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

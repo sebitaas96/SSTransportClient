@@ -1,75 +1,65 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-12 col-lg-10">
+        <div class="col-12 col-lg-6 col-sm-12 col-md-12">
             <div class="wrap d-md-flex">
                 <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
                     <div class="text w-100">
-                        <h1>Welcome to login</h1>
-                        <p class="estilo">Don't have an account?</p>
-                        <a class="btn btn-white btn-outline-white">Sign Up</a>
+                        <h1>Bienvenido al login</h1>
+                        <p class="estilo">No tienes cuenta?</p>
+                        <a class="btn btn-white btn-outline-white" routerLink="/singup">Sign Up</a>
                     </div>
-          </div>
+                </div>
                 <div class="login-wrap p-4 p-lg-5">
-              <div class="d-flex">
-                  <div class="w-100">
-                      <h2 class="mb-4 signIn">Sign In</h2>
-                  </div>
-              </div>
-                 <form #loginform="ngForm" class="signin-form"
-                    (submit)="onLogin(loginform.value)"
-                 >
-                    <div class="form-group mb-3">
-                      <label class="label" for="name">Username</label>
-                      <input type="text" 
-                      class="form-control cajas" 
-                      placeholder="Username"
-                      name="nombreUsuario"
-                      #nombreUsuario = "ngModel"
-					  ngModel 
-					  nombreUsuarioValidator 
-                      >
-                      <div *ngIf="nombreUsuario.invalid && (nombreUsuario.dirty ||nombreUsuario.touched)" >
-                        <div *ngIf="['nombreUsuariov']" class="invalid-tooltip d-block">
-                            {{nombreUsuario.errors?.['requiredValue']}}
+                    <div class="d-flex">
+                        <div class="w-100">
+                            <h2 class="mb-4 signIn">Sign In</h2>
                         </div>
                     </div>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label class="label" for="password">Password</label>
-                        <input type="password" 
-                        class="form-control cajas" 
-                        placeholder="Password" 
-                        name="password" 
-                        #password = "ngModel"
-						ngModel
-                        passwordValidator 
-                        >
-                        <div *ngIf="password.invalid && (password.dirty ||password.touched)" >
-                            <div *ngIf="['passwordv']" class="invalid-tooltip d-block">
-                                {{password.errors?.['requiredValue']}}
+                    <form #loginform="ngForm" class="signin-form" (submit)="onLogin(loginform.value)">
+                        <div class="form-group mb-3">
+                            <label class="label" for="name">Username</label>
+                            <input type="text" class="form-control cajas" placeholder="Username" name="nombreUsuario"
+                                #nombreUsuario="ngModel" ngModel nombreUsuarioValidator>
+                            <div *ngIf="nombreUsuario.invalid && (nombreUsuario.dirty ||nombreUsuario.touched)">
+                                <div *ngIf="['nombreUsuariov']" class="invalid-tooltip d-block">
+                                    {{nombreUsuario.errors?.['requiredValue']}}
+                                </div>
                             </div>
                         </div>
-                   </div>
-                <div class="form-group">
-                    <button type="submit" [disabled]="loginform.invalid" class="form-control btn btn-primary submit px-3">Sign In</button>
-                </div>
-            <br>
-            <div class="form-group d-md-flex">
-                <div class="w-50 text-left">
-                    <label class="checkbox-wrap checkbox-primary mb-0">Remember Me
-                              <input type="checkbox" checked>
-                              <span class="checkmark"></span>
+
+                        <div class="form-group mb-3">
+                            <label class="label" for="password">Password</label>
+                            <input type="password" class="form-control cajas" placeholder="Password" name="password"
+                                #password="ngModel" ngModel passwordValidator>
+                            <div *ngIf="password.invalid && (password.dirty ||password.touched)">
+                                <div *ngIf="['passwordv']" class="invalid-tooltip d-block">
+                                    {{password.errors?.['requiredValue']}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" [disabled]="loginform.invalid"
+                                class="form-control btn btn-primary submit px-3">Sign In</button>
+                        </div>
+                        <br>
+                        <div class="alert alert-danger" role="alert" *ngIf="isLoginFail">
+                            {{errMsj}}
+                        </div>
+                        <br>
+                        <div class="form-group d-md-flex">
+                            <div class="w-50 text-left">
+                                <label class="checkbox-wrap checkbox-primary mb-0">Remember Me
+                                    <input type="checkbox" checked>
+                                    <span class="checkmark"></span>
                                 </label>
                             </div>
                             <div class="w-50 text-md-right">
                                 <a class="forgot" href="#">Forgot Password</a>
-                    </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </form>
-        </div>
-      </div>
         </div>
     </div>
 </div>
-

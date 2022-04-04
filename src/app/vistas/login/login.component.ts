@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private tokenService:TokenService,
     private authService:AuthService,
-    private Router:Router
+    private router:Router
   ) { 
     this.loginUsuario = new LoginUsuario("","");
     this.errMsj = "";
@@ -51,13 +51,14 @@ export class LoginComponent implements OnInit {
         this.tokenService.setAuthorities(data.authorities);
         this.roles = data.authorities;
 
-        console.log("Ha iniciado bien")
+        this.router.navigate(['/dashboard']);
+
       },
       err =>{
+        console.log(err);
         this.isLogged = false;
         this.isLoginFail = true;
-        this.errMsj = err.error.mensaje;
-        console.log(this.errMsj);
+        this.errMsj = err['error']['mensaje'];
       }
     )
   }

@@ -1,0 +1,67 @@
+/* Parte primera*/
+.contenido { 
+    color: white;
+    padding: 10%;
+    padding-right: 0%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/assets/images/pantalla-principal/entrga2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+button {
+    background-color: rgb(226, 50, 118);
+    border-color: rgb(226, 50, 118);
+}
+button:hover {
+    background-color: rgb(228, 109, 156);
+    border-color: rgb(228, 109, 156);
+}
+
+.nombreEmpresa {
+    color: rgb(226, 50, 118);
+    font-size: 80px;
+    margin-bottom: 60px;
+    padding-top: 30px;
+}
+
+.slogan {
+    font-size: 50px;
+    font-style: italic;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+a {
+    text-decoration: none;
+    color: white; 
+}
+
+/******************************************************************************************************************************************************/
+    
+/*PARTE DE INFORMACION*/
+.estiloTitulo {
+    margin-left: 33%;
+    margin-top: -140px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    font-style: italic;
+    color: rgb(46, 111, 165);
+}
+.estiloDatos {
+    margin-left: 33%;
+    font-size: 20px;
+    color: rgb(27, 71, 107);
+    line-height: 30px;
+}
+.fondo {
+    background-color: rgb(204, 204, 204);
+}
+
+
+/*Primer cuadro y segundo cuadro , tercer , cuarto cuadro*/
+.intercambio , .pagos , .ubicacion , .calendario {
+    border: 4px solid rgb(228, 109, 156);
+}
+
+
+
+

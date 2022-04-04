@@ -1,5 +1,5 @@
 
-import { Empresa } from "./empresa";
+import { Usuario } from "./usuario";
 import { Pais } from "./pais";
 import { Localidad } from "./localidad";
 
@@ -8,7 +8,7 @@ export class Provincia {
     nombre:string;
     provinciaDePais:Pais;
     localidades:Array<Localidad>;
-    operadores:Array<Empresa>;
+    operadores:Array<Usuario>;
 
     constructor(
         id:number,

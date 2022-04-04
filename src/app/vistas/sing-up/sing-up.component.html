@@ -1,0 +1,351 @@
+
+	<div class="page-content">
+	
+		<div class="form-v10-content">
+			<form #singupform="ngForm" class="form-detail" 
+				(submit)="onSubmit(singupform.value)" 
+				id="myform"
+				>
+				<div class="form-left">
+					<h2>Datos de la Empresa</h2>
+					<div class="form-row">
+						<label class="label" for="tipoEmpresa">TIPO DE EMPRESA</label>
+						<select name="tipoEmpresa"
+						id="tipoEmpresa"  
+						class="form-control"
+						#tipoEmpresa="ngModel"
+						ngModel
+						tipoEmpresalValidator
+						>
+							<option value="">Selecciona tu tipo de empresa</option>
+						    <option value="transporte" class="option">Transporte</option>
+							<option value="porte" class="option">Porte</option>
+						</select>
+						<div *ngIf="tipoEmpresa.invalid && (tipoEmpresa.dirty ||tipoEmpresa.touched)" >
+							<div *ngIf="['tipoEmpresav']" class="invalid-tooltip d-block">
+								{{tipoEmpresa.errors?.['requiredValue']}}
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-row form-row-1">
+							<label class="label" for="nombre">NOMBRE</label>
+							<input type="text" 
+							 name="nombre"
+							 id="nombre" 
+							 class="company form-control" 
+							 placeholder="Nombre de la compañia"		 
+							 #nombre = "ngModel"
+							 ngModel
+							 nombreValidator
+							 />
+							 <div *ngIf="nombre.invalid && (nombre.dirty ||nombre.touched)" >
+								<div *ngIf="['nombrev']" class="invalid-tooltip d-block">
+									{{nombre.errors?.['requiredValue']}}
+								</div>
+							</div>
+						</div>
+						<div class="form-row form-row-2">
+							<label class="label" for="documento">DOCUMENTO</label>
+							<input type="text"  
+							name="documento"
+							id="documento" 
+							class="company form-control" 
+							placeholder="NIF/CIF"
+							#documento = "ngModel"
+							ngModel 
+							documentoValidator
+							/>
+							<div *ngIf="documento.invalid && (documento.dirty ||documento.touched)" >
+								<div *ngIf="['documentov']" class="invalid-tooltip d-block">
+									{{documento.errors?.['requiredValue']}}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-row form-row-1">
+							<label class="label" for="nombreUsuario">USUARIO</label>
+							<input type="text"  
+							id="nombreUsuario"
+							name="nombreUsuario" 
+							class="company form-control" 
+							placeholder="Username"
+							#nombreUsuario = "ngModel"
+							ngModel 
+							nombreUsuarioValidator
+							/>
+							<div *ngIf="nombreUsuario.invalid && (nombreUsuario.dirty ||nombreUsuario.touched)" >
+								<div *ngIf="['nombreUsuariov']" class="invalid-tooltip d-block">
+									{{nombreUsuario.errors?.['requiredValue']}}
+								</div>
+							</div>
+						</div>
+						<div class="form-row form-row-2">
+							<label class="label" for="password">PASSWORD</label>
+							<input type="password"  
+							id="password"
+							name="password" 
+							class="company form-control" 
+							placeholder="Password"
+							#password = "ngModel"
+							ngModel 
+							passwordValidator
+							/>
+							<div *ngIf="password.invalid && (password.dirty ||password.touched)" >
+								<div *ngIf="['passwordv']" class="invalid-tooltip d-block">
+									{{password.errors?.['requiredValue']}}
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+					<div class="form-row form-row-1">
+						<label class="label" for="pais">PAIS</label>
+						<select name="pais"
+						id="pais"
+						class="form-control"
+						#pais="ngModel"
+						ngModel
+						paisValidator 
+						(ngModelChange)="renewProvincias($event)">
+							<option value="">Selecciona un pais</option>
+						    <option *ngFor="let pais of paises" 
+							[ngValue]="pais" 
+							class="option">{{pais.nombre}}</option>
+						</select>
+						<div *ngIf="pais.invalid && (pais.dirty ||pais.touched)" >
+							<div *ngIf="['paisv']" class="invalid-tooltip d-block">
+								{{pais.errors?.['requiredValue']}}
+							</div>
+						</div>
+					</div>
+					<div class=" form-row form-row-2" >
+						<label class="label" for="provincia">PROVINCIA</label>
+						<select name="provincia"
+						id="provincia" 
+						class="form-control"
+						#provincia = "ngModel"
+						ngModel
+						provinciaValidator 
+						(ngModelChange)="renewLocalidades($event)">
+						<option value="">Selecciona una provincia</option>
+						    <option *ngFor="let provincia of provincias" 
+							[ngValue]="provincia" 
+							class="option">{{provincia.nombre}}</option>
+						</select>
+						<div *ngIf="provincia.invalid && (provincia.dirty ||provincia.touched)" >
+							<div *ngIf="['provinciav']" class="invalid-tooltip d-block">
+								{{provincia.errors?.['requiredValue']}}
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="form-row">
+						<label class="label" for="localidad">LOCALIDAD</label>
+						<select name="localidad" 
+						id="localidad"
+						class="form-control"
+						#localidad = "ngModel"
+						ngModel
+						localidadValidator
+						(ngModelChange)="renewCp($event)"
+						>
+						<option value="">Selecciona una localidad</option>
+							<option *ngFor="let localidad of localidades" 
+							[ngValue]="localidad" 
+							class="option">{{localidad.nombre}}</option>
+						</select>
+						<div *ngIf="localidad.invalid && (localidad.dirty ||localidad.touched)" >
+							<div *ngIf="['localidadv']" class="invalid-tooltip d-block">
+								{{localidad.errors?.['requiredValue']}}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-right">
+					<h2>Detalles de Contacto</h2>
+					<div class="form-group">
+						<div class="form-row form-row-1">
+							<label class="label" for="direccionvia">TIPO VIA</label>
+							<select name="direccionvia"
+							id="direccionvia"
+							class="form-control"
+							#direccionvia="ngModel"
+							ngModel
+							tipoviaValidator
+							>
+								<option value="">Tipo de Via</option>
+							    <option value="calle">Calle</option>
+							</select>
+							<div *ngIf="direccionvia.invalid && (direccionvia.dirty ||direccionvia.touched)" >
+								<div *ngIf="['tipoviav']" class="invalid-tooltip d-block">
+									{{direccionvia.errors?.['requiredValue']}}
+								</div>
+							</div>
+						</div>
+						<div class="form-row form-row-2">
+							<label class="label" for="direccion">DIRECCION</label>
+							<input type="text" 
+							name="direccion" 
+							id="direccion"
+							class="additional form-control" 
+							placeholder="direccion"
+							#direccion="ngModel"
+							ngModel 
+							direccionValidator
+							 >
+							 <div *ngIf="direccion.invalid && (direccion.dirty ||direccion.touched)" >
+								<div *ngIf="['direccionv']" class="invalid-tooltip d-block">
+									{{direccion.errors?.['requiredValue']}}
+								</div>
+							</div> 
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-row form-row-1">
+							<label class="label" for="direccionnumero">NUMERO</label>
+							<input type="text" 
+							name="direccionnumero"
+							id="direccionnumero"
+							class="zip form-control" 
+							#direccionnumero="ngModel"
+							placeholder="nº"  
+							ngModel
+							numeroValidator>
+							<div *ngIf="direccionnumero.invalid && (direccionnumero.dirty ||direccionnumero.touched)" >
+								<div *ngIf="['numerov']" class="invalid-tooltip d-block">
+									{{direccionnumero.errors?.['requiredValue']}}
+								</div>
+							</div> 
+						</div>
+						<div class="form-row form-row-2">
+							<label class="label" for="zip">Codigo Postal</label>
+							<input type="text" id="zip"  name="zip" [(ngModel)]="cp" readonly>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="form-row form-row-1">
+							<label class="label" for="prefijo">PREFIJO</label>
+							<select type="text" 
+							id="prefijo"
+							name="prefijo" 
+							class="code form-control" 
+							#prefijo="ngModel"
+							ngModel
+							prefijoValidator
+							>
+								<option value="">+</option>
+								<option value="+34">+34</option>
+							</select>
+							<div *ngIf="prefijo.invalid && (prefijo.dirty ||prefijo.touched)" >
+								<div *ngIf="['prefijov']" class="invalid-tooltip d-block">
+									{{prefijo.errors?.['requiredValue']}}
+								</div>
+							</div> 
+						</div>
+						<div class="form-row form-row-2">
+							<label class="label" for="phone">TELÉFONO</label>
+							<input type="text" 
+							name="phone" 
+							id="phone"
+							class="phone form-control"
+							#phone="ngModel"
+							placeholder="Telefono"  
+							ngModel
+							telefonoValidator
+							>
+							<div *ngIf="phone.invalid && (phone.dirty ||phone.touched)" >
+								<div *ngIf="['telefonov']" class="invalid-tooltip d-block">
+									{{phone.errors?.['requiredValue']}}
+								</div>
+							</div> 
+						</div>
+					</div>
+					<div class="form-row">
+						<label class="label" for="email">EMAIL</label>
+						<input type="text" 
+						name="email"
+						id="email"
+						#email = "ngModel"  
+						class="input-text form-control" 
+						ngModel
+						placeholder="Email"
+						emailValidator
+						>
+						<div *ngIf="email.invalid && (email.dirty ||email.touched)" >
+							<div *ngIf="['emailv']" class="invalid-tooltip d-block">
+								{{email.errors?.['requiredValue']}}
+							</div>
+						</div> 
+					</div>
+					<div class="form-checkbox">
+						<label class="container"><p>Acepto <a href="#" class="text">los Términos y Condiciones</a> de la página.</p>
+						  	<input type="checkbox" name="isAccept" #isAccept="ngModel" ngModel checkboxValidator class="form-control"/>
+							  <div *ngIf="isAccept.invalid && (isAccept.dirty ||isAccept.touched)" >
+								<div *ngIf="['isAcceptv']" class="invalid-tooltip d-block">
+									{{isAccept.errors?.['requiredValue']}}
+								</div>
+							</div> 
+						  	<span class="checkmark"></span>
+						</label>
+					</div>
+					<div class="form-row-last">
+						<input type="submit" [disabled]="singupform.invalid" name="register" class="register btn btn-white btn-outline-white" value="Registrarse">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+<!--Modal Success-->
+<div id="successModal" class="modal fade">
+	<div class="modal-dialog modal-confirm modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="swal2-icon swal2-success swal2-animate-success-icon" style="display: flex;">
+					<div class="swal2-success-circular-line-left" style="background-color: rgb(255, 255, 255);"></div>
+					  <span class="swal2-success-line-tip"></span>
+					  <span class="swal2-success-line-long"></span>
+					  <div class="swal2-success-ring"></div> 
+					  <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
+					  <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
+					 </div>
+					 <!--Para indicar error
+					<div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;"><span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
+					-->
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Te has registrado correctamente {{nombreUsuarioModal}}!</p>
+			</div>
+			<div class="modal-footer justify-content-center btn-large">
+				<button class="btn btn-success" data-bs-dismiss="modal" routerLink="/login">Login</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Modal error-->
+			
+<div id="errorModal" class="modal fade">
+	<div class="modal-dialog modal-confirm modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+					
+					<div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;">
+						<span class="swal2-x-mark"><span class="swal2-x-mark-line-left">
+						</span><span class="swal2-x-mark-line-right"></span></span>
+					</div>
+					
+			</div>
+			<div class="modal-body">
+				<p class="text-center">{{errMsj}}</p>
+			</div>
+			<div class="modal-footer justify-content-center btn-large">
+				<button class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,16 +1,14 @@
-import { Conductor } from "./conductor";
-import { Empresa } from "./empresa";
+
+import { Usuario } from "./usuario";
 
 export class Rol {
     id:number;
     nombre:string;
-    empresas:Array<Empresa>;
-    conductores:Array<Conductor>;
+    usuarios:Array<Usuario>;
 
     constructor(id:number, nombre:string){
         this.id = id;
         this.nombre = nombre;
-        this.empresas = [];
-        this.conductores = [];
+        this.usuarios = [];
     }
 }

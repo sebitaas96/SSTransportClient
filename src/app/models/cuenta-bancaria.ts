@@ -1,4 +1,4 @@
-import { Empresa } from "./empresa";
+import { Usuario } from "./usuario";
 
 
 export class CuentaBancaria {

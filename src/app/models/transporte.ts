@@ -1,4 +1,4 @@
-import { Empresa } from "./empresa";
+import { Usuario } from "./usuario";
 import { Direccion } from "./direccion";
 import { Provincia } from "./provincia";
 import { CuentaBancaria } from "./cuenta-bancaria";
@@ -7,10 +7,10 @@ import { Camion } from "./camion";
 import { Remolque } from "./remolque";
 import { Pago } from "./pago";
 import { Viaje } from "./viaje";
-import { Rol } from "./rol";
 
 
-export class Transporte extends Empresa {
+
+export class Transporte extends Usuario {
     
     conductores:Array<Conductor>;
     camiones:Array<Camion>;
@@ -21,15 +21,16 @@ export class Transporte extends Empresa {
     constructor(
         id:number,
         nombre:string,
+        nombreUsuario:string,
+        password:string,
         documento:string,
         email:string,
         telefono:string,
         residenteDeDireccion:Direccion,
         operadorDeProvincia:Provincia,
         cuentaBancaria:CuentaBancaria|null,
-        empresaDeRol:Rol
     ){
-        super(id , nombre , documento , email , telefono , residenteDeDireccion , operadorDeProvincia,empresaDeRol,cuentaBancaria);
+        super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
         this.conductores = [];
         this.camiones = [];
         this.remolques = [];

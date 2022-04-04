@@ -1,5 +1,5 @@
 
-import { Empresa } from "./empresa";
+import { Usuario } from "./usuario";
 import { Localidad } from "./localidad";
 import { Viaje } from "./viaje";
 
@@ -11,7 +11,7 @@ export class Direccion {
     direccionDeLocalidad:Localidad;
     recogidas:Array<Viaje>;
     entregas:Array<Viaje>;
-    residentes:Array<Empresa>;
+    residentes:Array<Usuario>;
 
     constructor(
         id:number,

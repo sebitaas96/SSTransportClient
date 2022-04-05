@@ -58,9 +58,7 @@ export class SingUpComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.tokenService.getToken()) {
-      this.isLogged = true;
-    }
+    this.tokenService.logOut();
     //Iniciamos los paises
     this.paisService.findAll().subscribe(data=>{
       this.paises = data;

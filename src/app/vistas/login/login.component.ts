@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginUsuario } from 'src/app/models/login-usuario';
 import { AuthService } from 'src/app/services/auth.service';
@@ -10,7 +10,6 @@ import { TokenService } from 'src/app/services/token.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   isLogged = false;
   isLoginFail = false;
   loginUsuario :LoginUsuario;
@@ -27,12 +26,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.tokenService.getToken()){
-      this.isLogged = true;
-      this.isLoginFail = false;
-      this.roles = this.tokenService.getAuthorities();
-    }
-
+    this.tokenService.logOut();
   }
 
   onLogin(data:any):void{
@@ -58,7 +52,12 @@ export class LoginComponent implements OnInit {
         console.log(err);
         this.isLogged = false;
         this.isLoginFail = true;
-        this.errMsj = err['error']['mensaje'];
+        if(err['error']['error'] == "Unauthorized"){
+          this.errMsj = "Usuario o password  incorrectos";
+        }
+        else{
+          this.errMsj = err['error']['mensaje'];
+        }
       }
     )
   }

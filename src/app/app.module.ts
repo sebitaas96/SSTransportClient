@@ -30,6 +30,11 @@ import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.vali
 import { tipoEmpresaValidatorDirective } from './validators/tipoEmpresa.validator';
 import * as $ from 'jquery';
 import * as bootstrap from 'bootstrap';
+import { NavBarComponent } from './vistas/nav-bar/nav-bar.component';
+import { FooterComponent } from './vistas/footer/footer.component';
+import { SideBarComponent } from './vistas/side-bar/side-bar.component';
+import { InterceptorService } from './interceptors/interceptor.service';
+
 
 
 
@@ -56,7 +61,10 @@ import * as bootstrap from 'bootstrap';
     nombreUsuarioValidatorDirective,
     LoginComponent,
     PantallaInfoComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavBarComponent,
+    FooterComponent,
+    SideBarComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +75,7 @@ import * as bootstrap from 'bootstrap';
     MatToolbarModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [InterceptorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

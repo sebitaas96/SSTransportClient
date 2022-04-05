@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'pantalla-principal',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PantallaPrincipalComponent implements OnInit {
 
-  constructor() { }
+  constructor(private tokenService:TokenService) { }
 
   ngOnInit(): void {
+    this.tokenService.logOut();
   }
 
 }

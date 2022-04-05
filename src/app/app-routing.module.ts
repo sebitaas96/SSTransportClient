@@ -4,7 +4,7 @@ import { DashboardComponent } from './vistas/dashboard/dashboard.component';
 import { LoginComponent } from './vistas/login/login.component';
 import { PantallaInfoComponent } from './vistas/pantalla-info/pantalla-info.component';
 import { PantallaPrincipalComponent } from './vistas/pantalla-principal/pantalla-principal.component';
-
+import { GuardService as guard } from './guards/guard.service';
 /*Importamos los componentes*/
 import { SingUpComponent } from './vistas/sing-up/sing-up.component';
 
@@ -15,7 +15,7 @@ const routes: Routes = [
   {path:'ptprincipal', component:PantallaPrincipalComponent},
   {path:'pantalla-info', component:PantallaInfoComponent},
   {path:'login', component:LoginComponent},
-  {path:'dashboard', component:DashboardComponent},
+  {path:'dashboard', component:DashboardComponent , canActivate:[guard] , data:{expectedRol: ['admin' , 'transporte']}}
 ];
 
 @NgModule({

@@ -1,38 +1,55 @@
 <div class="sidebar-container" *ngIf="isLogged">
-    <div class="sidebar-logo">
-      {{nombreUsuario}}
-    </div>
-    <ul class="sidebar-navigation">
-      <li class="header">Navigation</li>
-      <li>
-        <a href="#">
-          <i class="fa fa-home" aria-hidden="true"></i> Homepage
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard
-        </a>
-      </li>
-      <li class="header">Another Menu</li>
-      <li>
-        <a href="#">
-          <i class="fa fa-users" aria-hidden="true"></i> Friends
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fa fa-cog" aria-hidden="true"></i> Settings
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fa fa-info-circle" aria-hidden="true"></i> Information
-        </a>
-      </li>
-    </ul>
-  
-    <button type="button" class="btn me-3" id="singup" (click)="logOut()">
-      Logout
-    </button>
+  <div class="sidebar-logo">
+    {{nombreUsuario}}
   </div>
+  <ul class="sidebar-navigation">
+    <li class="header">Navegación</li>
+    <li>
+      <a href="#">
+        <i class="fa fa-home" aria-hidden="true"></i> Panel
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="fa fa-bell" aria-hidden="true"></i> Notificaciones
+      </a>
+    </li>
+    <li class="header">Trabajo</li>
+    <li>
+      <a href="#">
+        <i class="fa fa-forward-fast" aria-hidden="true"></i> Viajes
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="fa fa-truck" aria-hidden="true"></i> Panel de carga
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="fa fa-users" aria-hidden="true"></i> Conductores
+      </a>
+    </li>
+    
+    <li class="header">Datos</li>
+    <li>
+      <a href="#">
+        <i class="fa fa-gear" aria-hidden="true"></i> Perfil
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="fa fa-money-bill-trend-up" aria-hidden="true"></i> Pagos
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <i class="fa fa-money-check" aria-hidden="true"></i> Cuenta Bancaria
+      </a>
+    </li>
+  </ul>
+
+  <button type="button" class="btn me-3" id="singup" (click)="logOut()">
+    Logout
+  </button>
+</div>

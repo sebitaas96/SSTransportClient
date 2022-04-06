@@ -18,16 +18,14 @@ export class SideBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.tokenService.getToken()){
       this.nombreUsuario = this.tokenService.getUserName();
       this.isLogged = true;
-    }
-    
   }
 
   logOut(){
     this.tokenService.logOut();
     this.router.navigate(['/ptprincipal']);
   }
+  
 
 }

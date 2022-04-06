@@ -3,16 +3,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Localidad } from '../models/localidad';
 import { Provincia } from '../models/provincia';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProvinciaService {
 
-  private provinciaUrl:string;
+  private provinciaUrl = environment.provinciaUrl;
 
   constructor(private http:HttpClient) {
-    this.provinciaUrl = 'http://localhost:8080/provincia'
+  
    }
   
   public findAll():Observable<Provincia[]>{

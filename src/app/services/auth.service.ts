@@ -4,6 +4,7 @@ import { Usuario } from '../models/usuario';
 import { LoginUsuario } from '../models/login-usuario';
 import { JwtDto } from '../models/jwt-dto';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
 
-  authURL = 'http://localhost:8080/auth/';
+  private authURL = environment.authURL;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -21,5 +22,9 @@ export class AuthService {
 
   public login(loginUsuario: LoginUsuario): Observable<JwtDto> {
     return this.httpClient.post<JwtDto>(this.authURL + 'login', loginUsuario);
+  }
+
+  public refresh(dto: JwtDto): Observable<JwtDto> {
+    return this.httpClient.post<JwtDto>(this.authURL + 'refresh', dto);
   }
 }

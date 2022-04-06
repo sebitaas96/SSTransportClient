@@ -14,9 +14,7 @@ export class DashboardComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    if(this.tokenService.getToken()){
-      this.isLogged = true;
-    }
+    this.isLogged = this.tokenService.isLogged();
   }
 
 }

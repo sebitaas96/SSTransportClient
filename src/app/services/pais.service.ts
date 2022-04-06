@@ -3,16 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pais } from '../models/pais';
 import { Provincia } from '../models/provincia';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaisService {
 
-  private paisUrl:string;
+  private paisUrl = environment.paisUrl;
 
   constructor(private http:HttpClient) {
-    this.paisUrl = 'http://localhost:8080/pais'
    }
   
   public findAll():Observable<Pais[]>{

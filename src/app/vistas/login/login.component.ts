@@ -10,10 +10,8 @@ import { TokenService } from 'src/app/services/token.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  isLogged = false;
-  isLoginFail = false;
+  isLoginFail:boolean;
   loginUsuario :LoginUsuario;
-  roles: string[] = [];
   errMsj:string;
 
   constructor(
@@ -23,6 +21,7 @@ export class LoginComponent implements OnInit {
   ) { 
     this.loginUsuario = new LoginUsuario("","");
     this.errMsj = "";
+    this.isLoginFail = false;
   }
 
   ngOnInit(): void {
@@ -34,28 +33,18 @@ export class LoginComponent implements OnInit {
     this.loginUsuario = new LoginUsuario(data['nombreUsuario'],data['password']);
     this.authService.login(this.loginUsuario).subscribe(
       data=>{
-        this.isLogged = true;
-        this.isLoginFail = false;
-        console.log(data.token)
-        console.log(data.nombreUsuario)
-        console.log(data.authorities)
-        
+        console.log(data.token);
         this.tokenService.setToken(data.token);
-        this.tokenService.setUserName(data.nombreUsuario);
-        this.tokenService.setAuthorities(data.authorities);
-        this.roles = data.authorities;
-
         this.router.navigate(['/dashboard']);
-
       },
       err =>{
         console.log(err);
-        this.isLogged = false;
-        this.isLoginFail = true;
         if(err['error']['error'] == "Unauthorized"){
+          this.isLoginFail = true;
           this.errMsj = "Usuario o password  incorrectos";
         }
         else{
+          this.isLoginFail = true;
           this.errMsj = err['error']['mensaje'];
         }
       }

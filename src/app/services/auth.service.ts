@@ -20,6 +20,10 @@ export class AuthService {
     return this.httpClient.post<any>(this.authURL + 'nuevo', usuario);
   }
 
+  public nuevoConductor(usuario:Usuario):Observable<any>{
+    return this.httpClient.post<any>(this.authURL + 'nuevo', usuario);
+  }
+
   public login(loginUsuario: LoginUsuario): Observable<JwtDto> {
     return this.httpClient.post<JwtDto>(this.authURL + 'login', loginUsuario);
   }

@@ -1,0 +1,99 @@
+<div class="container-fluid">
+    <div class="row">
+        <nav-bar></nav-bar>
+    </div>
+    <div class="row">
+        <div class="col-2 col-lg-2 col-sm-2 col-md-2">
+            <side-bar></side-bar>
+        </div>
+        <div class="col-10 col-lg-10 col-sm-10 col-md-10 mt-5 ">
+          <div class="row ">
+            <div class="col d-flex justify-content-end">
+              <button class="btn btn btn-outline-primary" (click)="open(content)">Añadir Conductor</button>
+              <ng-template #content let-modal>
+                <form #conductorform="ngForm" (submit)="onSubmit(conductorform.value)" id="myForm">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Añadir Conductor</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="row">
+                        <div class="col-12 mt-2">
+                          <div class="form-floating">
+                            <input type="text"
+                            name="correo" 
+                            class="form-control"
+                             id="correo" 
+                             placeholder="Email del Conductor"
+                             #correo="ngModel"
+                             ngModel
+                             emailValidator
+                             >
+                            <label for="correo">Email Conductor</label>
+                            <div *ngIf="correo.invalid && (correo.dirty ||correo.touched)" >
+                              <div *ngIf="['emailv']" class="invalid-tooltip d-block">
+                                {{correo.errors?.['requiredValue']}}
+                              </div>
+                            </div> 
+                          </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                          <div class="form-floating">
+                            <input type="text" 
+                            name="asunto"
+                            class="form-control"
+                            id="asunto" 
+                            placeholder="Asunto"
+                            #asunto="ngModel"
+                            ngModel
+                            >
+                            <label for="asunto">Asunto</label>
+                          </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                          <div class="form-floating">
+                            <input type="text" 
+                             name="empresa"
+                             class="form-control"
+                             id="empresa" 
+                             [(ngModel)]="empresa"
+                             readonly
+                             >
+                            <label for="empresa">Empresa</label>
+                          </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                          <div class="form-floating">
+                            <textarea class="form-control" 
+                            placeholder="Escribe un comentario" 
+                            id="comentario" 
+                            style="height: 100px"
+                            name="comentario"
+                            #comentario="ngModel"
+                            ngModel
+                            ></textarea>
+                            <label for="comentario">Comentarios</label>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+                    <button type="submit" class="btn btn-outline-dark" [disabled]="conductorform.invalid" name="Invitar">Enviar invitacion</button>
+                  </div>
+                </form>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <app-footer></app-footer>
+    </div>    
+</div>
+
+
+
+
+
+

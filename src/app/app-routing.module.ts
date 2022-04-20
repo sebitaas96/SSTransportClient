@@ -7,6 +7,9 @@ import { PantallaPrincipalComponent } from './vistas/pantalla-principal/pantalla
 import { GuardService} from './guards/guard.service';
 /*Importamos los componentes*/
 import { SingUpComponent } from './vistas/sing-up/sing-up.component';
+import { PanelCargaComponent } from './vistas/panel-carga/panel-carga.component';
+import { ConductoresComponent } from './vistas/conductores/conductores.component';
+import { SingupConductorComponent } from './vistas/singup-conductor/singup-conductor.component';
 import { LoginGuard } from './guards/login.guard';
 
 
@@ -16,7 +19,11 @@ const routes: Routes = [
   {path:'ptprincipal', component:PantallaPrincipalComponent},
   {path:'pantalla-info', component:PantallaInfoComponent},
   {path:'login', component:LoginComponent , canActivate:[LoginGuard]},
-  {path:'dashboard', component:DashboardComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}}
+  {path:'dashboard', component:DashboardComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}},
+  {path:'panel-carga', component:PanelCargaComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}},
+  {path:'conductores', component:ConductoresComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}},
+  {path:'singup-conductor', component:SingupConductorComponent},
+  {path: '',   redirectTo: '/ptprincipal', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -28,12 +28,17 @@ import { checkboxValidatorDirective } from './validators/checkbox.validator';
 import { passwordValidatorDirective } from './validators/password.validator';
 import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.validator';
 import { tipoEmpresaValidatorDirective } from './validators/tipoEmpresa.validator';
+import { PanelCargaComponent } from './vistas/panel-carga/panel-carga.component';
 import * as $ from 'jquery';
 import * as bootstrap from 'bootstrap';
 import { NavBarComponent } from './vistas/nav-bar/nav-bar.component';
 import { FooterComponent } from './vistas/footer/footer.component';
 import { SideBarComponent } from './vistas/side-bar/side-bar.component';
 import { InterceptorService } from './interceptors/interceptor.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConductoresComponent } from './vistas/conductores/conductores.component';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { SingupConductorComponent } from './vistas/singup-conductor/singup-conductor.component';
 
 
 
@@ -64,7 +69,10 @@ import { InterceptorService } from './interceptors/interceptor.service';
     DashboardComponent,
     NavBarComponent,
     FooterComponent,
-    SideBarComponent
+    SideBarComponent,
+    PanelCargaComponent,
+    ConductoresComponent,
+    SingupConductorComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +82,8 @@ import { InterceptorService } from './interceptors/interceptor.service';
     BrowserAnimationsModule,
     MatToolbarModule,
     ReactiveFormsModule,
+    NgbModule,
+    Ng2SearchPipeModule,
   ],
   providers: [InterceptorService],
   bootstrap: [AppComponent]

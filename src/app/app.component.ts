@@ -14,8 +14,7 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-    this.router.navigateByUrl('/ptprincipal');
-
+    
   }
 
 

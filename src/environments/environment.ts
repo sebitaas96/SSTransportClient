@@ -7,7 +7,11 @@ export const environment = {
   transporteUrl: 'http://localhost:8080/transporte',
   provinciaUrl: 'http://localhost:8080/provincia',
   paisUrl: 'http://localhost:8080/pais',
-  authURL : 'http://localhost:8080/auth/'
+  authURL : 'http://localhost:8080/auth/',
+  conductorUrl : 'http://localhost:8080/conductor',
+  mensajeUrl:'http://localhost:8080/mensaje',
+  registroConductor:'http://localhost:4200/singup-conductor',
+  usuarioUrl:'http://localhost:8080/usuario',
 };
 
 /*

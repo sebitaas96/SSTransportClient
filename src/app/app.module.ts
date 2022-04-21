@@ -34,7 +34,7 @@ import * as bootstrap from 'bootstrap';
 import { NavBarComponent } from './vistas/nav-bar/nav-bar.component';
 import { FooterComponent } from './vistas/footer/footer.component';
 import { SideBarComponent } from './vistas/side-bar/side-bar.component';
-import { InterceptorService } from './interceptors/interceptor.service';
+import { interceptorProvider} from './interceptors/interceptor.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConductoresComponent } from './vistas/conductores/conductores.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -85,7 +85,7 @@ import { SingupConductorComponent } from './vistas/singup-conductor/singup-condu
     NgbModule,
     Ng2SearchPipeModule,
   ],
-  providers: [InterceptorService],
+  providers: [interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

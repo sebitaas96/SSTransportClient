@@ -39,6 +39,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConductoresComponent } from './vistas/conductores/conductores.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SingupConductorComponent } from './vistas/singup-conductor/singup-conductor.component';
+import { ViajeComponent } from './vistas/viaje/viaje.component';
 
 
 
@@ -72,7 +73,8 @@ import { SingupConductorComponent } from './vistas/singup-conductor/singup-condu
     SideBarComponent,
     PanelCargaComponent,
     ConductoresComponent,
-    SingupConductorComponent
+    SingupConductorComponent,
+    ViajeComponent
   ],
   imports: [
     BrowserModule,

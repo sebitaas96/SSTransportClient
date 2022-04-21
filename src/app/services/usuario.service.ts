@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Usuario } from '../models/usuario';
+import { Transporte } from '../models/transporte';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,11 @@ export class UsuarioService {
 
   constructor(private http:HttpClient) { }
 
-  public findEmpresaTransprte(nombreUsuario:string){
-    return this.http.get(this.transporteUrl+'/'+nombreUsuario+'/Empresa', { responseType: 'text' });
+  public findEmpresaTransprte(nombreUsuario:string):Observable<Transporte>{
+    return this.http.get<Transporte>(this.transporteUrl+'/'+nombreUsuario+'/Empresa');
+  }
+
+  public findEmpresaTransporte(idUsuario:number):Observable<Transporte>{
+    return this.http.get<Transporte>(this.transporteUrl+'/'+idUsuario+'/EmpresaId');
   }
 }

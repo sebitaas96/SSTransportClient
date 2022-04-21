@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Usuario } from 'src/app/models/usuario';
 import { Conductor } from 'src/app/models/conductor';
 import { Transporte } from 'src/app/models/transporte';
+import { UsuarioService } from 'src/app/services/usuario.service';
 declare var $:any;
 
 
@@ -32,6 +33,7 @@ export class SingupConductorComponent implements OnInit {
 
  isLogged = false;
  errMsj:string;
+ idEmpresa:number;
  nombreEmpresa:string;
 
 
@@ -42,7 +44,8 @@ export class SingupConductorComponent implements OnInit {
    private paisService:PaisService,
    private provinciaService:ProvinciaService,
    private tokenService:TokenService,
-   private authService:AuthService
+   private authService:AuthService,
+   private transporteService:UsuarioService
  ) {
    /*Inicializamos los selects*/
    this.roles = [];
@@ -53,7 +56,8 @@ export class SingupConductorComponent implements OnInit {
    this.errMsj = "";
    this.cp = "";
    this.nombreUsuarioModal="";
-   this.nombreEmpresa = ""
+   this.idEmpresa = 0
+   this.nombreEmpresa="";
  }
 
 
@@ -71,12 +75,20 @@ export class SingupConductorComponent implements OnInit {
    this.route.queryParams
    .subscribe(params => {
      console.log(params); 
-     this.nombreEmpresa = params['q'];
+     this.idEmpresa = params['q'];
    });
+
+   this.transporteService.findEmpresaTransporte(this.idEmpresa).subscribe(
+    data=>{
+      console.log(data);
+    }
+  );
   
  }
 
  onSubmit(data:any):void{
+
+
 
    let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellido'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'],
    new Direccion(0, data['direccionvia'] , data['direccion'] , Number(data['direccionnumero']) , data['localidad']),

@@ -15,7 +15,7 @@ export class InterceptorService implements HttpInterceptor{
   constructor(private tokenService:TokenService,   private authService:AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    console.log("Inetrceptando")
     if (!this.tokenService.isLogged()) {
       return next.handle(req);
     }

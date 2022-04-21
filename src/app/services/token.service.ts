@@ -20,9 +20,7 @@ export class TokenService {
 
   public setToken(token:string):void{
     window.localStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.removeItem(TOKEN_KEY);
     window.localStorage.setItem( TOKEN_KEY , token);
-    window.sessionStorage.setItem(TOKEN_KEY , token)
   }
 
   public getToken():string{

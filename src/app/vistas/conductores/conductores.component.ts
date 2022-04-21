@@ -32,7 +32,9 @@ export class ConductoresComponent implements OnInit {
   onSubmit(dataMensaje:any):void{
     this.usuarioService.findEmpresaTransprte(this.empresa).subscribe(
       data=>{
-        var texto = dataMensaje['empresa']+" Te ha invitado a colaborar en Onus : ["+dataMensaje['comentario']+"] Date de alta aquí : "+ environment.registroConductor+ '?q='+data;
+        console.log(data);
+        var texto = dataMensaje['empresa']+" Te ha invitado a colaborar en Onus : ["+dataMensaje['comentario']+"] Date de alta aquí : "+ environment.registroConductor+ 
+        "?q="+data["id"];
         let mensaje:Mensaje = new Mensaje(dataMensaje['correo'] , dataMensaje['asunto'] , texto);
     
         if(dataMensaje['correo']!=""){

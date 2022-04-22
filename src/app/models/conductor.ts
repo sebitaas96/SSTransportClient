@@ -23,14 +23,14 @@ export class Conductor extends Usuario{
         documento:string,
         email:string,
         telefono:string,
+        conductorDeTransporte:Transporte,
         residenteDeDireccion:Direccion,
         operadorDeProvincia:Provincia,
         cuentaBancaria:CuentaBancaria|null,
     ){
         super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
         this.apellidos = apellidos;
-        this.conductorDeTransporte = new Transporte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),
-        new Provincia(0,"",new Pais(0,"")),null);
+        this.conductorDeTransporte = conductorDeTransporte;
         this.viajes = [];
     }
 

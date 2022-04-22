@@ -78,6 +78,12 @@
                       </div>
                   </div>
                   <div class="modal-footer">
+                    <div class="alert alert-success" role="alert" *ngIf="enviadoCorrectamente">
+                      {{errMsj}}
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="enviadoFail">
+                      {{errMsj}}
+                    </div>
                     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
                     <button type="submit" class="btn btn-outline-dark" [disabled]="conductorform.invalid" name="Invitar">Enviar invitacion</button>
                   </div>

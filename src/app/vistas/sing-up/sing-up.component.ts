@@ -76,16 +76,35 @@ export class SingUpComponent implements OnInit {
     }
     console.log(usuario);
 
-    this.authService.nuevo(usuario).subscribe(
-      data => {
-        $('#successModal').modal("show");
-        
-      },
-      err => {
-        this.errMsj = err['error']['mensaje'];
-        $('#errorModal').modal("show");
-      }
-    );
+    if(data['tipoEmpresa'] === "transporte"){
+      this.authService.nuevoTransporte(usuario).subscribe(
+        data => {
+          $('#successModal').modal("show");
+          
+        },
+        err => {
+          this.errMsj = err['error']['mensaje'];
+          $('#errorModal').modal("show");
+        }
+      );
+    }
+    else if(data['tipoEmpresa'] === "porte"){
+      this.authService.nuevoPorte(usuario).subscribe(
+        data => {
+          $('#successModal').modal("show");
+          
+        },
+        err => {
+          this.errMsj = err['error']['mensaje'];
+          $('#errorModal').modal("show");
+        }
+      );
+    }
+    else{
+      this.errMsj ="Tipo de empresa desconocido";
+      $('#errorModal').modal("show");
+    }
+    
   }
 
 

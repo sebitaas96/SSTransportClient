@@ -1,8 +1,8 @@
 
 import {Component, OnInit} from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import { Mensaje } from 'src/app/models/mensaje';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { Email } from 'src/app/models/mensaje';
+import { EmailService } from 'src/app/services/email.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
@@ -17,11 +17,17 @@ export class ConductoresComponent implements OnInit {
   closeResult = '';
   empresa:string;
   correo :string;
+  enviadoCorrectamente:boolean;
+  enviadoFail:boolean;
+  errMsj:string;
 
 
-  constructor(private modalService: NgbModal,private tokenService:TokenService , private mensajeService:MensajeService , private usuarioService:UsuarioService) {
+  constructor(private modalService: NgbModal,private tokenService:TokenService , private mensajeService:EmailService , private usuarioService:UsuarioService) {
     this.empresa="";
-    this.correo = ""
+    this.correo = "";
+    this.enviadoCorrectamente = false;
+    this.enviadoFail = false;
+    this.errMsj = "";
   }
 
   ngOnInit(): void {
@@ -32,32 +38,30 @@ export class ConductoresComponent implements OnInit {
   onSubmit(dataMensaje:any):void{
     this.usuarioService.findEmpresaTransprte(this.empresa).subscribe(
       data=>{
-        console.log(data);
-        var texto = dataMensaje['empresa']+" Te ha invitado a colaborar en Onus : ["+dataMensaje['comentario']+"] Date de alta aquí : "+ environment.registroConductor+ 
-        "?q="+data["id"];
-        let mensaje:Mensaje = new Mensaje(dataMensaje['correo'] , dataMensaje['asunto'] , texto);
+        var url = environment.registroConductor+"?q="+data["id"]+"&e="+dataMensaje["correo"];
+        var texto = dataMensaje['empresa']+" Te ha invitado a colaborar en Onus : ["+dataMensaje['comentario']+"] Date de alta aquí : ";
+        let email:Email = new Email(dataMensaje['correo'] , dataMensaje['asunto'] , texto ,url, data);
     
         if(dataMensaje['correo']!=""){
           this.correo = dataMensaje['correo']
         }
     
-        console.log(mensaje);
+        console.log(email);
         
-        this.mensajeService.sendMenssage(mensaje).subscribe(
+        this.mensajeService.sendMenssage(email).subscribe(
           data => {
-            console.log("enviado");
+            this.enviadoCorrectamente = true;
+            this.enviadoFail = false;
+            this.errMsj = data["mensaje"];
           },
           err => {
-    
+            this.enviadoFail = true;
+            this.enviadoCorrectamente = false;
+            this.errMsj = err['error']['mensaje'];
           }
         )
       }
     )
-
-
-
-
-
   }
 
   open(content:any) {

@@ -9,7 +9,7 @@ export const environment = {
   paisUrl: 'http://localhost:8080/pais',
   authURL : 'http://localhost:8080/auth/',
   conductorUrl : 'http://localhost:8080/conductor',
-  mensajeUrl:'http://localhost:8080/mensaje',
+  emailUrl:'http://localhost:8080/email',
   registroConductor:'http://localhost:4200/singup-conductor',
   usuarioUrl:'http://localhost:8080/usuario',
 };

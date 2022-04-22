@@ -276,18 +276,11 @@
 						<label class="label" for="email">EMAIL</label>
 						<input type="text" 
 						name="email"
-						id="email"
-						#email = "ngModel"  
+						id="email" 
 						class="input-text form-control" 
-						ngModel
-						placeholder="Email"
-						emailValidator
+						[(ngModel)]="email"
+						readonly
 						>
-						<div *ngIf="email.invalid && (email.dirty ||email.touched)" >
-							<div *ngIf="['emailv']" class="invalid-tooltip d-block">
-								{{email.errors?.['requiredValue']}}
-							</div>
-						</div> 
 					</div>
 					<div class="form-checkbox">
 						<label class="container"><p>Acepto <a href="#" class="text">los Términos y Condiciones</a> de la página.</p>

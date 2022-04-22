@@ -13,6 +13,7 @@ import { Usuario } from 'src/app/models/usuario';
 import { Conductor } from 'src/app/models/conductor';
 import { Transporte } from 'src/app/models/transporte';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { EmailService } from 'src/app/services/email.service';
 declare var $:any;
 
 
@@ -33,8 +34,11 @@ export class SingupConductorComponent implements OnInit {
 
  isLogged = false;
  errMsj:string;
- idEmpresa:number;
+ mensajeOfuscado:string;
  nombreEmpresa:string;
+ empresa:Transporte;
+ email:string;
+
 
 
 
@@ -45,7 +49,7 @@ export class SingupConductorComponent implements OnInit {
    private provinciaService:ProvinciaService,
    private tokenService:TokenService,
    private authService:AuthService,
-   private transporteService:UsuarioService
+   private mensajeService:EmailService
  ) {
    /*Inicializamos los selects*/
    this.roles = [];
@@ -56,8 +60,10 @@ export class SingupConductorComponent implements OnInit {
    this.errMsj = "";
    this.cp = "";
    this.nombreUsuarioModal="";
-   this.idEmpresa = 0
+   this.mensajeOfuscado = "";
    this.nombreEmpresa="";
+   this.empresa = new Transporte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
+   this.email = "";
  }
 
 
@@ -74,13 +80,17 @@ export class SingupConductorComponent implements OnInit {
 
    this.route.queryParams
    .subscribe(params => {
-     console.log(params); 
-     this.idEmpresa = params['q'];
+     console.log(params['q']);
+     this.mensajeOfuscado = params['q'];
    });
 
-   this.transporteService.findEmpresaTransporte(this.idEmpresa).subscribe(
+
+   this.mensajeService.deOfuscarMensaje(this.mensajeOfuscado).subscribe(
     data=>{
       console.log(data);
+      this.nombreEmpresa = data["invitacionDeTransporte"]["nombre"];
+      this.email = data["destinatario"];
+      this.empresa = data["invitacionDeTransporte"];
     }
   );
   
@@ -90,7 +100,7 @@ export class SingupConductorComponent implements OnInit {
 
 
 
-   let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellido'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'],
+   let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellido'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], this.empresa,
    new Direccion(0, data['direccionvia'] , data['direccion'] , Number(data['direccionnumero']) , data['localidad']),
    data['provincia'],
    null
@@ -100,7 +110,7 @@ export class SingupConductorComponent implements OnInit {
    }
    console.log(usuario);
 
-   this.authService.nuevo(usuario).subscribe(
+   this.authService.nuevoConductor(usuario).subscribe(
      data => {
        $('#successModal').modal("show");
        

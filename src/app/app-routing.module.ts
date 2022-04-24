@@ -11,6 +11,7 @@ import { PanelCargaComponent } from './vistas/panel-carga/panel-carga.component'
 import { ConductoresComponent } from './vistas/conductores/conductores.component';
 import { SingupConductorComponent } from './vistas/singup-conductor/singup-conductor.component';
 import { LoginGuard } from './guards/login.guard';
+import { PerfilComponent } from './vistas/perfil/perfil.component';
 
 
 /*Creamos el array de rutas*/
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:'dashboard', component:DashboardComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}},
   {path:'panel-carga', component:PanelCargaComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}},
   {path:'conductores', component:ConductoresComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}},
+  {path:'perfil', component:PerfilComponent , canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}},
   {path:'singup-conductor', component:SingupConductorComponent},
   {path: '',   redirectTo: '/ptprincipal', pathMatch: 'full' }
 ];

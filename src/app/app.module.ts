@@ -40,6 +40,7 @@ import { ConductoresComponent } from './vistas/conductores/conductores.component
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SingupConductorComponent } from './vistas/singup-conductor/singup-conductor.component';
 import { ViajeComponent } from './vistas/viaje/viaje.component';
+import { PerfilComponent } from './vistas/perfil/perfil.component';
 
 
 
@@ -74,7 +75,8 @@ import { ViajeComponent } from './vistas/viaje/viaje.component';
     PanelCargaComponent,
     ConductoresComponent,
     SingupConductorComponent,
-    ViajeComponent
+    ViajeComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

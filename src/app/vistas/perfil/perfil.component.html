@@ -1,0 +1,220 @@
+<nav-bar></nav-bar><br>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Datos personales</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Password</button>
+  </li>
+</ul><br>
+
+
+
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div class="container-fluid">
+        <h1 class="text-center header">DATOS DE PERFIL <i class="fa fa-address-card bigicon"></i></h1>
+          <div class="form-group"><br>
+
+           <div class="row g-2">
+           <div class="col-md">
+            <div class="form-group">
+              <label class="label" for="descripcion">NOMBRE</label>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.nombre}}">
+                  <label for="floatingInput"> Nombre </label>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-md">
+            <div class="form-group">
+              <label class="label" for="descripcion">NOMBRE DE USUARIO</label>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.nombreUsuario}}">
+                  <label for="floatingInput"> Nombre de usuario</label>
+                </div>
+            </div>
+            </div>
+           </div>
+
+           <div class="row g-2">
+            <div class="col-md">
+            <div class="form-group">
+              <label class="label" for="descripcion">DOCUMENTO</label>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" readonly value="{{perfilEmpresa.documento}}">
+                  <label for="floatingInput"> Documento </label>
+                </div>
+            </div>
+           </div>
+
+           <div class="col-md">
+            <div class="form-group">
+              <label class="label" for="descripcion">EMAIL</label>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.email}}">
+                  <label for="floatingInput"> Email </label>
+                </div>
+            </div>
+            </div>
+           </div>
+
+            <div class="form-group">
+              <label class="label" for="descripcion">TELÉFONO</label>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.telefono}}">
+                  <label for="floatingInput"> Teléfono </label>
+                </div>
+            </div>
+
+            <div class="row g-2">  <!-- Aqui -->
+             <div class="col-md">
+              <div class="form-group">
+              <label class="label" for="descripcion">CALLE</label>
+               <div class="form-floating mb-3">
+                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.residenteDeDireccion.nombre}}">
+                  <label for="floatingInput"> Calle </label>
+                </div>
+               </div>
+              </div>
+
+               <div class="col-md">
+                <div class="form-group">
+                <label class="label" for="descripcion">NÚMERO </label>
+                 <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.residenteDeDireccion.numero}}">
+                    <label for="floatingInput"> Número </label>
+                 </div>
+                 </div>
+                </div>
+
+
+                 <label class="label" for="pais">PAIS</label>
+                 <div class="form-floating">
+                  <select name="pais"
+                          id="floatingSelect"
+                          class="form-select"
+                          aria-label="Floating label select example"
+                          #pais="ngModel"
+                          ngModel
+                          paisValidator 
+                          (ngModelChange)="renewProvincias($event)">
+                            <option value="">{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia.provinciaDePais.nombre}}</option>
+                            <option *ngFor="let pais of paises" 
+                            [ngValue]="pais" 
+                            class="option">{{pais.nombre}}</option>
+                  </select>
+                          <div *ngIf="pais.invalid && (pais.dirty ||pais.touched)" >
+                              <div *ngIf="['paisv']" class="invalid-tooltip d-block">
+                                  {{pais.errors?.['requiredValue']}}
+                              </div>
+                          </div>
+                            <label for="floatingSelect">Pais</label>
+                  </div>
+
+
+                 <label class="label" for="pais">PROVINCIA</label>
+                    <div class="form-floating">
+                     <select name="provincia"
+                             id="floatingSelect"
+                             class="form-select"
+                             aria-label="Floating label select example"
+                             #provincia="ngModel"
+                             ngModel
+                             provinciaValidator 
+                             (ngModelChange)="renewLocalidades($event)">
+                               <option value="">{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}</option>
+                               <option *ngFor="let provincia of provincias" 
+                               [ngValue]="provincia" 
+                               class="option">{{provincia.nombre}}</option>
+                     </select>
+                              <div *ngIf="provincia.invalid && (provincia.dirty ||provincia.touched)" >
+                                  <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
+                                      {{provincia.errors?.['requiredValue']}}
+                                  </div>
+                              </div>
+                                <label for="floatingSelect">Provincia</label>
+                    </div>
+                
+                
+                 <label class="label" for="pais">LOCALIDAD</label>
+                 <div class="form-floating">
+                  <select name="localidad"
+                          id="floatingSelect"
+                          class="form-select"
+                          aria-label="Floating label select example"
+                          #localidad="ngModel"
+                          ngModel
+                          localidadValidator 
+                          (ngModelChange)="renewCp($event)">
+                            <option value="">{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.nombre}}</option>
+                            <option *ngFor="let localidad of localidades" 
+                            [ngValue]="localidad" 
+                            class="option">{{localidad.nombre}}</option>
+                  </select>
+                            <div *ngIf="localidad.invalid && (localidad.dirty ||localidad.touched)" >
+                                <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
+                                    {{localidad.errors?.['requiredValue']}}
+                                </div>
+                            </div>
+                              <label for="floatingSelect">Localidad</label>
+                  </div>
+
+
+                <div class="form-group">
+                  <label class="label" for="descripcion">CÓDIGO POSTAL</label>
+                   <div class="form-floating mb-3">
+                      <input type="email" class="form-control" id="floatingInput" [(ngModel)]="cp" readonly value="{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.cp}}">
+                      <label for="floatingInput"> Código Postal </label>
+                    </div>
+                </div>
+                
+     </div> <!-- Si lo quito arregla el blanco pero junta los tab -->        
+     <input type="submit" name="actualizar" class="btn btn-default" value="Actualizar"/>
+     
+   </div>
+  </div>
+ </div>
+
+
+
+  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="container-fluid">
+     <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
+
+      <div class="form-group">
+        <label class="label" for="descripcion">PASSWORD ANTERIOR</label>
+           <div class="form-floating mb-3">
+             <input type="password" class="form-control" id="floatingPassword" value="{{perfilEmpresa.password}}">
+             <label for="floatingInput"> Password </label>
+           </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="descripcion">PASSWORD NUEVA</label>
+           <div class="form-floating mb-3">
+             <input type="password" class="form-control" id="floatingPassword" value="">
+             <label for="floatingPassword"> Password Nueva</label>
+           </div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="descripcion">REPETIR PASSWORD NUEVA</label>
+           <div class="form-floating mb-3">
+             <input type="password" class="form-control" id="floatingPassword" value="">
+             <label for="floatingPassword"> Repetir Password </label>
+           </div>
+      </div>
+
+      <input type="submit" name="actualizar" class="btn btn-default" value="Actualizar"/>
+
+    </div>
+  </div>
+  
+</div><br>
+
+
+<app-footer></app-footer>

@@ -44,7 +44,6 @@ import { ViajeComponent } from './vistas/viaje/viaje.component';
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +73,7 @@ import { ViajeComponent } from './vistas/viaje/viaje.component';
     PanelCargaComponent,
     ConductoresComponent,
     SingupConductorComponent,
-    ViajeComponent
+    ViajeComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,6 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Usuario } from 'src/app/models/usuario';
 import { Conductor } from 'src/app/models/conductor';
 import { Transporte } from 'src/app/models/transporte';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { EmailService } from 'src/app/services/email.service';
 declare var $:any;
 
@@ -38,6 +37,7 @@ export class SingupConductorComponent implements OnInit {
  nombreEmpresa:string;
  empresa:Transporte;
  email:string;
+ idEmail:number;
 
 
 
@@ -64,6 +64,7 @@ export class SingupConductorComponent implements OnInit {
    this.nombreEmpresa="";
    this.empresa = new Transporte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
    this.email = "";
+   this.idEmail = 0;
  }
 
 
@@ -80,27 +81,30 @@ export class SingupConductorComponent implements OnInit {
 
    this.route.queryParams
    .subscribe(params => {
-     console.log(params['q']);
      this.mensajeOfuscado = params['q'];
    });
 
 
    this.mensajeService.deOfuscarMensaje(this.mensajeOfuscado).subscribe(
     data=>{
-      console.log(data);
-      this.nombreEmpresa = data["invitacionDeTransporte"]["nombre"];
-      this.email = data["destinatario"];
-      this.empresa = data["invitacionDeTransporte"];
-    }
+      if(data===null){
+        this.errMsj = "Lo sentimos tu invitación ha caducado";
+        $('#errorModal').modal("show");
+      }
+      else{
+        this.nombreEmpresa = data["invitacionDeTransporte"]["nombre"];
+        this.email = data["destinatario"];
+        this.empresa = data["invitacionDeTransporte"];
+        this.idEmail = data["id"];
+        console.log(this.idEmail);
+      }
+    },
   );
   
  }
 
  onSubmit(data:any):void{
-
-
-
-   let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellido'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], this.empresa,
+   let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellidos'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], this.empresa,
    new Direccion(0, data['direccionvia'] , data['direccion'] , Number(data['direccionnumero']) , data['localidad']),
    data['provincia'],
    null
@@ -113,7 +117,8 @@ export class SingupConductorComponent implements OnInit {
    this.authService.nuevoConductor(usuario).subscribe(
      data => {
        $('#successModal').modal("show");
-       
+       console.log(this.idEmail);
+       this.mensajeService.deleteEmail(this.idEmail).subscribe();
      },
      err => {
        this.errMsj = err['error']['mensaje'];

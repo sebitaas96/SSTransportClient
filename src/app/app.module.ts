@@ -45,7 +45,6 @@ import { PerfilComponent } from './vistas/perfil/perfil.component';
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +76,7 @@ import { PerfilComponent } from './vistas/perfil/perfil.component';
     SingupConductorComponent,
     ViajeComponent,
     PerfilComponent
+
   ],
   imports: [
     BrowserModule,

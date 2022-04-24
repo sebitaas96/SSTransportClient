@@ -1,105 +1,215 @@
 <div class="container-fluid">
-    <div class="row">
-        <nav-bar></nav-bar>
+  <div class="row">
+    <nav-bar></nav-bar>
+  </div>
+  <div class="row">
+    <div class="col-2 col-lg-2 col-sm-2 col-md-2">
+      <side-bar></side-bar>
     </div>
-    <div class="row">
-        <div class="col-2 col-lg-2 col-sm-2 col-md-2">
-            <side-bar></side-bar>
-        </div>
-        <div class="col-10 col-lg-10 col-sm-10 col-md-10 mt-5 ">
-          <div class="row ">
-            <div class="col d-flex justify-content-end">
-              <button class="btn btn btn-outline-primary" (click)="open(content)">Añadir Conductor</button>
-              <ng-template #content let-modal>
-                <form #conductorform="ngForm" (submit)="onSubmit(conductorform.value)" id="myForm">
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="modal-basic-title">Añadir Conductor</h4>
-                    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <div class="col-10 col-lg-10 col-sm-10 col-md-10 mt-5 ">
+      <div class="row">
+        <div class="col">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink>Conductores</a>
+              <ng-template ngbNavContent>
+                <div class="row">
+                  <div class="col d-flex justify-content-start">
+                    <div class="form-floating">
+                      <input type="text" name="buscador" class="form-control" 
+                        placeholder="Buscar..." [(ngModel)]="filterTerm">
+                      <label for="correo">Buscar...</label>
+                    </div>
                   </div>
-                  <div class="modal-body">
-                      <div class="row">
-                        <div class="col-12 mt-2">
-                          <div class="form-floating">
-                            <input type="text"
-                            name="correo" 
-                            class="form-control"
-                             id="correo" 
-                             placeholder="Email del Conductor"
-                             #correo="ngModel"
-                             ngModel
-                             emailValidator
-                             >
-                            <label for="correo">Email Conductor</label>
-                            <div *ngIf="correo.invalid && (correo.dirty ||correo.touched)" >
-                              <div *ngIf="['emailv']" class="invalid-tooltip d-block">
-                                {{correo.errors?.['requiredValue']}}
+                </div>
+                <div class="row mt-3 mb-3">
+                  <div class="col">
+                    <table class="table">
+                      <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Conductor</th>
+                            <th scope="col">Domicilio</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Estado</th>
+                            <th></th>
+                          </tr>
+                      </thead>
+                      <tbody *ngIf="conductores$ | async as conductores">
+                        <tr *ngFor="let conductor of conductores|slice: (page-1) * 10: page * 10 |filter: filterTerm">
+                          <td>{{conductor.nombre+' '+conductor.apellido}}</td>
+                          <td>
+                           {{conductor.residenteDeDireccion.direccionDeLocalidad.nombre + '('+conductor.residenteDeDireccion.direccionDeLocalidad.cp+')/'+conductor.operadorDeProvincia.nombre}}
+                          </td>
+                          <td>
+                            {{conductor.email}}
+                          </td>
+                          <td>
+                            {{conductor.telefono}}
+                          </td>
+                          <td></td>
+                          <td>
+                            <button type="button" class="btn btn-danger">Eliminar Conductor</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                   <div *ngIf="conductores$  | async as conductores">
+                      <ngb-pagination [collectionSize]="conductores.length " [(page)]="page" [boundaryLinks]="true">
+                        <ng-template ngbPaginationPages let-page let-pages="pages">
+                          <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+                             <div class="mb-3 d-flex flex-nowrap px-2">
+                               <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                               <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                               id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                                (input)="formatInput($any($event).target)"
+                                 aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                                 <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                                 of {{pages.length}}</span>
                               </div>
-                            </div> 
-                          </div>
-                        </div>
-                        <div class="col-12 mt-3">
-                          <div class="form-floating">
-                            <input type="text" 
-                            name="asunto"
-                            class="form-control"
-                            id="asunto" 
-                            placeholder="Asunto"
-                            #asunto="ngModel"
-                            ngModel
-                            >
-                            <label for="asunto">Asunto</label>
-                          </div>
-                        </div>
-                        <div class="col-12 mt-2">
-                          <div class="form-floating">
-                            <input type="text" 
-                             name="empresa"
-                             class="form-control"
-                             id="empresa" 
-                             [(ngModel)]="empresa"
-                             readonly
-                             >
-                            <label for="empresa">Empresa</label>
-                          </div>
-                        </div>
-                        <div class="col-12 mt-3">
-                          <div class="form-floating">
-                            <textarea class="form-control" 
-                            placeholder="Escribe un comentario" 
-                            id="comentario" 
-                            style="height: 100px"
-                            name="comentario"
-                            #comentario="ngModel"
-                            ngModel
-                            ></textarea>
-                            <label for="comentario">Comentarios</label>
-                          </div>
+                           </li>
+                          </ng-template>
+                       </ngb-pagination>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink>Invitaciones</a>
+              <ng-template ngbNavContent>
+                <div class="row">
+                  <div class="col d-flex justify-content-start">
+                    <div class="form-floating">
+                      <input type="text" name="buscador" class="form-control" 
+                        placeholder="Buscar..." [(ngModel)]="filterTerm">
+                      <label for="correo">Buscar...</label>
+                    </div>
+                  </div>
+                  <div class="col d-flex justify-content-end">
+                    <div class="alert alert-success" role="alert" *ngIf="emailEliminadoC">
+                      {{errMsjD}}
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="emailEliminadoF">
+                      {{errMsjD}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-3 mb-3">
+                  <div class="col">
+                    <table class="table">
+                      <thead class="table-dark">
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Destinatario</th>
+                            <th></th>
+                          </tr>
+                      </thead>
+                      <tbody *ngIf="emails$ | async as emails">
+                        <tr *ngFor="let email of emails | slice: (page-1) * 10: page * 10 |filter: filterTerm ;let indice=index ">
+                          <td>{{indice+1}}</td>
+                          <td>
+                           {{email.destinatario}}
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-danger" (click)="eliminarInvitacion(email.id)">Eliminar Invitacion</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div *ngIf="emails$ | async as emails">
+                      <ngb-pagination [collectionSize]="emails.length " [(page)]="page" [boundaryLinks]="true">
+                        <ng-template ngbPaginationPages let-page let-pages="pages">
+                          <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+                             <div class="mb-3 d-flex flex-nowrap px-2">
+                               <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                               <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                               id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                                (input)="formatInput($any($event).target)"
+                                 aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                                 <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                                 of {{pages.length}}</span>
+                              </div>
+                           </li>
+                          </ng-template>
+                       </ngb-pagination>
+                    </div>
+                  </div>
+                </div>
+            </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col d-flex justify-content-end">
+          <button class="btn btn btn-outline-primary" (click)="open(content)">Añadir Conductor</button>
+          <ng-template #content let-modal>
+            <form #conductorform="ngForm" (submit)="onSubmit(conductorform.value)" id="myForm">
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Añadir Conductor</h4>
+                <button type="button" class="btn-close" aria-label="Close"
+                  (click)="modal.dismiss('Cross click')"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-12 mt-2">
+                    <div class="form-floating">
+                      <input type="text" name="correo" class="form-control" id="correo"
+                        placeholder="Email del Conductor" #correo="ngModel" ngModel emailValidator>
+                      <label for="correo">Email Conductor</label>
+                      <div *ngIf="correo.invalid && (correo.dirty ||correo.touched)">
+                        <div *ngIf="['emailv']" class="invalid-tooltip d-block">
+                          {{correo.errors?.['requiredValue']}}
                         </div>
                       </div>
-                  </div>
-                  <div class="modal-footer">
-                    <div class="alert alert-success" role="alert" *ngIf="enviadoCorrectamente">
-                      {{errMsj}}
                     </div>
-                    <div class="alert alert-danger" role="alert" *ngIf="enviadoFail">
-                      {{errMsj}}
-                    </div>
-                    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
-                    <button type="submit" class="btn btn-outline-dark" [disabled]="conductorform.invalid" name="Invitar">Enviar invitacion</button>
                   </div>
-                </form>
-              </ng-template>
-            </div>
-          </div>
+                  <div class="col-12 mt-3">
+                    <div class="form-floating">
+                      <input type="text" name="asunto" class="form-control" id="asunto" placeholder="Asunto"
+                        #asunto="ngModel" ngModel>
+                      <label for="asunto">Asunto</label>
+                    </div>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <div class="form-floating">
+                      <input type="text" name="empresa" class="form-control" id="empresa"
+                        [(ngModel)]="nombreEmpresaUsuario" readonly>
+                      <label for="empresa">Empresa</label>
+                    </div>
+                  </div>
+                  <div class="col-12 mt-3">
+                    <div class="form-floating">
+                      <textarea class="form-control" placeholder="Escribe un comentario" id="comentario"
+                        style="height: 100px" name="comentario" #comentario="ngModel" ngModel></textarea>
+                      <label for="comentario">Comentarios</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <div class="spinner-border text-dark" role="status" *ngIf="enviando">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="alert alert-success" role="alert" *ngIf="enviadoCorrectamente">
+                  {{errMsj}}
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="enviadoFail">
+                  {{errMsj}}
+                </div>
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+                <button type="submit" class="btn btn-outline-dark" [disabled]="conductorform.invalid"
+                  name="Invitar">Enviar invitacion</button>
+              </div>
+            </form>
+          </ng-template>
         </div>
+      </div>
     </div>
-    <div class="row">
-        <app-footer></app-footer>
-    </div>    
+  </div>
+  <div class="row">
+    <app-footer></app-footer>
+  </div>
 </div>
-
-
-
-
-
-

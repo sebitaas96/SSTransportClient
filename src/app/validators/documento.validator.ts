@@ -14,6 +14,7 @@ export class documentoValidatorDirective implements Validator, OnInit {
   }
  
   validate(control: FormControl) {
+    if (control.value == null) { return null}
     let v:string = control.value;
     let NIE = /^[XYZxyz]{1}\d{7}[A-Za-z]{1}$/
     let DNI = /^\d{8}[A-Za-z]{1}$/

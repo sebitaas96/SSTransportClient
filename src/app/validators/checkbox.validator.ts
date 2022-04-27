@@ -14,6 +14,7 @@ export class checkboxValidatorDirective implements Validator, OnInit {
   }
  
   validate(control: FormControl) {
+    if (control.value == null) { return null}
     let v:string = control.value;
     
 

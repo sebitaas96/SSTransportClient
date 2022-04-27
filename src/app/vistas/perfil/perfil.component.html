@@ -1,220 +1,553 @@
-<nav-bar></nav-bar><br>
-
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Datos personales</button>
-  </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Password</button>
-  </li>
-</ul><br>
-
-
-
-
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-      <div class="container-fluid">
-        <h1 class="text-center header">DATOS DE PERFIL <i class="fa fa-address-card bigicon"></i></h1>
-          <div class="form-group"><br>
-
-           <div class="row g-2">
-           <div class="col-md">
-            <div class="form-group">
-              <label class="label" for="descripcion">NOMBRE</label>
-               <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.nombre}}">
-                  <label for="floatingInput"> Nombre </label>
-                </div>
-            </div>
-            </div>
-
-            <div class="col-md">
-            <div class="form-group">
-              <label class="label" for="descripcion">NOMBRE DE USUARIO</label>
-               <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.nombreUsuario}}">
-                  <label for="floatingInput"> Nombre de usuario</label>
-                </div>
-            </div>
-            </div>
-           </div>
-
-           <div class="row g-2">
-            <div class="col-md">
-            <div class="form-group">
-              <label class="label" for="descripcion">DOCUMENTO</label>
-               <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInput" readonly value="{{perfilEmpresa.documento}}">
-                  <label for="floatingInput"> Documento </label>
-                </div>
-            </div>
-           </div>
-
-           <div class="col-md">
-            <div class="form-group">
-              <label class="label" for="descripcion">EMAIL</label>
-               <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.email}}">
-                  <label for="floatingInput"> Email </label>
-                </div>
-            </div>
-            </div>
-           </div>
-
-            <div class="form-group">
-              <label class="label" for="descripcion">TELÉFONO</label>
-               <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.telefono}}">
-                  <label for="floatingInput"> Teléfono </label>
-                </div>
-            </div>
-
-            <div class="row g-2">  <!-- Aqui -->
-             <div class="col-md">
-              <div class="form-group">
-              <label class="label" for="descripcion">CALLE</label>
-               <div class="form-floating mb-3">
-                  <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.residenteDeDireccion.nombre}}">
-                  <label for="floatingInput"> Calle </label>
-                </div>
-               </div>
-              </div>
-
-               <div class="col-md">
-                <div class="form-group">
-                <label class="label" for="descripcion">NÚMERO </label>
-                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" value="{{perfilEmpresa.residenteDeDireccion.numero}}">
-                    <label for="floatingInput"> Número </label>
-                 </div>
-                 </div>
-                </div>
-
-
-                 <label class="label" for="pais">PAIS</label>
-                 <div class="form-floating">
-                  <select name="pais"
-                          id="floatingSelect"
-                          class="form-select"
-                          aria-label="Floating label select example"
-                          #pais="ngModel"
-                          ngModel
-                          paisValidator 
-                          (ngModelChange)="renewProvincias($event)">
-                            <option value="">{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia.provinciaDePais.nombre}}</option>
-                            <option *ngFor="let pais of paises" 
-                            [ngValue]="pais" 
-                            class="option">{{pais.nombre}}</option>
-                  </select>
-                          <div *ngIf="pais.invalid && (pais.dirty ||pais.touched)" >
-                              <div *ngIf="['paisv']" class="invalid-tooltip d-block">
-                                  {{pais.errors?.['requiredValue']}}
-                              </div>
-                          </div>
-                            <label for="floatingSelect">Pais</label>
-                  </div>
-
-
-                 <label class="label" for="pais">PROVINCIA</label>
-                    <div class="form-floating">
-                     <select name="provincia"
-                             id="floatingSelect"
-                             class="form-select"
-                             aria-label="Floating label select example"
-                             #provincia="ngModel"
-                             ngModel
-                             provinciaValidator 
-                             (ngModelChange)="renewLocalidades($event)">
-                               <option value="">{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}</option>
-                               <option *ngFor="let provincia of provincias" 
-                               [ngValue]="provincia" 
-                               class="option">{{provincia.nombre}}</option>
-                     </select>
-                              <div *ngIf="provincia.invalid && (provincia.dirty ||provincia.touched)" >
-                                  <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
-                                      {{provincia.errors?.['requiredValue']}}
-                                  </div>
-                              </div>
-                                <label for="floatingSelect">Provincia</label>
-                    </div>
-                
-                
-                 <label class="label" for="pais">LOCALIDAD</label>
-                 <div class="form-floating">
-                  <select name="localidad"
-                          id="floatingSelect"
-                          class="form-select"
-                          aria-label="Floating label select example"
-                          #localidad="ngModel"
-                          ngModel
-                          localidadValidator 
-                          (ngModelChange)="renewCp($event)">
-                            <option value="">{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.nombre}}</option>
-                            <option *ngFor="let localidad of localidades" 
-                            [ngValue]="localidad" 
-                            class="option">{{localidad.nombre}}</option>
-                  </select>
-                            <div *ngIf="localidad.invalid && (localidad.dirty ||localidad.touched)" >
-                                <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
-                                    {{localidad.errors?.['requiredValue']}}
-                                </div>
+<div class="container-fluid g-0 p-0 m-0">
+  <div class="row g-0">
+    <div class="col-12 col-lg-12 col-sm-12 col-md-12">
+      <nav-bar></nav-bar>
+    </div>
+    <div class="row g-0">
+      <div class="col-1  col-sm-1 col-md-2 col-lg-2">
+        <side-bar></side-bar>
+      </div>
+      <div class="col-5  col-sm-5 col-md-5 col-lg-10 mt-5">
+        <div class="row g-0">
+          <div class="col-12 col-lg-12 col-sm-12 col-md-12">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" >
+              <li [ngbNavItem]="1">
+                <a ngbNavLink>Datos personales</a>
+                <ng-template ngbNavContent>
+                  <div class="row g-0 d-flex justify-content-center" *ngIf="perfil$ | async as perfil">
+                    <form #perfilform="ngForm" class="form-detail" 
+                    (submit)="onPerfil(perfil , perfilform.value)" 
+                     id="myform"
+                    >
+                    <div class="col-10">
+                      <div class="card border-secondary mb-3">
+                        <div class="card-header">
+                          <h1 class="text-center header">DATOS DE PERFIL <i class="fa fa-address-card bigicon"></i></h1>
+                        </div>
+                        <div class="card-body text-secondary">
+                          <div class="row g-0">
+                            <div class="col-12">
+                              <h1 class="text-rigth header">Detalles de la autoridad</h1>
                             </div>
-                              <label for="floatingSelect">Localidad</label>
-                  </div>
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-5 me-5 ms-5">
+                              <div class="form-group">
+                                <label class="label" for="nombre">NOMBRE</label>
+                                <div class="form-floating mb-3">
+                                  <input type="text" class="form-control" name="nombre" id="nombre" #nombre="ngModel"
+                                    ngModel nombreValidator [(ngModel)]="perfil.nombre">
+                                  <div *ngIf="nombre.invalid && (nombre.dirty ||nombre.touched)">
+                                    <div *ngIf="['nombrev']" class="invalid-tooltip d-block">
+                                      {{nombre.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="nombre"> Nombre </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-5 ms-5">
+                              <div class="form-group" *ngIf="isConductor">
+                                <label class="label" for="apellidos">APELLIDOS</label>
+                                <div class="form-floating mb-3">
+                                  <input type="text" class="form-control" name="apellidos" id="apellidos"
+                                    #apellidos="ngModel" ngModel nombreValidator [(ngModel)]="perfil.apellido">
+                                  <div *ngIf="apellidos.invalid && (apellidos.dirty ||apellidos.touched)">
+                                    <div *ngIf="['apellidosv']" class="invalid-tooltip d-block">
+                                      {{nombre.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="apellidos"> Apellidos </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-5 ms-5 me-5">
+                              <div class="form-group">
+                                <label class="label" for="documento">DOCUMENTO</label>
+                                <div class="form-floating mb-3">
+                                  <input type="text" class="form-control" id="documento" name="documento"
+                                    #documento="ngModel" ngModel documentoValidator [(ngModel)]="perfil.documento">
+                                  <div *ngIf="documento.invalid && (documento.dirty ||documento.touched)">
+                                    <div *ngIf="['documentov']" class="invalid-tooltip d-block">
+                                      {{documento.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="documento"> Documento </label>
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="col-5 ms-5">
+                              <div class="form-group">
+                                <label class="label" for="nombreUsuario">NOMBRE DE USUARIO</label>
+                                <div class="form-floating mb-3">
+                                  <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario"
+                                    #nombreUsuario="ngModel" ngModel readonly [(ngModel)]="perfil.nombreUsuario">
+                                  <label for="nombreUsuario"> Nombre de usuario</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-12">
+                              <h1 class="text-rigth header">Correo electrónico y número de teléfono</h1>
+                            </div>
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-5 ms-5 me-5 ">
+                              <div class="form-group">
+                                <label class="label" for="email">EMAIL</label>
+                                <div class="form-floating mb-3">
+                                  <input type="email" class="form-control" id="email" name="email" #email="ngModel"
+                                    ngModel emailValidator [(ngModel)]="perfil.email" readonly>
+                                  <div *ngIf="email.invalid && (email.dirty ||email.touched)">
+                                    <div *ngIf="['emailv']" class="invalid-tooltip d-block">
+                                      {{email.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="floatingInput"> Email </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-5 ms-5">
+                              <div class="row g-0">
+                                <div class="col-3">
+                                  <label class="label" for="prefijo">PREFIJO</label>
+                                  <div class="form-floating">
+                                    <select name="prefijo" id="prefijo" class="form-select" #prefijo="ngModel" ngModel
+                                      [compareWith]="compareFn"
+                                      [(ngModel)]="prefijoO"
+                                      prefijoValidator  aria-label="Floating label select example">
+                                      <option value="">+</option>
+                                      <option value="+34" [selected]>+34
+                                      </option>
+                                    </select>
+                                    <div *ngIf="prefijo.invalid && (prefijo.dirty ||prefijo.touched)">
+                                      <div *ngIf="['prefijov']" class="invalid-tooltip d-block">
+                                        {{prefijo.errors?.['requiredValue']}}
+                                      </div>
+                                    </div>
+                                    <label for="prefijo">Prefijo</label>
+                                  </div>
+                                </div>
+                                <div class="col-9">
+                                  <div class="form-group">
+                                    <label class="label" for="phone">TELÉFONO</label>
+                                    <div class="form-floating mb-3">
+                                      <input type="text" class="form-control" id="phone" name="phone" #phone="ngModel" ngModel
+                                      [(ngModel)]="telefonoO" telefonoValidator>
+                                      <div *ngIf="phone.invalid && (phone.dirty ||phone.touched)">
+                                        <div *ngIf="['telefonov']" class="invalid-tooltip d-block">
+                                          {{phone.errors?.['requiredValue']}}
+                                        </div>
+                                      </div>
+                                      <label for="phone"> Teléfono </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
 
-                <div class="form-group">
-                  <label class="label" for="descripcion">CÓDIGO POSTAL</label>
-                   <div class="form-floating mb-3">
-                      <input type="email" class="form-control" id="floatingInput" [(ngModel)]="cp" readonly value="{{perfilEmpresa.residenteDeDireccion.direccionDeLocalidad.cp}}">
-                      <label for="floatingInput"> Código Postal </label>
+                          </div>
+                          <div>
+                            
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-12">
+                              <h1 class="text-rigth header">Dirección</h1>
+                            </div>
+                          </div>
+                          <div *ngIf="perfil.residenteDeDireccion;else direccionBlock">
+                            <div class="row g-0">
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                <label class="label" for="direccionvia">TIPO DE VIA</label>
+                                <div class="form-floating">
+                                  <select name="direccionvia" id="direccionvia" class="form-select"
+                                    aria-label="Floating label select example" #direccionvia="ngModel" ngModel
+                                    [(ngModel)]="perfil.residenteDeDireccion.tipo"
+                                    [compareWith]="compareFn"
+                                    tipoviaValidator>
+                                    <option value="">Tipo de Via</option>
+                                    <option value="calle">Calle</option>
+                                  </select>
+                                  <div *ngIf="direccionvia.invalid && (direccionvia.dirty ||direccionvia.touched)">
+                                    <div *ngIf="['tipoviav']" class="invalid-tooltip d-block">
+                                      {{direccionvia.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="direccionvia">TIPO DE VIA</label>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-6 ms-5">
+                                <div class="form-group">
+                                  <label class="label" for="direccion">DIRECCION</label>
+                                  <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="direccion" name="direccion"
+                                      #direccion="ngModel" ngModel [(ngModel)]="perfil.residenteDeDireccion.nombre"
+                                      direccionValidator
+                                      >
+                                      <div *ngIf="direccion.invalid && (direccion.dirty ||direccion.touched)" >
+                                        <div *ngIf="['direccionv']" class="invalid-tooltip d-block">
+                                          {{direccion.errors?.['requiredValue']}}
+                                        </div>
+                                      </div> 
+  
+                                    <label for="direccion"> Direccion </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
+                                <label class="label" for="direccionnumero">NUMERO</label>
+                                <div class="form-floating">
+                                  <input type="text" name="direccionnumero" id="direccionnumero" class="form-control"
+                                    #direccionnumero="ngModel" ngModel numeroValidator [(ngModel)]="perfil.residenteDeDireccion.numero">
+                                  <div
+                                    *ngIf="direccionnumero.invalid && (direccionnumero.dirty ||direccionnumero.touched)">
+                                    <div *ngIf="['numerov']" class="invalid-tooltip d-block">
+                                      {{direccionnumero.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="direccionnumero">NUMERO</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row g-0">
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                <label class="label" for="pais">PAIS</label>
+                                <div class="form-floating">
+                                  <select name="pais" 
+                                  id="pais" 
+                                  #pais="ngModel"
+                                  ngModel
+                                  class="form-select"
+                                  aria-label="Floating label select example" 
+                                  (ngModelChange)="renewProvincias($event)"
+                                   >
+                                    <option value="" [selected] hidden>
+                                      {{paisO.nombre}}
+                                    </option>
+                                    <option *ngFor="let paisf of paises" [ngValue]="paisf">
+                                      {{paisf.nombre}}
+                                    </option>
+                                  </select>
+                                  <label for="pais">Pais</label>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-6 ms-5 me-1">
+                                <div class="row g-0">
+                                  <div class="col-6">
+                                    <label class="label" for="provincia">PROVINCIA</label>
+                                    <div class="form-floating">
+                                      <select name="provincia" 
+                                      id="provincia" 
+                                      #provincia="ngModel"
+                                      ngModel
+                                      class="form-select"
+                                      aria-label="Floating label select example"
+                                      (ngModelChange)="renewLocalidades($event);" 
+                                      >
+                                        <option value="" disabled [selected] hidden>
+                                          {{provinciaO.nombre}}
+                                        </option>
+                                        <option *ngFor="let provinciaf of provincias" [ngValue]="provinciaf">
+                                          {{provinciaf.nombre}}</option>
+                                      </select>
+                                      <label for="provincia">Provincia</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-6">
+                                    <label class="label" for="localidad">LOCALIDAD</label>
+                                    <div class="form-floating">
+                                      <select name="localidad" 
+                                      id="localidad" 
+                                      #localidad="ngModel"
+                                      ngModel
+                                      class="form-select"
+                                      aria-label="Floating label select example"
+                                      (ngModelChange)="renewCp($event);" 
+                                      >
+                                        <option value="" disabled selected hidden> {{localidadO.nombre}}
+                                        </option>
+                                        <option *ngFor="let localidadf of localidades" [ngValue]="localidadf">
+                                          {{localidadf.nombre}}</option>
+                                      </select>
+                                      <label for="localidad">Localidad</label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
+                                <div class="form-group">
+                                  <label class="label" for="zip">CÓDIGO POSTAL</label>
+                                  <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" name="zip" id="zip" [(ngModel)]="cp" readonly>
+                                    <label for="zip"> Código Postal </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <ng-template #direccionBlock>
+                            <div class="row g-0">
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                <label class="label" for="direccionvia">TIPO DE VIA</label>
+                                <div class="form-floating">
+                                  <select name="direccionvia" id="direccionvia" class="form-select"
+                                    aria-label="Floating label select example" #direccionvia="ngModel" ngModel
+                                    tipoviaValidator>
+                                    <option value="">Tipo de Via</option>
+                                    <option value="calle">Calle</option>
+                                  </select>
+                                  <div *ngIf="direccionvia.invalid && (direccionvia.dirty ||direccionvia.touched)">
+                                    <div *ngIf="['tipoviav']" class="invalid-tooltip d-block">
+                                      {{direccionvia.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="direccionvia">TIPO DE VIA</label>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-6 ms-5">
+                                <div class="form-group">
+                                  <label class="label" for="direccion">DIRECCION</label>
+                                  <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="direccion" name="direccion"
+                                      #direccion="ngModel" ngModel 
+                                      direccionValidator
+                                      >
+                                      <div *ngIf="direccion.invalid && (direccion.dirty ||direccion.touched)" >
+                                        <div *ngIf="['direccionv']" class="invalid-tooltip d-block">
+                                          {{direccion.errors?.['requiredValue']}}
+                                        </div>
+                                      </div> 
+  
+                                    <label for="direccion"> Direccion </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
+                                <label class="label" for="direccionnumero">NUMERO</label>
+                                <div class="form-floating">
+                                  <input type="text" name="direccionnumero" id="direccionnumero" class="form-control"
+                                    #direccionnumero="ngModel" ngModel numeroValidator>
+                                  <div
+                                    *ngIf="direccionnumero.invalid && (direccionnumero.dirty ||direccionnumero.touched)">
+                                    <div *ngIf="['numerov']" class="invalid-tooltip d-block">
+                                      {{direccionnumero.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="direccionnumero">NUMERO</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row g-0">
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                <label class="label" for="pais">PAIS</label>
+                                <div class="form-floating">
+                                  <select name="pais" id="pais" class="form-select"
+                                    aria-label="Floating label select example" #pais="ngModel" ngModel  
+                                    paisValidator
+                                    (ngModelChange)="renewProvincias($event)">
+                                    <option value="">
+                                      Selecciona
+                                    </option>
+                                    <option *ngFor="let paisf of paises" [ngValue]="paisf">{{paisf.nombre}}
+                                    </option>
+                                  </select>
+                                  <div *ngIf="pais.invalid && (pais.dirty ||pais.touched)">
+                                    <div *ngIf="['paisv']" class="invalid-tooltip d-block">
+                                      {{pais.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="pais">Pais</label>
+                                </div>
+                              </div>
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-6 ms-5 me-1">
+                                <div class="row g-0">
+                                  <div class="col-6">
+                                    <div class="row g-0">
+                                      <div class="col-lg-6 me-1">
+                                        <label class="label" for="provincia">PROVINCIA</label>
+                                        <div class="form-floating">
+                                          <select name="provincia" id="provincia" class="form-select"
+                                            aria-label="Floating label select example" #provincia="ngModel" ngModel
+                                            provinciaValidator 
+                                            (ngModelChange)="renewLocalidades($event)">
+                                            <option value="">
+                                              Selecciona
+                                            </option>
+                                            <option *ngFor="let provinciaf of provincias" [ngValue]="provinciaf">
+                                              {{provinciaf.nombre}}</option>
+                                          </select>
+                                          <div *ngIf="provincia.invalid && (provincia.dirty ||provincia.touched)">
+                                            <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
+                                              {{provincia.errors?.['requiredValue']}}
+                                            </div>
+                                          </div>
+                                          <label for="provincia">Provincia</label>
+                                        </div>
+                                      </div>
+                                      <div class="col-6">
+                                        <label class="label" for="localidad">LOCALIDAD</label>
+                                        <div class="form-floating">
+                                          <select name="localidad" id="localidad" class="form-select"
+                                            aria-label="Floating label select example" #localidad="ngModel" ngModel
+                                            localidadValidator 
+                                            (ngModelChange)="renewCp($event)">
+                                            <option value=""> Selecciona
+                                            </option>
+                                            <option *ngFor="let localidadf of localidades" [ngValue]="localidadf">
+                                              {{localidadf.nombre}}</option>
+                                          </select>
+                                          <div *ngIf="localidad.invalid && (localidad.dirty ||localidad.touched)">
+                                            <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
+                                              {{localidad.errors?.['requiredValue']}}
+                                            </div>
+                                          </div>
+                                          <label for="localidad">Localidad</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
+                                <div class="form-group">
+                                  <label class="label" for="zip">CÓDIGO POSTAL</label>
+                                  <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" name="zip" id="zip" [(ngModel)]="cp" readonly>
+                                    <label for="zip"> Código Postal </label>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-template>
+                          
+                          <div class="row g-0">
+                            <div class="col-6 mt-5">
+                              <input type="submit" name="actualizar" [disabled]="perfilform.invalid" class="btn btn-default" value="Actualizar"/>
+                            </div>
+                            <div class="col-6 mt-5">
+                              <div class="alert alert-success" role="alert" *ngIf="perfilActualizado">
+                                {{errMsjPerfil}}
+                             </div>
+                             <div class="alert alert-danger" role="alert" *ngIf="perfilNoActualizado">
+                              {{errMsjPerfil}}
+                           </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                </div>
-                
-     </div> <!-- Si lo quito arregla el blanco pero junta los tab -->        
-     <input type="submit" name="actualizar" class="btn btn-default" value="Actualizar"/>
-     
-   </div>
-  </div>
- </div>
-
-
-
-  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-    <div class="container-fluid">
-     <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
-
-      <div class="form-group">
-        <label class="label" for="descripcion">PASSWORD ANTERIOR</label>
-           <div class="form-floating mb-3">
-             <input type="password" class="form-control" id="floatingPassword" value="{{perfilEmpresa.password}}">
-             <label for="floatingInput"> Password </label>
-           </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2">
+                <a ngbNavLink>Password</a>
+                <ng-template ngbNavContent>
+                  <div class="row g-0 d-flex justify-content-center" *ngIf="perfil$ | async as perfil"> 
+                    <form #passwordform="ngForm" class="form-detail" 
+                    (submit)="onPassword(passwordform.value)" 
+                     id="myform"
+                    >
+                    <div class="col-10">
+                      <div class="card border-secondary mb-3">
+                        <div class="card-header">
+                          <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
+                        </div>
+                        <div class="card-body text-secondary">
+                          <div class="row g-0">
+                            <div class="col-12">
+                              <h1 class="text-rigth header">Detalles de la autoridad</h1>
+                            </div>
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-5 me-5 ms-5">
+                              <div class="form-group">
+                                <label class="label" for="passwordvieja">PASSWORD</label>
+                                <div class="form-floating mb-3">
+                                  <input type="password" class="form-control" id="passwordvieja" name="passwordvieja"
+                                    #passwordvieja="ngModel" ngModel passwordValidator>
+                                  <div *ngIf="passwordvieja.invalid && (passwordvieja.dirty ||passwordvieja.touched)">
+                                    <div *ngIf="['passwordv']" class="invalid-tooltip d-block">
+                                      {{passwordvieja.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="passwordvieja"> Password </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-5 ms-5">
+                              <div class="form-group">
+                                <label class="label" for="passwordnueva">PASSWORD NUEVA</label>
+                                <div class="form-floating mb-3">
+                                  <input type="password" class="form-control" id="passwordnueva" name="passwordnueva"
+                                    #passwordnueva="ngModel" ngModel passwordValidator>
+                                  <div *ngIf="passwordnueva.invalid && (passwordnueva.dirty ||passwordnueva.touched)">
+                                    <div *ngIf="['passwordv']" class="invalid-tooltip d-block">
+                                      {{passwordnueva.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="passwordnueva">Password nueva</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-5 ms-5">
+                              <div class="form-group">
+                                <label class="label" for="passwordnuevar">REPETIR PASSWORD NUEVA</label>
+                                <div class="form-floating mb-3">
+                                  <input type="password" class="form-control" id="passwordnuevar" name="passwordnuevar"
+                                    #passwordnuevar="ngModel" ngModel passwordValidator>
+                                  <div
+                                    *ngIf="passwordnuevar.invalid && (passwordnuevar.dirty ||passwordnuevar.touched)">
+                                    <div *ngIf="['passwordv']" class="invalid-tooltip d-block">
+                                      {{passwordnuevar.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="passwordnueva">Password nueva</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row g-0">
+                            <div class="col-6 mt-5">
+                              <input type="submit" name="actualizar" [disabled]="passwordform.invalid" class="btn btn-default" value="Actualizar"/>
+                            </div>
+                            <div class="col-6 mt-5">
+                              <div class="alert alert-danger" role="alert" *ngIf="isCoincidente">
+                               {{errMsjPwd}}
+                            </div>
+                            <div class="alert alert-success" role="alert" *ngIf="pwdActualizada">
+                              {{errMsjPwd}}
+                           </div>
+                           <div class="alert alert-danger" role="alert" *ngIf="pwdNoActualizada">
+                            {{errMsjPwd}}
+                         </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    </form>
+                  </div>
+                </ng-template>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+          </div>
+        </div>
       </div>
-
-      <div class="form-group">
-        <label class="label" for="descripcion">PASSWORD NUEVA</label>
-           <div class="form-floating mb-3">
-             <input type="password" class="form-control" id="floatingPassword" value="">
-             <label for="floatingPassword"> Password Nueva</label>
-           </div>
+    </div>
+    <div class="row g-0">
+      <div class="col-12">
+        <app-footer></app-footer>
       </div>
-
-      <div class="form-group">
-        <label class="label" for="descripcion">REPETIR PASSWORD NUEVA</label>
-           <div class="form-floating mb-3">
-             <input type="password" class="form-control" id="floatingPassword" value="">
-             <label for="floatingPassword"> Repetir Password </label>
-           </div>
-      </div>
-
-      <input type="submit" name="actualizar" class="btn btn-default" value="Actualizar"/>
-
     </div>
   </div>
-  
-</div><br>
-
-
-<app-footer></app-footer>
+</div>

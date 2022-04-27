@@ -4,28 +4,28 @@
   </div>
   <ul class="sidebar-navigation">
     <li class="header">Navegación</li>
-    <li>
+    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
       <a href="#">
         <i class="fa fa-home" aria-hidden="true" ></i> Panel
       </a>
     </li>
-    <li>
+    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
       <a href="#">
         <i class="fa fa-bell" aria-hidden="true"></i> Notificaciones
       </a>
     </li>
     <li class="header">Trabajo</li>
-    <li>
+    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
       <a href="#">
         <i class="fa fa-forward-fast" aria-hidden="true"></i> Viajes
       </a>
     </li>
-    <li>
+    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
       <a routerLink="/panel-carga">
         <i class="fa fa-truck" aria-hidden="true"></i> Panel de carga
       </a>
     </li>
-    <li>
+    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
       <a routerLink="/conductores">
         <i class="fa fa-users" aria-hidden="true"></i> Conductores
       </a>
@@ -35,16 +35,22 @@
     <li>
       <a routerLink="/perfil">
         <i class="fa fa-gear" aria-hidden="true"></i> Perfil
+        <span class="position-absolute top-50 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" *ngIf="datosSinCompletar">
+          <span class="visually-hidden">New alerts</span>
+        </span>
       </a>
     </li>
-    <li>
+    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
       <a href="#">
         <i class="fa fa-money-bill-trend-up" aria-hidden="true"></i> Pagos
       </a>
     </li>
     <li>
-      <a href="#">
+      <a  routerLink="/cuenta-bancaria">
         <i class="fa fa-money-check" aria-hidden="true"></i> Cuenta Bancaria
+        <span class="position-absolute top-50 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" *ngIf="cuentaSinCompletar">
+          <span class="visually-hidden">New alerts</span>
+        </span>
       </a>
     </li>
   </ul>

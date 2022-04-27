@@ -25,7 +25,7 @@
 							 name="nombre"
 							 id="nombre" 
 							 class="company form-control" 
-							 placeholder="Nombre de la compañia"		 
+							 placeholder="Nombre"		 
 							 #nombre = "ngModel"
 							 ngModel
 							 nombreValidator
@@ -108,133 +108,9 @@
 							</div>
 						</div>
 					</div>
-					
-					<div class="form-group">
-					<div class="form-row form-row-1">
-						<label class="label" for="pais">PAIS</label>
-						<select name="pais"
-						id="pais"
-						class="form-control"
-						#pais="ngModel"
-						ngModel
-						paisValidator 
-						(ngModelChange)="renewProvincias($event)">
-							<option value="">Selecciona un pais</option>
-						    <option *ngFor="let pais of paises" 
-							[ngValue]="pais" 
-							class="option">{{pais.nombre}}</option>
-						</select>
-						<div *ngIf="pais.invalid && (pais.dirty ||pais.touched)" >
-							<div *ngIf="['paisv']" class="invalid-tooltip d-block">
-								{{pais.errors?.['requiredValue']}}
-							</div>
-						</div>
-					</div>
-					<div class=" form-row form-row-2" >
-						<label class="label" for="provincia">PROVINCIA</label>
-						<select name="provincia"
-						id="provincia" 
-						class="form-control"
-						#provincia = "ngModel"
-						ngModel
-						provinciaValidator 
-						(ngModelChange)="renewLocalidades($event)">
-						<option value="">Selecciona una provincia</option>
-						    <option *ngFor="let provincia of provincias" 
-							[ngValue]="provincia" 
-							class="option">{{provincia.nombre}}</option>
-						</select>
-						<div *ngIf="provincia.invalid && (provincia.dirty ||provincia.touched)" >
-							<div *ngIf="['provinciav']" class="invalid-tooltip d-block">
-								{{provincia.errors?.['requiredValue']}}
-							</div>
-						</div>
-					</div>
-					</div>
-					<div class="form-row">
-						<label class="label" for="localidad">LOCALIDAD</label>
-						<select name="localidad" 
-						id="localidad"
-						class="form-control"
-						#localidad = "ngModel"
-						ngModel
-						localidadValidator
-						(ngModelChange)="renewCp($event)"
-						>
-						<option value="">Selecciona una localidad</option>
-							<option *ngFor="let localidad of localidades" 
-							[ngValue]="localidad" 
-							class="option">{{localidad.nombre}}</option>
-						</select>
-						<div *ngIf="localidad.invalid && (localidad.dirty ||localidad.touched)" >
-							<div *ngIf="['localidadv']" class="invalid-tooltip d-block">
-								{{localidad.errors?.['requiredValue']}}
-							</div>
-						</div>
-					</div>
 				</div>
 				<div class="form-right">
 					<h2>Detalles de Contacto</h2>
-					<div class="form-group">
-						<div class="form-row form-row-1">
-							<label class="label" for="direccionvia">TIPO VIA</label>
-							<select name="direccionvia"
-							id="direccionvia"
-							class="form-control"
-							#direccionvia="ngModel"
-							ngModel
-							tipoviaValidator
-							>
-								<option value="">Tipo de Via</option>
-							    <option value="calle">Calle</option>
-							</select>
-							<div *ngIf="direccionvia.invalid && (direccionvia.dirty ||direccionvia.touched)" >
-								<div *ngIf="['tipoviav']" class="invalid-tooltip d-block">
-									{{direccionvia.errors?.['requiredValue']}}
-								</div>
-							</div>
-						</div>
-						<div class="form-row form-row-2">
-							<label class="label" for="direccion">DIRECCION</label>
-							<input type="text" 
-							name="direccion" 
-							id="direccion"
-							class="additional form-control" 
-							placeholder="direccion"
-							#direccion="ngModel"
-							ngModel 
-							direccionValidator
-							 >
-							 <div *ngIf="direccion.invalid && (direccion.dirty ||direccion.touched)" >
-								<div *ngIf="['direccionv']" class="invalid-tooltip d-block">
-									{{direccion.errors?.['requiredValue']}}
-								</div>
-							</div> 
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="form-row form-row-1">
-							<label class="label" for="direccionnumero">NUMERO</label>
-							<input type="text" 
-							name="direccionnumero"
-							id="direccionnumero"
-							class="zip form-control" 
-							#direccionnumero="ngModel"
-							placeholder="nº"  
-							ngModel
-							numeroValidator>
-							<div *ngIf="direccionnumero.invalid && (direccionnumero.dirty ||direccionnumero.touched)" >
-								<div *ngIf="['numerov']" class="invalid-tooltip d-block">
-									{{direccionnumero.errors?.['requiredValue']}}
-								</div>
-							</div> 
-						</div>
-						<div class="form-row form-row-2">
-							<label class="label" for="zip">Codigo Postal</label>
-							<input type="text" id="zip"  name="zip" [(ngModel)]="cp" readonly>
-						</div>
-					</div>
-
 					<div class="form-group">
 						<div class="form-row form-row-1">
 							<label class="label" for="prefijo">PREFIJO</label>

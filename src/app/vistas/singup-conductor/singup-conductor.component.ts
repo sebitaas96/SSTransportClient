@@ -71,7 +71,7 @@ export class SingupConductorComponent implements OnInit {
 
 
 
- ngOnInit(): void {
+  ngOnInit(): void {
    this.tokenService.logOut();
    //Iniciamos los paises
    this.paisService.findAll().subscribe(data=>{
@@ -104,9 +104,9 @@ export class SingupConductorComponent implements OnInit {
  }
 
  onSubmit(data:any):void{
-   let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellidos'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], this.empresa,
-   new Direccion(0, data['direccionvia'] , data['direccion'] , Number(data['direccionnumero']) , data['localidad']),
-   data['provincia'],
+   let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellidos'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], false ,this.empresa,
+   null,
+   null,
    null
    )
    if(data['nombreUsuario']!=""){

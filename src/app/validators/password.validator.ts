@@ -14,6 +14,7 @@ export class passwordValidatorDirective implements Validator, OnInit {
   }
  
   validate(control: FormControl) {
+    if (control.value == null) { return null}
     let v:string = control.value;
     let patron = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,18}$/;
 

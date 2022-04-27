@@ -28,6 +28,8 @@ import { checkboxValidatorDirective } from './validators/checkbox.validator';
 import { passwordValidatorDirective } from './validators/password.validator';
 import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.validator';
 import { tipoEmpresaValidatorDirective } from './validators/tipoEmpresa.validator';
+import { swiftBicValidatorDirective } from './validators/swiftBic.validator';
+import { ibanValidatorDirective } from './validators/iban.validator';
 import { PanelCargaComponent } from './vistas/panel-carga/panel-carga.component';
 import * as $ from 'jquery';
 import * as bootstrap from 'bootstrap';
@@ -41,6 +43,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SingupConductorComponent } from './vistas/singup-conductor/singup-conductor.component';
 import { ViajeComponent } from './vistas/viaje/viaje.component';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
+import { CuentaBancariaComponent } from './vistas/cuenta-bancaria/cuenta-bancaria.component';
 
 
 
@@ -65,6 +68,8 @@ import { PerfilComponent } from './vistas/perfil/perfil.component';
     checkboxValidatorDirective,
     passwordValidatorDirective,
     nombreUsuarioValidatorDirective,
+    swiftBicValidatorDirective,
+    ibanValidatorDirective,
     LoginComponent,
     PantallaInfoComponent,
     DashboardComponent,
@@ -75,7 +80,8 @@ import { PerfilComponent } from './vistas/perfil/perfil.component';
     ConductoresComponent,
     SingupConductorComponent,
     ViajeComponent,
-    PerfilComponent
+    PerfilComponent,
+    CuentaBancariaComponent
 
   ],
   imports: [

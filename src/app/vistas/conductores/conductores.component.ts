@@ -11,6 +11,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { data } from 'jquery';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Conductor } from 'src/app/models/conductor';
+import { CambiarEstadoConductor } from 'src/app/dto/cambiarEstadoConductor';
 const FILTER_PAG_REGEX = /[^0-9]/g;
 var EmpresaId = 0; 
 
@@ -36,10 +37,19 @@ export class ConductoresComponent implements OnInit {
   eliminando:boolean;
   emailEliminadoC:boolean;
   emailEliminadoF:boolean;
+  //Eliminar Conductor
+  eliminandoConductor:boolean;
+  conductorEeliminadoC:boolean;
+  conductorElminadoF:boolean;
+
+  //Estado conductor
+  estadoConductorCambiado:boolean;
+  estadoConductorNoCambiado:boolean;
 
   errMsj:string;
   errMsjD:string;
   errMsjC:string;
+  errMsjEC:string;
   empresa!:Transporte;
   //EMAILS
   emails$!: Observable<Email[]>;
@@ -47,6 +57,7 @@ export class ConductoresComponent implements OnInit {
   //Conductores
   conductores$!:Observable<Conductor[]>;
   refreshConductores$ = new BehaviorSubject<boolean>(true);
+
 
 
 
@@ -64,9 +75,15 @@ export class ConductoresComponent implements OnInit {
     this.eliminando = false;
     this.emailEliminadoC = false;
     this.emailEliminadoF = false;
+    this.eliminandoConductor = false;
+    this.conductorEeliminadoC = false;
+    this.conductorElminadoF = false;
+    this.estadoConductorCambiado = false;
+    this.estadoConductorNoCambiado = false;
     this.errMsj = "";
     this.errMsjD = "";
-    this.errMsjC = "";  
+    this.errMsjC = ""; 
+    this.errMsjEC = ""; 
   }
 
   ngOnInit(): void {
@@ -130,9 +147,45 @@ export class ConductoresComponent implements OnInit {
     )
   }
 
-  eliminarConductor(){
+  eliminarConductor(idConductor:number){
+    this.conductorEeliminadoC = false;
+    this.conductorElminadoF = false;
+    this.eliminandoConductor = true;
+    this.usuarioService.deleteConductor(idConductor).subscribe(
+      data=>{
+        this.conductorEeliminadoC = true;
+        this.eliminandoConductor = false;
+        this.errMsjEC = data["mensaje"];
+        this.refreshConductores$.next(true);
+      },
+      err=>{
+        this.eliminandoConductor = false;
+        this.conductorElminadoF = true;
+        this.errMsjEC = err['error']['mensaje'];
+      }
 
+    )
   }
+
+
+  cambiarEstado(estado:boolean , idConductor:number){
+    var cambioEstado:CambiarEstadoConductor = new CambiarEstadoConductor(estado , idConductor);
+    this.usuarioService.updateEstadoConductor(cambioEstado).subscribe(
+      data=>{
+        this.estadoConductorCambiado = true;
+        this.estadoConductorNoCambiado = false;
+        this.errMsjEC = data["mensaje"];
+        this.refreshConductores$.next(true);
+      },
+      err=>{
+        this.estadoConductorCambiado = false;
+        this.estadoConductorNoCambiado = true;
+        this.errMsjEC = err['error']['mensaje'];
+
+      }
+    )
+  }
+
 
   //Funciones para bootstrap , buscadores y paginadores
 

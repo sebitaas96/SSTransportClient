@@ -14,6 +14,7 @@ export class numeroValidatorDirective implements Validator, OnInit {
   }
  
   validate(control: FormControl) {
+    if (control.value == null) { return null}
     let v:string = control.value;
     let num = /^\d{2}$/
     let cero = /^0$/

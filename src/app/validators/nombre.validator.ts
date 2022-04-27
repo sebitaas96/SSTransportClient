@@ -14,6 +14,7 @@ export class nombreValidatorDirective implements Validator, OnInit {
   }
  
   validate(control: FormControl) {
+    if (control.value == null) { return null}
     let v:string = control.value;
     let patron1 = /^[a-zA-ZÁÉÍÓÚáéíóúüÜñçÇÑ]{2}$/
     let patron2 = /^[a-zA-ZÁÉÍÓÚáéíóúüÜñçÇÑ]{2}[a-zA-ZÁÉÍÓÚáéíóúüÜñçÇÑ\- ]{1,38}$/;

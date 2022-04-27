@@ -1,4 +1,27 @@
 
 <nav-bar></nav-bar>
-<div class="container-fluid"></div>
+<div class="container-fluid g-0">
+    <div id="errorModal" class="modal fade">
+        <div class="modal-dialog modal-confirm modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                        
+                        <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;">
+                            <span class="swal2-x-mark"><span class="swal2-x-mark-line-left">
+                            </span><span class="swal2-x-mark-line-right"></span></span>
+                        </div>
+                        
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">{{errMsj}}</p>
+                </div>
+                <div class="modal-footer justify-content-center btn-large">
+                    <button class="btn btn-danger" *ngIf="datosSinCompletar" [routerLink]="'/perfil'" data-bs-dismiss="modal">Completar datos del perfil</button>
+                    <button class="btn btn-danger" *ngIf="cuentaSinCompletar" data-bs-dismiss="modal">Completar datos bancarios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <side-bar></side-bar>
+<app-footer></app-footer>

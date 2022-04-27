@@ -26,8 +26,8 @@ export class Transporte extends Usuario {
         documento:string,
         email:string,
         telefono:string,
-        residenteDeDireccion:Direccion,
-        operadorDeProvincia:Provincia,
+        residenteDeDireccion:Direccion|null,
+        operadorDeProvincia:Provincia|null,
         cuentaBancaria:CuentaBancaria|null,
     ){
         super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);

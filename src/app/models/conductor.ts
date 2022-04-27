@@ -6,11 +6,13 @@ import { Transporte } from "./transporte";
 import { Usuario } from "./usuario";
 import { Viaje } from "./viaje";
 import { CuentaBancaria } from "./cuenta-bancaria";
+import { easing } from "jquery";
 
 
 export class Conductor extends Usuario{
 
     apellidos:string;
+    estado:boolean;
     conductorDeTransporte:Transporte;
     viajes:Array<Viaje>;
 
@@ -23,13 +25,15 @@ export class Conductor extends Usuario{
         documento:string,
         email:string,
         telefono:string,
+        estado:boolean,
         conductorDeTransporte:Transporte,
-        residenteDeDireccion:Direccion,
-        operadorDeProvincia:Provincia,
+        residenteDeDireccion:Direccion|null,
+        operadorDeProvincia:Provincia|null,
         cuentaBancaria:CuentaBancaria|null,
     ){
         super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
         this.apellidos = apellidos;
+        this.estado = estado;
         this.conductorDeTransporte = conductorDeTransporte;
         this.viajes = [];
     }

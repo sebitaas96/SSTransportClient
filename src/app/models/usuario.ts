@@ -10,8 +10,8 @@ export class Usuario {
     documento:string;
     email:string;
     telefono:string;
-    residenteDeDireccion:Direccion;
-    operadorDeProvincia:Provincia;
+    residenteDeDireccion:Direccion|null;
+    operadorDeProvincia:Provincia|null;
     authorities:String[];
     cuentaBancaria:CuentaBancaria|null;
 
@@ -23,8 +23,8 @@ export class Usuario {
         documento:string,
         email:string,
         telefono:string,
-        residenteDeDireccion:Direccion,
-        operadorDeProvincia:Provincia,
+        residenteDeDireccion:Direccion|null,
+        operadorDeProvincia:Provincia|null,
         cuentaBancaria:CuentaBancaria|null)
         {
             this.id = id;

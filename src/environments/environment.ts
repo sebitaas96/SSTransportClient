@@ -12,6 +12,7 @@ export const environment = {
   emailUrl:'http://localhost:8080/email',
   registroConductor:'http://localhost:4200/singup-conductor',
   usuarioUrl:'http://localhost:8080/usuario',
+  cuentaBancariaUrl:'http://localhost:8080/cuentaBancaria'
 };
 
 /*

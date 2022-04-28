@@ -15,6 +15,8 @@ export class SideBarComponent implements OnInit {
   //TipoUsuario
   isConductor:boolean;
   isTransporte:boolean;
+  isPorte:boolean;
+  isExpedidor:boolean;
   //
   nombreUsuario:string;
   isLogged:boolean;
@@ -29,6 +31,8 @@ export class SideBarComponent implements OnInit {
     this.isLogged = false;
     this.isConductor = false;
     this.isTransporte = false;
+    this.isPorte = false;
+    this.isExpedidor = false;
   }
 
   ngOnInit(): void {
@@ -38,6 +42,12 @@ export class SideBarComponent implements OnInit {
       }
       else if(this.tokenService.getIsConductor()){
         this.isConductor = true;
+      }
+      else if(this.tokenService.getIsPorte()){
+        this.isPorte = true;
+      }
+      else if(this.tokenService.getIsExpedidor()){
+        this.isExpedidor = true;
       }
 
       this.isLogged = true;

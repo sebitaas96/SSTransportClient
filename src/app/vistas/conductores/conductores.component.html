@@ -144,7 +144,7 @@
                           </tr>
                         </tbody>
                       </table>
-                      <div *ngIf="emails$ | async as emails">
+                      <div>
                         <ngb-pagination [collectionSize]="emails.length " [(page)]="page" [boundaryLinks]="true">
                           <ng-template ngbPaginationPages let-page let-pages="pages">
                             <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">

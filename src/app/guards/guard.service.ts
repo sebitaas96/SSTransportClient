@@ -28,6 +28,9 @@ export class GuardService implements CanActivate{
     else if(this.tokenService.getIsConductor()){
       this.realRol = 'conductor'
     }
+    else if(this.tokenService.getIsExpedidor()){
+      this.realRol = 'expedidor'
+    }
     else{
       this.realRol = '';
     }

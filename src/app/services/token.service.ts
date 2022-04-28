@@ -92,6 +92,21 @@ export class TokenService {
     return true;
   }
 
+  public getIsExpedidor():boolean{
+    if(!this.isLogged()){
+      return false;
+    }
+    const token = this.getToken();
+    const payload = token.split(".")[1];
+    const payloadDecoded = atob(payload);
+    const values = JSON.parse(payloadDecoded);
+    const roles = values.roles;
+    if(roles.indexOf('ROLE_EXPEDIDOR')<0){
+      return false;
+    }
+    return true;
+  }
+
 
   public logOut():void{
     window.localStorage.clear();

@@ -40,11 +40,11 @@ import { interceptorProvider} from './interceptors/interceptor.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConductoresComponent } from './vistas/conductores/conductores.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { SingupConductorComponent } from './vistas/singup-conductor/singup-conductor.component';
 import { ViajeComponent } from './vistas/viaje/viaje.component';
 import { PerfilComponent } from './vistas/perfil/perfil.component';
 import { CuentaBancariaComponent } from './vistas/cuenta-bancaria/cuenta-bancaria.component';
-
+import { ExpedidoresComponent } from './vistas/expedidores/expedidores.component';
+import { SingupExternosComponent } from './vistas/singup-externos/singup-externos.component';
 
 
 
@@ -78,10 +78,11 @@ import { CuentaBancariaComponent } from './vistas/cuenta-bancaria/cuenta-bancari
     SideBarComponent,
     PanelCargaComponent,
     ConductoresComponent,
-    SingupConductorComponent,
+    SingupExternosComponent,
     ViajeComponent,
     PerfilComponent,
-    CuentaBancariaComponent
+    CuentaBancariaComponent,
+    ExpedidoresComponent
 
   ],
   imports: [

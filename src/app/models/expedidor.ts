@@ -1,18 +1,17 @@
 import { Direccion } from "./direccion";
-import { Localidad } from "./localidad";
-import { Pais } from "./pais";
 import { Provincia } from "./provincia";
 import { Transporte } from "./transporte";
 import { Usuario } from "./usuario";
 import { Viaje } from "./viaje";
 import { CuentaBancaria } from "./cuenta-bancaria";
+import { Porte } from "./porte";
 
 
-export class Conductor extends Usuario{
+export class Expedidor extends Usuario{
 
     apellidos:string;
     estado:boolean;
-    conductorDeTransporte:Transporte;
+    expedidorDePorte:Porte;
     viajes:Array<Viaje>;
 
     constructor(
@@ -25,7 +24,7 @@ export class Conductor extends Usuario{
         email:string,
         telefono:string,
         estado:boolean,
-        conductorDeTransporte:Transporte,
+        expedidorDePorte:Porte,
         residenteDeDireccion:Direccion|null,
         operadorDeProvincia:Provincia|null,
         cuentaBancaria:CuentaBancaria|null,
@@ -33,7 +32,7 @@ export class Conductor extends Usuario{
         super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
         this.apellidos = apellidos;
         this.estado = estado;
-        this.conductorDeTransporte = conductorDeTransporte;
+        this.expedidorDePorte = expedidorDePorte;
         this.viajes = [];
     }
 

@@ -22,8 +22,12 @@ export class EmailService {
     return this.httpClient.get<Email>(this.emailUrl+'/'+email+'/deofuscar')
   }
 
-  public findAllEmails(idEmpresa:number):Observable<Email[]>{
-    return this.httpClient.get<Email[]>(this.emailUrl+'/'+idEmpresa+'/findAll'); 
+  public findAllEmailsTransporte(idEmpresa:number):Observable<Email[]>{
+    return this.httpClient.get<Email[]>(this.emailUrl+'/'+idEmpresa+'/findAllTransporte'); 
+  }
+
+  public findAllEmailsPorte(idEmpresa:number):Observable<Email[]>{
+    return this.httpClient.get<Email[]>(this.emailUrl+'/'+idEmpresa+'/findAllPorte'); 
   }
 
   public deleteEmail(idEmail:number): Observable<any>{

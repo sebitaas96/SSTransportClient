@@ -12,6 +12,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { CambioPassword } from 'src/app/dto/cambioPassword';
 import { Conductor } from 'src/app/models/conductor';
+import { Porte } from 'src/app/models/porte';
+import { Expedidor } from 'src/app/models/expedidor';
 declare var $:any;
 
 @Component({
@@ -46,6 +48,7 @@ export class PerfilComponent implements OnInit {
   provincias:Provincia[];
   localidades:Localidad[];
   isConductor:boolean;
+  isExpedidor:boolean;
 
   /*Datos direccion*/
   cp!:string;
@@ -82,33 +85,18 @@ export class PerfilComponent implements OnInit {
     this.prefijoO = "";
     this.telefonoO = "";
     this.isConductor = false;
+    this.isExpedidor = false;
     this.paises = [];
     this.provincias = [];
     this.localidades = [];
   }
 
   ngOnInit(): void {
-    if(this.tokenService.getIsTransporte()){
-      this.perfil$ = this.refreshPerfil$.pipe(switchMap(_=>this.usuarioService.findEmpresaTransprte(this.tokenService.getUserName())));
-      this.usuarioService.findEmpresaTransprte(this.tokenService.getUserName()).subscribe(data=>{
+      this.perfil$ = this.refreshPerfil$.pipe(switchMap(_=>this.usuarioService.findUsuario(this.tokenService.getUserName())));
+      this.usuarioService.findUsuario(this.tokenService.getUserName()).subscribe(data=>{
         this.perfil = data;
         this.inicializacion(this.perfil);
       })
-    }
-    else if(this.tokenService.getIsConductor()){
-      this.isConductor = true;
-      this.perfil$ = this.refreshPerfil$.pipe(switchMap(_=>this.usuarioService.findConductorNombre(this.tokenService.getUserName())));
-      this.usuarioService.findConductorNombre(this.tokenService.getUserName()).subscribe(
-        data=>{
-          this.perfil = data;
-          this.inicializacion(this.perfil);
-        }
-      )
-    }
-
-
-
-   
   }
 
   inicializacion(perfil:any){
@@ -160,11 +148,23 @@ export class PerfilComponent implements OnInit {
         data["cuentaBancaria"]); 
         instruccion = this.usuarioService.updateTransporte(usuario);
       }
+      else if(this.tokenService.getIsPorte()){
+        usuario = new Porte(data["id"] , data["nombre"] , data["nombreUsuario"] , data["password"] , data["documento"],
+        data["email"] , this.prefijoO+this.telefonoO ,  new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
+        data["cuentaBancaria"]); 
+        instruccion = this.usuarioService.updatePorte(usuario);
+      }
       else if(this.tokenService.getIsConductor()){
         usuario = new Conductor(data["id"] , data["nombre"] ,data["apellido"], data["nombreUsuario"] , data["password"] , data["documento"],
         data["email"] , this.prefijoO+this.telefonoO , data["estado"] , data["conductorDeTransporte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
         data["cuentaBancaria"]); 
         instruccion = this.usuarioService.updateConductor(usuario);
+      }
+      else if(this.tokenService.getIsExpedidor()){
+        usuario = new Expedidor(data["id"] , data["nombre"] ,data["apellido"], data["nombreUsuario"] , data["password"] , data["documento"],
+        data["email"] , this.prefijoO+this.telefonoO , data["estado"] , data["conductorDeTransporte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
+        data["cuentaBancaria"]); 
+        instruccion = this.usuarioService.updateExpedidor(usuario);
       }
 
     }
@@ -185,6 +185,22 @@ export class PerfilComponent implements OnInit {
         dataform["provincia"],
         null); 
         instruccion = this.usuarioService.updateConductor(usuario);
+      }
+      else if(this.tokenService.getIsPorte()){
+        usuario = new Porte(data["id"] , data["nombre"] , data["nombreUsuario"] , data["password"] , data["documento"],
+        data["email"] , this.prefijoO+this.telefonoO , 
+        new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
+        dataform["provincia"],
+        null); 
+        instruccion = this.usuarioService.updatePorte(usuario);
+      }
+      else if(this.tokenService.getIsExpedidor()){
+        usuario = new Expedidor(data["id"] , data["nombre"] ,data["apellido"] ,data["nombreUsuario"] , data["password"] , data["documento"],
+        data["email"] , this.prefijoO+this.telefonoO , data["estado"],
+        data["conductorDeTransporte"],new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
+        dataform["provincia"],
+        null); 
+        instruccion = this.usuarioService.updateExpedidor(usuario);
       }
 
       console.log(usuario);

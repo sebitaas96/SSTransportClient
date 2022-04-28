@@ -5,12 +5,14 @@
 export const environment = {
   production: false,
   transporteUrl: 'http://localhost:8080/transporte',
+  porteUrl: 'http://localhost:8080/porte',
   provinciaUrl: 'http://localhost:8080/provincia',
   paisUrl: 'http://localhost:8080/pais',
   authURL : 'http://localhost:8080/auth/',
   conductorUrl : 'http://localhost:8080/conductor',
+  expediorUrl : 'http://localhost:8080/expedidor',
   emailUrl:'http://localhost:8080/email',
-  registroConductor:'http://localhost:4200/singup-conductor',
+  registroExternos:'http://localhost:4200/singup-externos',
   usuarioUrl:'http://localhost:8080/usuario',
   cuentaBancariaUrl:'http://localhost:8080/cuentaBancaria'
 };

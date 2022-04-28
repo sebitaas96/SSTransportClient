@@ -47,7 +47,7 @@
                               </div>
                             </div>
                             <div class="col-5 ms-5">
-                              <div class="form-group" *ngIf="isConductor">
+                              <div class="form-group" *ngIf="isConductor || isExpedidor">
                                 <label class="label" for="apellidos">APELLIDOS</label>
                                 <div class="form-floating mb-3">
                                   <input type="text" class="form-control" name="apellidos" id="apellidos"
@@ -366,9 +366,9 @@
                               </div>
                               <div class="col-6 col-sm-8 col-md-10 col-lg-6 ms-5 me-1">
                                 <div class="row g-0">
-                                  <div class="col-6">
+                                  <div class="col-12">
                                     <div class="row g-0">
-                                      <div class="col-lg-6 me-1">
+                                      <div class="col-lg-6">
                                         <label class="label" for="provincia">PROVINCIA</label>
                                         <div class="form-floating">
                                           <select name="provincia" id="provincia" class="form-select"
@@ -389,7 +389,7 @@
                                           <label for="provincia">Provincia</label>
                                         </div>
                                       </div>
-                                      <div class="col-6">
+                                      <div class="col-lg-6">
                                         <label class="label" for="localidad">LOCALIDAD</label>
                                         <div class="form-floating">
                                           <select name="localidad" id="localidad" class="form-select"

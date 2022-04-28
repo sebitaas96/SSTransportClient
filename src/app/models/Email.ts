@@ -1,3 +1,4 @@
+import { Porte } from "./porte";
 import { Transporte } from "./transporte";
 
 export class Email {
@@ -6,7 +7,8 @@ export class Email {
     texto:string;
     asunto:string;
     url:string;
-    invitacionDeTransporte:Transporte;
+    invitacionDeTransporte:Transporte|null;
+    invitacionDePorte:Porte|null;
     
 
     constructor(
@@ -15,7 +17,8 @@ export class Email {
         asunto:string,
         texto:string,
         url:string,
-        invitacionDeTransporte:Transporte
+        invitacionDeTransporte:Transporte|null,
+        invitacionDePorte:Porte|null
         ){
         this.id=id;
         this.destinatario = destinatario;
@@ -23,5 +26,6 @@ export class Email {
         this.asunto = asunto;
         this.url = url;
         this.invitacionDeTransporte = invitacionDeTransporte;
+        this.invitacionDePorte = invitacionDePorte;
     }
 }

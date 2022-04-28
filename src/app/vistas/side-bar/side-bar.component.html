@@ -15,22 +15,40 @@
       </a>
     </li>
     <li class="header">Trabajo</li>
-    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
-      <a href="#">
-        <i class="fa fa-forward-fast" aria-hidden="true"></i> Viajes
-      </a>
-    </li>
-    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
-      <a routerLink="/panel-carga">
-        <i class="fa fa-truck" aria-hidden="true"></i> Panel de carga
-      </a>
-    </li>
-    <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
-      <a routerLink="/conductores">
-        <i class="fa fa-users" aria-hidden="true"></i> Conductores
-      </a>
-    </li>
-    
+    <ng-template *ngIf="isTransporte || isConductor ;else porteBlock">
+      <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+        <a href="#">
+          <i class="fa fa-forward-fast" aria-hidden="true"></i> Viajes
+        </a>
+      </li>
+      <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+        <a routerLink="/panel-carga">
+          <i class="fa fa-truck" aria-hidden="true"></i> Panel de carga
+        </a>
+      </li>
+      <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
+        <a routerLink="/conductores">
+          <i class="fa fa-users" aria-hidden="true"></i> Conductores
+        </a>
+      </li>
+    </ng-template>
+    <ng-template #porteBlock>
+      <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+        <a href="#">
+          <i class="fa fa-forward-fast" aria-hidden="true"></i> Viajes
+        </a>
+      </li>
+      <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+        <a routerLink="/">
+          <i class="fa fa-truck" aria-hidden="true"></i> Expedir viajes
+        </a>
+      </li>
+      <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isExpedidor">
+        <a routerLink="/expedidores">
+          <i class="fa fa-users" aria-hidden="true"></i> Expedidores
+        </a>
+      </li>
+    </ng-template>    
     <li class="header">Datos</li>
     <li>
       <a routerLink="/perfil">

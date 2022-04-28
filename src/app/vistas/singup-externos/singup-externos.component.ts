@@ -13,15 +13,17 @@ import { Usuario } from 'src/app/models/usuario';
 import { Conductor } from 'src/app/models/conductor';
 import { Transporte } from 'src/app/models/transporte';
 import { EmailService } from 'src/app/services/email.service';
+import { Porte } from 'src/app/models/porte';
+import { Expedidor } from 'src/app/models/expedidor';
 declare var $:any;
 
 
 @Component({
-  selector: 'singup-conductor',
-  templateUrl: './singup-conductor.component.html',
-  styleUrls: ['./singup-conductor.component.css']
+  selector: 'singup-externos',
+  templateUrl: './singup-externos.component.html',
+  styleUrls: ['./singup-externos.component.css']
 })
-export class SingupConductorComponent implements OnInit {
+export class SingupExternosComponent implements OnInit {
 
  /*Declaramos los datos que traemos para rellenar selects*/
  roles:Rol[];
@@ -35,7 +37,8 @@ export class SingupConductorComponent implements OnInit {
  errMsj:string;
  mensajeOfuscado:string;
  nombreEmpresa:string;
- empresa:Transporte;
+ empresaTransporte:Transporte;
+ empresaPorte:Porte;
  email:string;
  idEmail:number;
 
@@ -62,7 +65,8 @@ export class SingupConductorComponent implements OnInit {
    this.nombreUsuarioModal="";
    this.mensajeOfuscado = "";
    this.nombreEmpresa="";
-   this.empresa = new Transporte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
+   this.empresaTransporte = new Transporte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
+   this.empresaPorte = new Porte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
    this.email = "";
    this.idEmail = 0;
  }
@@ -85,6 +89,7 @@ export class SingupConductorComponent implements OnInit {
    });
 
 
+
    this.mensajeService.deOfuscarMensaje(this.mensajeOfuscado).subscribe(
     data=>{
       if(data===null){
@@ -92,9 +97,17 @@ export class SingupConductorComponent implements OnInit {
         $('#errorModal').modal("show");
       }
       else{
-        this.nombreEmpresa = data["invitacionDeTransporte"]["nombre"];
+    
+        if(data["invitacionDeTransporte"] != null){
+          this.nombreEmpresa = data["invitacionDeTransporte"]!["nombre"];
+          this.empresaTransporte = data["invitacionDeTransporte"]!;
+        }
+        else{
+          this.nombreEmpresa = data["invitacionDePorte"]!["nombre"];
+          this.empresaPorte = data["invitacionDePorte"]!;
+        }
+
         this.email = data["destinatario"];
-        this.empresa = data["invitacionDeTransporte"];
         this.idEmail = data["id"];
         console.log(this.idEmail);
       }
@@ -104,17 +117,31 @@ export class SingupConductorComponent implements OnInit {
  }
 
  onSubmit(data:any):void{
-   let usuario:Usuario = new Conductor(0, data['nombre'] ,data['apellidos'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], false ,this.empresa,
-   null,
-   null,
-   null
-   )
+   var usuario:Usuario;
+   var instruccion;
+   if(this.empresaTransporte.id !=0){
+    usuario = new Conductor(0, data['nombre'] ,data['apellidos'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], false ,this.empresaTransporte,
+    null,
+    null,
+    null
+    );
+    instruccion = this.authService.nuevoConductor(usuario);
+   }
+   else{
+    usuario = new Expedidor(0, data['nombre'] ,data['apellidos'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], false ,this.empresaPorte,
+    null,
+    null,
+    null
+    );
+    instruccion = this.authService.nuevoExpedidor(usuario);
+   }
+ 
    if(data['nombreUsuario']!=""){
      this.nombreUsuarioModal = data['nombreUsuario']
    }
    console.log(usuario);
 
-   this.authService.nuevoConductor(usuario).subscribe(
+   instruccion.subscribe(
      data => {
        $('#successModal').modal("show");
        console.log(this.idEmail);

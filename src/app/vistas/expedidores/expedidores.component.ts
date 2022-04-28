@@ -1,26 +1,22 @@
-
-import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { CambiarEstado } from 'src/app/dto/cambiarEstado';
 import { Email } from 'src/app/models/Email';
-import { Transporte } from 'src/app/models/transporte';
+import { Expedidor } from 'src/app/models/expedidor';
+import { Porte } from 'src/app/models/porte';
 import { EmailService } from 'src/app/services/email.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { data } from 'jquery';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
-import { Conductor } from 'src/app/models/conductor';
-import { CambiarEstado } from 'src/app/dto/cambiarEstado';
 const FILTER_PAG_REGEX = /[^0-9]/g;
-var EmpresaId = 0; 
-
 @Component({
-  selector: 'conductores',
-  templateUrl: './conductores.component.html',
-  styleUrls: ['./conductores.component.css']
+  selector: 'app-expedidores',
+  templateUrl: './expedidores.component.html',
+  styleUrls: ['./expedidores.component.css']
 })
-export class ConductoresComponent implements OnInit {
+export class ExpedidoresComponent implements OnInit {
+
   active = 1;
   closeResult = '';
   page = 1;
@@ -38,25 +34,25 @@ export class ConductoresComponent implements OnInit {
   emailEliminadoC:boolean;
   emailEliminadoF:boolean;
   //Eliminar Conductor
-  eliminandoConductor:boolean;
-  conductorEeliminadoC:boolean;
-  conductorElminadoF:boolean;
+  eliminandoExpedidor:boolean;
+  expedidorEeliminadoC:boolean;
+  expedidorElminadoF:boolean;
 
   //Estado conductor
-  estadoConductorCambiado:boolean;
-  estadoConductorNoCambiado:boolean;
+  estadoExpedidorCambiado:boolean;
+  estadoExpedidorNoCambiado:boolean;
 
   errMsj:string;
   errMsjD:string;
   errMsjC:string;
   errMsjEC:string;
-  empresa!:Transporte;
+  empresa!:Porte;
   //EMAILS
   emails$!: Observable<Email[]>;
   refreshEmails$ = new BehaviorSubject<boolean>(true);
   //Conductores
-  conductores$!:Observable<Conductor[]>;
-  refreshConductores$ = new BehaviorSubject<boolean>(true);
+  expedidores$!:Observable<Expedidor[]>;
+  refreshExpedidores$ = new BehaviorSubject<boolean>(true);
 
 
 
@@ -75,11 +71,11 @@ export class ConductoresComponent implements OnInit {
     this.eliminando = false;
     this.emailEliminadoC = false;
     this.emailEliminadoF = false;
-    this.eliminandoConductor = false;
-    this.conductorEeliminadoC = false;
-    this.conductorElminadoF = false;
-    this.estadoConductorCambiado = false;
-    this.estadoConductorNoCambiado = false;
+    this.eliminandoExpedidor = false;
+    this.expedidorEeliminadoC = false;
+    this.expedidorElminadoF = false;
+    this.estadoExpedidorCambiado = false;
+    this.estadoExpedidorNoCambiado = false;
     this.errMsj = "";
     this.errMsjD = "";
     this.errMsjC = ""; 
@@ -88,10 +84,10 @@ export class ConductoresComponent implements OnInit {
 
   ngOnInit(): void {
     this.nombreEmpresaUsuario = this.tokenService.getUserName();
-    this.usuarioService.findEmpresaTransprte(this.nombreEmpresaUsuario).subscribe(data=>{
+    this.usuarioService.findEmpresaPorteNombre(this.nombreEmpresaUsuario).subscribe(data=>{
       this.empresa = data;
-      this.emails$ = this.refreshEmails$.pipe(switchMap(_=>this.mensajeService.findAllEmailsTransporte(this.empresa.id)));
-      this.conductores$ = this.refreshConductores$.pipe(switchMap(_=>this.usuarioService.findAllConductores(this.empresa.id)));
+      this.emails$ = this.refreshEmails$.pipe(switchMap(_=>this.mensajeService.findAllEmailsPorte(this.empresa.id)));
+      this.expedidores$ = this.refreshExpedidores$.pipe(switchMap(_=>this.usuarioService.findAllExpedidores(this.empresa.id)));
     });
  
 
@@ -103,9 +99,9 @@ export class ConductoresComponent implements OnInit {
         this.enviadoCorrectamente = false;
         this.enviadoFail = false;
 
-        var url = environment.registroExternos+"?q="+this.empresa["id"]+"&e="+dataMensaje["correo"]+"&t=transporte";
+        var url = environment.registroExternos+"?q="+this.empresa["id"]+"&e="+dataMensaje["correo"]+"&t=porte";
         var texto = dataMensaje['empresa']+" Te ha invitado a colaborar en Onus : ["+dataMensaje['comentario']+"] Date de alta aquí : ";
-        let email:Email = new Email(0,dataMensaje['correo'] , dataMensaje['asunto'] , texto ,url, this.empresa , null);
+        let email:Email = new Email(0,dataMensaje['correo'] , dataMensaje['asunto'] , texto ,url, null,this.empresa);
     
         if(dataMensaje['correo']!=""){
           this.correo = dataMensaje['correo']
@@ -147,20 +143,20 @@ export class ConductoresComponent implements OnInit {
     )
   }
 
-  eliminarConductor(idConductor:number){
-    this.conductorEeliminadoC = false;
-    this.conductorElminadoF = false;
-    this.eliminandoConductor = true;
-    this.usuarioService.deleteConductor(idConductor).subscribe(
+  eliminarExpedidor(idExpedidor:number){
+    this.expedidorEeliminadoC = false;
+    this.expedidorElminadoF = false;
+    this.eliminandoExpedidor = true;
+    this.usuarioService.deleteExpedidor(idExpedidor).subscribe(
       data=>{
-        this.conductorEeliminadoC = true;
-        this.eliminandoConductor = false;
+        this.expedidorEeliminadoC = true;
+        this.eliminandoExpedidor = false;
         this.errMsjEC = data["mensaje"];
-        this.refreshConductores$.next(true);
+        this.refreshExpedidores$.next(true);
       },
       err=>{
-        this.eliminandoConductor = false;
-        this.conductorElminadoF = true;
+        this.eliminandoExpedidor = false;
+        this.expedidorElminadoF = true;
         this.errMsjEC = err['error']['mensaje'];
       }
 
@@ -168,18 +164,18 @@ export class ConductoresComponent implements OnInit {
   }
 
 
-  cambiarEstado(estado:boolean , idConductor:number){
-    var cambioEstado:CambiarEstado = new CambiarEstado(estado , idConductor);
+  cambiarEstado(estado:boolean , idExpedidor:number){
+    var cambioEstado:CambiarEstado = new CambiarEstado(estado , idExpedidor);
     this.usuarioService.updateEstadoConductor(cambioEstado).subscribe(
       data=>{
-        this.estadoConductorCambiado = true;
-        this.estadoConductorNoCambiado = false;
+        this.estadoExpedidorCambiado = true;
+        this.estadoExpedidorNoCambiado = false;
         this.errMsjEC = data["mensaje"];
-        this.refreshConductores$.next(true);
+        this.refreshExpedidores$.next(true);
       },
       err=>{
-        this.estadoConductorCambiado = false;
-        this.estadoConductorNoCambiado = true;
+        this.estadoExpedidorCambiado = false;
+        this.estadoExpedidorNoCambiado = true;
         this.errMsjEC = err['error']['mensaje'];
 
       }
@@ -214,9 +210,6 @@ export class ConductoresComponent implements OnInit {
   formatInput(input: HTMLInputElement) {
     input.value = input.value.replace(FILTER_PAG_REGEX, '');
   }
-
-
-  
 
 
 

@@ -17,7 +17,7 @@
                 </div>
                 <div class="modal-footer justify-content-center btn-large">
                     <button class="btn btn-danger" *ngIf="datosSinCompletar" [routerLink]="'/perfil'" data-bs-dismiss="modal">Completar datos del perfil</button>
-                    <button class="btn btn-danger" *ngIf="cuentaSinCompletar" data-bs-dismiss="modal">Completar datos bancarios</button>
+                    <button class="btn btn-danger" *ngIf="cuentaSinCompletar" [routerLink]="'/cuenta-bancaria'"  data-bs-dismiss="modal">Completar datos bancarios</button>
                 </div>
             </div>
         </div>

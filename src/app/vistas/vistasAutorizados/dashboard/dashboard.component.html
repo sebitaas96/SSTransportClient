@@ -1,0 +1,54 @@
+
+<div class="container-fluid p-0">
+
+    <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+
+    <div class="row">
+        <div class="col-xl-6 col-xxl-5 d-flex">
+            <div class="w-100">
+                <div class="row">
+                </div>
+            </div>
+        </div>
+                        
+
+        <div class="col-xl-6 col-xxl-7">
+            <div class="card flex-fill w-100">
+                <div class="card-header">
+
+                    <h5 class="card-title mb-0">Recent Movement</h5>
+                </div>
+                <div class="card-body py-3">
+                    <div class="chart chart-sm">
+                        <canvas id="chartjs-dashboard-line"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="errorModal" class="modal fade">
+        <div class="modal-dialog modal-confirm modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;">
+                        <span class="swal2-x-mark"><span class="swal2-x-mark-line-left">
+                            </span><span class="swal2-x-mark-line-right"></span></span>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">{{errMsj}}</p>
+                </div>
+                <div class="modal-footer justify-content-center btn-large">
+                    <button class="btn btn-danger" *ngIf="datosSinCompletar" [routerLink]="'/perfil'"
+                        data-bs-dismiss="modal">Completar datos del perfil</button>
+                    <button class="btn btn-danger" *ngIf="cuentaSinCompletar" [routerLink]="'/cuenta-bancaria'"
+                        data-bs-dismiss="modal">Completar datos bancarios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

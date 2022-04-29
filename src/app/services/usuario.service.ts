@@ -10,7 +10,7 @@ import { Expedidor } from '../models/expedidor';
 import { Porte } from '../models/porte';
 import { Transporte } from '../models/transporte';
 import { Usuario } from '../models/usuario';
-import { PerfilComponent } from '../vistas/perfil/perfil.component';
+import { PerfilComponent } from '../vistas/vistasAutorizados/layaouts/perfil/perfil.component';
 
 @Injectable({
   providedIn: 'root'

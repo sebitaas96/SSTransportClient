@@ -1,56 +1,63 @@
 import { Provincia } from "./provincia";
 import { Direccion } from "./direccion";
+import { Transporte } from "./transporte";
+import { Expedidor } from "./expedidor";
+import { Conductor } from "./conductor";
+import { TipoCamion } from "./tipo-camion";
+import { TipoRemolque } from "./tipo-remolque";
+import { Pago } from "./pago";
+import { Estado } from "./estado";
 
 export class Viaje {
     id:number;
+    vId:string;
     descripcion:string;
-    fHoraFin:Date;
-    fHoraInicio:Date;
     precio:number;
-    v:number;
-    direccionEntrega:Direccion;
-    operadorDeProvincia:Provincia;
-    pago:number;
-    direccionRecogida:Direccion;
-    camionId:number;
-    conductorId:number;
-    estadoId:number;
-    remolqueId:number;
-    transporteId:number;
+    fHoraInicio:Date;
+    fHoraFin:Date;
+    recogidaDeDireccion:Direccion;
+    entregaDeDireccion:Direccion;
+    viajeDeTransporte:Transporte;
+    viajeDeExpedidor:Expedidor;
+    viajeDeConductor:Conductor;
+    viajeDeTipoCamion:TipoCamion;
+    viajeDeTipoRemolque:TipoRemolque;
+    pago:Pago;
+    viajeDeEstado:Estado;
 
     constructor(
         id:number,
+        vId:string,
         descripcion:string,
-        fHoraFin:Date,
-        fHoraInicio:Date,
         precio:number,
-        v:number,
-        direccionEntrega:Direccion,
-        operadorDeProvincia:Provincia,
-        pago:number,
-        direccionRecogida:Direccion,
-        camionId:number,
-        conductorId:number,
-        estadoId:number,
-        remolqueId:number,
-        transporteId:number,
+        fHoraInicio:Date,
+        fHoraFin:Date,
+        recogidaDeDireccion:Direccion,
+        entregaDeDireccion:Direccion,
+        viajeDeTransporte:Transporte,
+        viajeDeExpedidor:Expedidor,
+        viajeDeConductor:Conductor,
+        viajeDeTipoCamion:TipoCamion,
+        viajeDeTipoRemolque:TipoRemolque,
+        pago:Pago,
+        viajeDeEstado:Estado
     )
         {
             this.id = id;
+            this.vId = vId;
             this.descripcion = descripcion;
-            this.fHoraFin = fHoraFin;
-            this.fHoraInicio = fHoraInicio;
             this.precio = precio;
-            this.v = v;
-            this.direccionEntrega = direccionEntrega;
+            this.fHoraInicio = fHoraInicio;
+            this.fHoraFin = fHoraFin;
+            this.recogidaDeDireccion = recogidaDeDireccion;
+            this.entregaDeDireccion = entregaDeDireccion;
+            this.viajeDeTransporte = viajeDeTransporte;
+            this.viajeDeExpedidor = viajeDeExpedidor;
+            this.viajeDeConductor = viajeDeConductor;
+            this.viajeDeTipoCamion = viajeDeTipoCamion;
+            this.viajeDeTipoRemolque = viajeDeTipoRemolque;
             this.pago = pago;
-            this.operadorDeProvincia = operadorDeProvincia;
-            this.direccionRecogida = direccionRecogida;
-            this.camionId = camionId;
-            this.conductorId = conductorId;
-            this.estadoId = estadoId;
-            this.remolqueId = remolqueId;
-            this.transporteId = transporteId;
+            this.viajeDeEstado = viajeDeEstado;
         }
 
 }

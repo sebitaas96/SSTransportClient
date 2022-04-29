@@ -1,0 +1,180 @@
+<div class="container-fluid g-0">
+    <div class="col-12 col-lg-12 col-sm-12 col-md-12">
+    </div>
+    <div class="row g-0">
+        <div class="col-1  col-sm-1 col-md-2 col-lg-2">
+        </div>
+        <div class="col-5  col-sm-5 col-md-5 col-lg-10 mt-5">
+        <div class="row g-0 d-flex justify-content-center">
+            <ng-container *ngIf="cuenta$ | async as cuenta ; else cuentaBlock">
+                <form #cuentaUform="ngForm" class="form-detail" (submit)="onUCuenta(cuenta)" id="myform">
+                    <div class="col-5  col-sm-5 col-md-5 col-lg-10 mt-5">
+                        <div class="card border-secondary mb-3">
+                            <div class="card-header">
+                                <h1 class="text-center header">DATOS DE CUENTA <i
+                                    class="fa fa-money-check"></i>
+                                </h1>
+                            </div>
+                            <div class="card-body text-secondary">
+                                <div class="row g-0">
+                                    <div class="col-5 me-5 ms-5">
+                                        <div class="form-group">
+                                            <label class="label" for="nombreTitular">NOMBRE TITULAR</label>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" name="nombreTitular" id="nombreTitular"
+                                                    #nombreTitular="ngModel" [(ngModel)]="cuenta.nombreTitular" nombreValidator>
+                                                <div *ngIf="nombreTitular.invalid && (nombreTitular.dirty ||nombreTitular.touched)">
+                                                    <div *ngIf="['nombrev']" class="invalid-tooltip d-block">
+                                                        {{nombreTitular.errors?.['requiredValue']}}
+                                                    </div>
+                                                </div>
+                                                <label for="nombreTitular"> Nombre titular </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="form-group">
+                                            <label class="label" for="swiftbic">SWIFT/BIC</label>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" name="swiftbic"
+                                                    id="swiftbic" #swiftbic="ngModel" [(ngModel)]="cuenta.swiftBic" swiftBicValidator>
+                                                <div
+                                                    *ngIf="swiftbic.invalid && (swiftbic.dirty ||swiftbic.touched)">
+                                                    <div *ngIf="['swiftbicv']" class="invalid-tooltip d-block">
+                                                        {{swiftbic.errors?.['requiredValue']}}
+                                                    </div>
+                                                </div>
+                                                <label for="swiftbic"> Swift/Bic </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-5 ms-5 me-5">
+                                        <div class="form-group">
+                                            <label class="label" for="numIban">NÚMERO IBAN</label>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="numIban"
+                                                    name="numIban" #numIban="ngModel"  [(ngModel)]="cuenta.iban" ngModel
+                                                    ibanValidator>
+                                                <div
+                                                    *ngIf="numIban.invalid && (numIban.dirty ||numIban.touched)">
+                                                    <div *ngIf="['ibanv']" class="invalid-tooltip d-block">
+                                                        {{numIban.errors?.['requiredValue']}}
+                                                    </div>
+                                                </div>
+                                                <label for="numIban"> Número Iban</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-6 mt-5">
+                                        <input type="submit" name="actualizar" [disabled]="cuentaUform.invalid"
+                                            class="btn btn-default" value="Actualizar" />
+                                    </div>
+                                    <div class="col-6 mt-5">
+                                        <div class="alert alert-success" role="alert" *ngIf="cuentaActualizada">
+                                            {{errMsj}}
+                                        </div>
+                                        <div class="alert alert-danger" role="alert" *ngIf="cuentaNoActualizada">
+                                            {{errMsj}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+            <ng-template #cuentaBlock>
+                <form #cuentaform="ngForm" class="form-detail" (submit)="onCCuenta(cuentaform.value)" id="myform">
+                    <div class="col-10">
+                        <div class="card border-secondary mb-3">
+                            <div class="card-header">
+                                <h1 class="text-center header">DATOS DE CUENTA <i
+                                    class="fa fa-money-check"></i>
+                                </h1>
+                            </div>
+
+                            <div class="card-body text-secondary">
+                                <div class="row g-0">
+                                    <div class="col-5 me-5 ms-5">
+                                        <div class="form-group">
+                                            <label class="label" for="nombreTitular">NOMBRE TITULAR</label>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" name="nombreTitular" id="nombreTitular"
+                                                    #nombreTitular="ngModel" ngModel nombreValidator>
+                                                <div *ngIf="nombreTitular.invalid && (nombreTitular.dirty ||nombreTitular.touched)">
+                                                    <div *ngIf="['nombrev']" class="invalid-tooltip d-block">
+                                                        {{nombreTitular.errors?.['requiredValue']}}
+                                                    </div>
+                                                </div>
+                                                <label for="nombreTitular"> Nombre titular </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="form-group">
+                                            <label class="label" for="swiftbic">SWIFT/BIC</label>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" name="swiftbic"
+                                                    id="swiftbic" #swiftbic="ngModel" ngModel swiftBicValidator>
+                                                <div
+                                                    *ngIf="swiftbic.invalid && (swiftbic.dirty ||swiftbic.touched)">
+                                                    <div *ngIf="['swiftbicv']" class="invalid-tooltip d-block">
+                                                        {{swiftbic.errors?.['requiredValue']}}
+                                                    </div>
+                                                </div>
+                                                <label for="swiftbic"> Swift/Bic </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-5 ms-5 me-5">
+                                        <div class="form-group">
+                                            <label class="label" for="numIban">NÚMERO IBAN</label>
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="numIban"
+                                                    name="numIban" #numIban="ngModel" ngModel
+                                                    ibanValidator>
+                                                <div
+                                                    *ngIf="numIban.invalid && (numIban.dirty ||numIban.touched)">
+                                                    <div *ngIf="['ibanv']" class="invalid-tooltip d-block">
+                                                        {{numIban.errors?.['requiredValue']}}
+                                                    </div>
+                                                </div>
+                                                <label for="numIban"> Número Iban</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row g-0">
+                                    <div class="col-6 mt-5">
+                                        <input type="submit" name="actualizar" [disabled]="cuentaform.invalid" class="btn btn-default" value="Actualizar" />
+                                    </div>
+                                    <div class="col-6 mt-5">
+                                        <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
+                                            {{errMsjC}}
+                                        </div>
+                                        <div class="alert alert-danger" role="alert" *ngIf="cuentaNoCreada">
+                                            {{errMsjC}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </div>
+        </div>
+        <div class="row g-0">
+            <div class="col-12">
+            </div>
+        </div>
+    </div>

@@ -6,6 +6,8 @@ import { Transporte } from "./transporte";
 import { Usuario } from "./usuario";
 import { Viaje } from "./viaje";
 import { CuentaBancaria } from "./cuenta-bancaria";
+import { Camion } from "./camion";
+import { Remolque } from "./remolque";
 
 
 export class Conductor extends Usuario{
@@ -14,6 +16,8 @@ export class Conductor extends Usuario{
     estado:boolean;
     conductorDeTransporte:Transporte;
     viajes:Array<Viaje>;
+    camiones:Array<Camion>;
+    remolques:Array<Remolque>
 
     constructor(
         id:number,
@@ -35,6 +39,8 @@ export class Conductor extends Usuario{
         this.estado = estado;
         this.conductorDeTransporte = conductorDeTransporte;
         this.viajes = [];
+        this.camiones = [];
+        this.remolques = [];
     }
 
 

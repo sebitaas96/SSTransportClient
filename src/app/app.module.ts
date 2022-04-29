@@ -6,14 +6,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { SingUpComponent } from './vistas/sing-up/sing-up.component';
+import { SingUpComponent } from './vistas/vistasNoAutorizados/sing-up/sing-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { PantallaPrincipalComponent } from './vistas/pantalla-principal/pantalla-principal.component';
+import { PantallaPrincipalComponent } from './vistas/vistasNoAutorizados/pantalla-principal/pantalla-principal.component';
 import { nombreValidatorDirective } from './validators/nombre.validator';
-import { LoginComponent } from './vistas/login/login.component';
-import { DashboardComponent } from './vistas/dashboard/dashboard.component';
-import { PantallaInfoComponent } from './vistas/pantalla-info/pantalla-info.component';
+import { LoginComponent } from './vistas/vistasNoAutorizados/login/login.component';
+import { DashboardComponent } from './vistas/vistasAutorizados/dashboard/dashboard.component';
+import { PantallaInfoComponent } from './vistas/vistasNoAutorizados/pantalla-info/pantalla-info.component';
 import { documentoValidatorDirective } from './validators/documento.validator';
 import { paisValidatorDirective } from './validators/pais.validator';
 import { provinciaValidatorDirective } from './validators/provincia.validator';
@@ -30,21 +30,15 @@ import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.vali
 import { tipoEmpresaValidatorDirective } from './validators/tipoEmpresa.validator';
 import { swiftBicValidatorDirective } from './validators/swiftBic.validator';
 import { ibanValidatorDirective } from './validators/iban.validator';
-import { PanelCargaComponent } from './vistas/panel-carga/panel-carga.component';
 import * as $ from 'jquery';
 import * as bootstrap from 'bootstrap';
-import { NavBarComponent } from './vistas/nav-bar/nav-bar.component';
-import { FooterComponent } from './vistas/footer/footer.component';
-import { SideBarComponent } from './vistas/side-bar/side-bar.component';
+import { NavBarComponent } from './vistas/vistasNoAutorizados/nav-bar/nav-bar.component';
+import { FooterComponent } from './vistas/vistasNoAutorizados/footer/footer.component';
 import { interceptorProvider} from './interceptors/interceptor.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ConductoresComponent } from './vistas/conductores/conductores.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-import { ViajeComponent } from './vistas/viaje/viaje.component';
-import { PerfilComponent } from './vistas/perfil/perfil.component';
-import { CuentaBancariaComponent } from './vistas/cuenta-bancaria/cuenta-bancaria.component';
-import { ExpedidoresComponent } from './vistas/expedidores/expedidores.component';
-import { SingupExternosComponent } from './vistas/singup-externos/singup-externos.component';
+import { SingupExternosComponent } from './vistas/vistasNoAutorizados/singup-externos/singup-externos.component';
+import { OnusModule } from './vistas/vistasAutorizados/onus.module';
 
 
 
@@ -53,6 +47,11 @@ import { SingupExternosComponent } from './vistas/singup-externos/singup-externo
     AppComponent,
     SingUpComponent,
     PantallaPrincipalComponent,
+    LoginComponent,
+    PantallaInfoComponent,
+    NavBarComponent,
+    FooterComponent,
+    SingupExternosComponent,
     nombreValidatorDirective,
     tipoEmpresaValidatorDirective,
     documentoValidatorDirective,
@@ -70,20 +69,6 @@ import { SingupExternosComponent } from './vistas/singup-externos/singup-externo
     nombreUsuarioValidatorDirective,
     swiftBicValidatorDirective,
     ibanValidatorDirective,
-    LoginComponent,
-    PantallaInfoComponent,
-    DashboardComponent,
-    NavBarComponent,
-    FooterComponent,
-    SideBarComponent,
-    PanelCargaComponent,
-    ConductoresComponent,
-    SingupExternosComponent,
-    ViajeComponent,
-    PerfilComponent,
-    CuentaBancariaComponent,
-    ExpedidoresComponent
-
   ],
   imports: [
     BrowserModule,
@@ -95,6 +80,7 @@ import { SingupExternosComponent } from './vistas/singup-externos/singup-externo
     ReactiveFormsModule,
     NgbModule,
     Ng2SearchPipeModule,
+    OnusModule
   ],
   providers: [interceptorProvider],
   bootstrap: [AppComponent]

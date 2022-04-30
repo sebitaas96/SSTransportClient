@@ -1,17 +1,177 @@
 
 <div class="container-fluid g-0">
-    <div class="row g-0">
-      <div class="col-12">
-      </div>
       <div class="row g-0">
-        <div class="col-2 col-lg-2 col-sm-2 col-md-2">
-        </div>
-        <div class="col-10 col-lg-10 col-sm-10 col-md-10 mt-5 p-0 m-0">
-                    
+        <div class="col-12 col-lg-12 col-sm-12 col-md-12 mt-1 p-0 m-0">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink>Añadir Equipo</a>
+              <ng-template ngbNavContent>
+                <div class="row g-0">
+                  <div class="col d-flex justify-content-end">
+                    <div class="alert alert-success" role="alert">
+                      
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="row g-0 mt-3 mb-3">
+                  <div class="col">
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            Accordion Item #1
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                          <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                  <label class="label" for="tipoCamion">TIPO DE CAMION</label>
+                                  <div class="form-floating">
+                                    <select name="tipoCamion" 
+                                    id="tipoCamion" 
+                                    #tipoCamion="ngModel"
+                                    ngModel
+                                    class="form-select"
+                                    aria-label="Floating label select example" 
+                                     >
+                                      <option value="" hidden>
+                                        Selecciona
+                                      </option>
+                                      <ng-container *ngIf="tiposCamion$ | async as tiposCamion">
+                                      <option *ngFor="let tipoCamion of tiposCamion" [ngValue]="tipoCamion">
+                                        {{tipoCamion.nombre}}
+                                      </option>
+                                    </ng-container>
+                                    </select>
+                                    <label for="tipoCamion">Tipo de Camion</label>
+                                  </div>
+                                </div>
+                                <div class="col-5 ms-5 me-5">
+                                  <div class="form-group">
+                                    <label class="label" for="matricula">MATRICULA</label>
+                                    <div class="form-floating mb-3">
+                                      <input type="text" class="form-control" id="matricula" name="matricula"
+                                        #matricula="ngModel" ngModel>
+                                      <label for="matricula"> Matricula </label>
+                                    </div>
+                                  </div>
+    
+                                </div>
+                                <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                  <label class="label" for="conductor">ASIGNAR CONDUCTOR</label>
+                                  <div class="form-floating">
+                                    <select name="conductor" 
+                                    id="conductor" 
+                                    #conductor="ngModel"
+                                    ngModel
+                                    class="form-select"
+                                    aria-label="Floating label select example" 
+                                     >
+                                      <option value="" [selected] hidden>
+                                        Ninguno
+                                      </option>
+                                      <ng-container *ngIf="conductores$ | async as conductores">
+                                      <option *ngFor="let conductor of conductores" [ngValue]="conductor">
+                                        {{conductor.nombre + " " + conductor.apellidos}}
+                                      </option>
+                                    </ng-container>
+                                    </select>
+                                    <label for="conductor">conductor</label>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            Accordion Item #2
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                          <div class="accordion-body">
+                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a ngbNavLink>Equipo Disponible</a>
+              <ng-template ngbNavContent>
+                <div class="row g-0">
+                  <div class="col d-flex justify-content-start">
+                    <div class="form-floating">
+                      <input type="text" name="buscador" class="form-control" 
+                        placeholder="Buscar..." [(ngModel)]="filterTerm">
+                      <label for="correo">Buscar...</label>
+                    </div>
+                  </div>
+                  <div class="col d-flex justify-content-end">
+                    <div class="alert alert-success" role="alert">
+                      
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                      
+                    </div>
+                  </div>
+                </div>
+                <div class="row g-0 mt-3 mb-3">
+                  <div class="col">
+                    <ng-container >
+                    <table class="table">
+                      <thead class="table-dark">
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Destinatario</th>
+                            <th></th>
+                          </tr>
+                      </thead>
+                      <tbody >
+                        <tr>
+                          <td></td>
+                          <td>
+                      
+                          </td>
+                          <td>
+                            <button type="button" class="btn btn-danger">Eliminar Invitacion</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div>
+                      <ngb-pagination [collectionSize]="5 " [(page)]="page" [boundaryLinks]="true">
+                        <ng-template ngbPaginationPages let-page let-pages="pages">
+                          <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+                             <div class="mb-3 d-flex flex-nowrap px-2">
+                               <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                               <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                               id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                                (input)="formatInput($any($event).target)"
+                                 aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                                 <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                                 of {{pages.length}}</span>
+                              </div>
+                           </li>
+                          </ng-template>
+                       </ngb-pagination>
+                    </div>
+                    </ng-container>
+                  </div>
+                </div>
+            </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
         </div>
       </div>
-      <div class="row g-0">
-      </div>
-    </div>
   </div>
    

@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ViajeComponent } from './porte/viaje/viaje.component';
 
 @NgModule({
   declarations: [OnusComponent,
@@ -24,7 +25,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     CuentaBancariaComponent,
     ConductoresComponent,
     ExpedidoresComponent,
-    EquipoComponent
+    EquipoComponent,
+    ViajeComponent
 ],
   imports: [
     CommonModule,

@@ -9,6 +9,7 @@ import { ExpedidoresComponent } from './porte/expedidores/expedidores.component'
 import { ConductoresComponent } from './transporte/conductores/conductores.component';
 import { PanelCargaComponent } from './transporte/panel-carga/panel-carga.component';
 import { EquipoComponent } from './transporte/equipo/equipo.component';
+import { ViajeComponent } from './porte/viaje/viaje.component';
 
 const routes: Routes = [
     {
@@ -42,6 +43,10 @@ const routes: Routes = [
             {
                 path: 'equipo',
                 component: EquipoComponent
+            },
+            {
+                path: 'viaje',
+                component: ViajeComponent
             }
             
         ]

@@ -46,13 +46,13 @@
             </ng-container>
             <ng-template #porteBlock>
                 <li class="sidebar-item" *ngIf="!datosSinCompletar && !cuentaSinCompletar">
-                    <a class="sidebar-link">
+                    <a class="sidebar-link"  >
                         <i class="align-middle fas fa-forward-fast" ></i> <span class="align-middle">Viajes</span>
                     </a>
                 </li>
 
                 <li class="sidebar-item" *ngIf="!datosSinCompletar && !cuentaSinCompletar">
-                    <a class="sidebar-link">
+                    <a class="sidebar-link" routerLink="/onus/viaje">
                         <i class="align-middle fas fa-paper-plane" ></i> <span class="align-middle">Expedir viajes</span>
                     </a>
                 </li>

@@ -7,7 +7,7 @@ export class Remolque {
     matricula:string;
     estado:boolean;
     remolqueDeTransporte:Transporte;
-    remolqueDeConductor:Conductor;
+    remolqueDeConductor:Conductor|null;
     remolqueDeTipoRemolque:TipoRemolque;
 
     constructor(
@@ -15,7 +15,7 @@ export class Remolque {
         matricula:string,
         estado:boolean,
         remolqueDeTransporte:Transporte,
-        remolqueDeConductor:Conductor,
+        remolqueDeConductor:Conductor|null,
         remolqueDeTipoRemolque:TipoRemolque
     ){
         this.id = id;

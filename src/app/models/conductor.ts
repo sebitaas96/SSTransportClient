@@ -12,7 +12,7 @@ import { Remolque } from "./remolque";
 
 export class Conductor extends Usuario{
 
-    apellidos:string;
+    apellido:string;
     estado:boolean;
     conductorDeTransporte:Transporte;
     viajes:Array<Viaje>;
@@ -22,7 +22,7 @@ export class Conductor extends Usuario{
     constructor(
         id:number,
         nombre:string,
-        apellidos:string,
+        apellido:string,
         nombreUsuario:string,
         password:string,
         documento:string,
@@ -35,7 +35,7 @@ export class Conductor extends Usuario{
         cuentaBancaria:CuentaBancaria|null,
     ){
         super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
-        this.apellidos = apellidos;
+        this.apellido = apellido;
         this.estado = estado;
         this.conductorDeTransporte = conductorDeTransporte;
         this.viajes = [];

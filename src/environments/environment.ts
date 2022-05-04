@@ -16,7 +16,9 @@ export const environment = {
   usuarioUrl:'http://localhost:8080/usuario',
   cuentaBancariaUrl:'http://localhost:8080/cuentaBancaria',
   tipoCamionUrl:'http://localhost:8080/tipoCamion',
-  tipoRemolqueUrl:'http://localhost:8080/tipoRemolque'
+  tipoRemolqueUrl:'http://localhost:8080/tipoRemolque',
+  camionUrl:'http://localhost:8080/camion',
+  remolqueUrl:'http://localhost:8080/remolque'
 };
 
 /*

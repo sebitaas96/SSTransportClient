@@ -27,8 +27,9 @@
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                           <div class="accordion-body">
+                            <form #camionform="ngForm" class="form-detail" (submit)="onCamion(camionform.value)" id="myform">
                             <div class="row">
-                                <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                <div class="col-6 col-sm-8 col-md-10 col-lg-4  ms-5">
                                   <label class="label" for="tipoCamion">TIPO DE CAMION</label>
                                   <div class="form-floating">
                                     <select name="tipoCamion" 
@@ -50,7 +51,7 @@
                                     <label for="tipoCamion">Tipo de Camion</label>
                                   </div>
                                 </div>
-                                <div class="col-5 ms-5 me-5">
+                                <div class="col-4 col-6 col-sm-8 col-md-10  col-lg-4 ms-5">
                                   <div class="form-group">
                                     <label class="label" for="matricula">MATRICULA</label>
                                     <div class="form-floating mb-3">
@@ -61,7 +62,7 @@
                                   </div>
     
                                 </div>
-                                <div class="col-6 col-sm-8 col-md-10 col-lg-2  ms-5">
+                                <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
                                   <label class="label" for="conductor">ASIGNAR CONDUCTOR</label>
                                   <div class="form-floating">
                                     <select name="conductor" 
@@ -71,19 +72,27 @@
                                     class="form-select"
                                     aria-label="Floating label select example" 
                                      >
-                                      <option value="" [selected] hidden>
+                                      <option value="" [selected]>
                                         Ninguno
                                       </option>
                                       <ng-container *ngIf="conductores$ | async as conductores">
-                                      <option *ngFor="let conductor of conductores" [ngValue]="conductor">
-                                        {{conductor.nombre + " " + conductor.apellidos}}
-                                      </option>
+                                        <ng-container *ngFor="let conductor of conductores">
+                                          <option  *ngIf="conductor.estado" [ngValue]="conductor">
+                                            {{conductor.nombre + " " + conductor.apellido}}
+                                          </option>
+                                        </ng-container>
                                     </ng-container>
                                     </select>
                                     <label for="conductor">conductor</label>
                                   </div>
                                 </div>
                             </div>
+                            <div class="row">
+                              <div class="col-6 mt-5">
+                                <input type="submit" name="aniadir" [disabled]="camionform.invalid" class="btn btn-default" value="Añadir vehículo"/>
+                            </div>
+                            </div>
+                            </form>
                           </div>
                         </div>
                       </div>
@@ -95,7 +104,72 @@
                         </h2>
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                           <div class="accordion-body">
-                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                            <form #remolqueform="ngForm" class="form-detail" (submit)="onRemolque(remolqueform.value)" id="myformRenolque">
+                              <div class="row">
+                                  <div class="col-6 col-sm-8 col-md-10 col-lg-4  ms-5">
+                                    <label class="label" for="tipoRemolque">TIPO DE REMOLQUE</label>
+                                    <div class="form-floating">
+                                      <select name="tipoRemolque" 
+                                      id="tipoRemolque" 
+                                      #tipoRemolque="ngModel"
+                                      ngModel
+                                      class="form-select"
+                                      aria-label="Floating label select example" 
+                                       >
+                                        <option value="" hidden>
+                                          Selecciona
+                                        </option>
+                                        <ng-container *ngIf="tiposRemolque$ | async as tiposRemolque">
+                                        <option *ngFor="let tipoRemolque of tiposRemolque" [ngValue]="tipoRemolque">
+                                          {{tipoRemolque.nombre}}
+                                        </option>
+                                      </ng-container>
+                                      </select>
+                                      <label for="tipoRemolque">Tipo de Remolque</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-4 col-6 col-sm-8 col-md-10  col-lg-4 ms-5">
+                                    <div class="form-group">
+                                      <label class="label" for="matricula">MATRICULA</label>
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="matricula" name="matricula"
+                                          #matricula="ngModel" ngModel>
+                                        <label for="matricula"> Matricula </label>
+                                      </div>
+                                    </div>
+      
+                                  </div>
+                                  <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
+                                    <label class="label" for="conductor">ASIGNAR CONDUCTOR</label>
+                                    <div class="form-floating">
+                                      <select name="conductor" 
+                                      id="conductor" 
+                                      #conductor="ngModel"
+                                      ngModel
+                                      class="form-select"
+                                      aria-label="Floating label select example" 
+                                       >
+                                        <option value="" [selected] hidden>
+                                          Ninguno
+                                        </option>
+                                        <ng-container *ngIf="conductores$ | async as conductores">
+                                        <ng-container  *ngFor="let conductor of conductores">
+                                          <option *ngIf="conductor.estado" [ngValue]="conductor">
+                                            {{conductor.nombre + " " + conductor.apellido}}
+                                          </option>
+                                        </ng-container>
+                                      </ng-container>
+                                      </select>
+                                      <label for="conductor">conductor</label>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-6 mt-5">
+                                  <input type="submit" name="aniadir" [disabled]="remolqueform.invalid" class="btn btn-default" value="Añadir remolque"/>
+                              </div>
+                              </div>
+                              </form>
                           </div>
                         </div>
                       </div>
@@ -105,7 +179,7 @@
               </ng-template>
             </li>
             <li [ngbNavItem]="2">
-              <a ngbNavLink>Equipo Disponible</a>
+              <a ngbNavLink>Camiones Disponibles</a>
               <ng-template ngbNavContent>
                 <div class="row g-0">
                   <div class="col d-flex justify-content-start">
@@ -126,23 +200,75 @@
                 </div>
                 <div class="row g-0 mt-3 mb-3">
                   <div class="col">
-                    <ng-container >
+                    <ng-container *ngIf="camiones$ | async as camiones">
                     <table class="table">
                       <thead class="table-dark">
                           <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Destinatario</th>
-                            <th></th>
+                            <th scope="col">Matricula</th>
+                            <th scope="col">Tipo de Camion</th>
+                            <th scope="col">Conductor asignado</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acciones</th>
                           </tr>
                       </thead>
                       <tbody >
-                        <tr>
-                          <td></td>
+                        <tr *ngFor="let camion of camiones">
+                          <td>{{camion.matricula}}</td>
+                          <td>{{camion.camionDeTipoCamion.nombre}}</td>
+                          <td *ngIf="camion.camionDeConductor;else tdBlock">
+                            <div class="form-floating">
+                            <select name="conductor" 
+                            id="pais" 
+                            #conductor="ngModel"
+                            ngModel
+                            class="form-select"
+                            aria-label="Floating label select example" 
+                            >
+                              <option value="" [selected] hidden *ngIf="camion.camionDeConductor">
+                                {{camion.camionDeConductor.nombre}}
+                              </option>
+                              <ng-container *ngIf="conductores$ | async as conductores">
+                                <option *ngFor="let conductor of conductores" [ngValue]="conductor">
+                                  {{conductor.nombre}}
+                                </option>
+                              </ng-container>
+                            </select>
+                            <label for="conductor">Pais</label>
+                          </div></td>
+                          <ng-template #tdBlock><td>
+                            <div class="form-floating">
+                              <select name="conductor" 
+                              id="pais" 
+                              #conductor="ngModel"
+                              ngModel
+                              class="form-select"
+                              aria-label="Floating label select example" 
+                              >
+                                <option value="" [selected] hidden>
+                                  Sin asignar
+                                </option>
+                                <ng-container *ngIf="conductores$ | async as conductores">
+                                  <option *ngFor="let conductor of conductores" [ngValue]="conductor">
+                                    {{conductor.nombre + " " + conductor.apellido}}
+                                  </option>
+                                </ng-container>
+                              </select>
+                              <label for="conductor">Conductor</label>
+                            </div>
+                          </td></ng-template>
+                          <td><span class="badge rounded-pill bg-danger" *ngIf="!camion.estado" style="font-size:1em">Inactivo</span>
+                            <span class="badge rounded-pill bg-success" *ngIf="camion.estado" style="font-size:1em">Activo</span></td>
                           <td>
-                      
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-danger">Eliminar Invitacion</button>
+                            <div class="dropdown">
+                              <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                ...
+                              </div>
+                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li *ngIf="!camion.estado"><a class="dropdown-item" (click)="cambiarEstadoC(true, camion.id)" >Activar</a></li>
+                                <li *ngIf="camion.estado"><a class="dropdown-item" (click)="cambiarEstadoC(false , camion.id)">Desactivar</a></li>
+                                <li><a class="dropdown-item" (click)="eliminarCamion(camion.id)">Eliminar</a></li>
+                              </ul>
+                            </div>
                           </td>
                         </tr>
                       </tbody>

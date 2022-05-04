@@ -7,7 +7,7 @@ export class Camion {
     matricula:string;
     estado:boolean;
     camionDeTransporte:Transporte;
-    camionDeConductor:Conductor;
+    camionDeConductor:Conductor|null;
     camionDeTipoCamion:TipoCamion;
 
     constructor(
@@ -15,7 +15,7 @@ export class Camion {
         matricula:string,
         estado:boolean,
         camionDeTransporte:Transporte,
-        camionDeConductor:Conductor,
+        camionDeConductor:Conductor|null,
         camionDeTipoCamion:TipoCamion
     ){
         this.id= id;

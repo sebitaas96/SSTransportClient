@@ -1,0 +1,120 @@
+<header class="header" id="header">
+    <div class="header_toggle"> <i class='fa fa-bars' id="header-toggle" (click)="iniciarToggle()"></i> </div>
+    <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+</header>
+<div class="l-navbar" id="nav-bar">
+    <nav class="nav_s">
+        <div> <a href="#" class="nav_logo"> <i class='fa fa-layer-group nav_logo-icon'></i> <span
+                    class="nav_logo-name">{{nombreUsuario |uppercase}}</span> </a>
+            <div class="nav_list" id="menu"> 
+                    <a href="#dashboard"  data-bs-toggle="collapse" class="nav_link active" id="menuDashBoard"> 
+                        <i class='fas fa-sliders nav_icon'></i> 
+                        <span class="nav_name">Dashboard</span> 
+                    </a> 
+                    <ul class="collapse show nav flex-column ms-2" id="dashboard" data-bs-parent="#menuDashBoard">
+                        <li class="w-100"  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+                            <a class="nav_link"  routerLink="/onus/dashboard">
+                                <i class="align-middle fas fa-chart-line"></i> <span class="align-middle">Panel</span>
+                            </a>
+                        </li>
+        
+                        <li *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+                            <a class="nav_link" href="#">
+                                <i class="align-middle fas fa-bell"></i> <span class="align-middle">Notificaciones</span>
+                            </a>
+                        </li>
+                    </ul>
+                        
+                    <a href="#Trabajo"  data-bs-toggle="collapse" class="nav_link active" id="menuTrabajo"> 
+                        <i class='fas fa-briefcase nav_icon'></i> 
+                        <span class="nav_name">Trabajo</span> 
+                    </a> 
+                    <ul class="collapse show nav flex-column ms-2" id="Trabajo" data-bs-parent="#menuTrabajo">
+                        <ng-container *ngIf="isTransporte || isConductor ;else porteBlock">
+                            <li class="w-100" *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+                                <a class="nav_link">
+                                    <i class="align-middle fas fa-forward-fast"></i> <span class="align-middle">Viajes</span>
+                                </a>
+                            </li>
+            
+                            <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar"> 
+                                <a class="nav_link"  routerLink="/onus/panel-carga">
+                                    <i class="align-middle fas fa-road"></i> <span class="align-middle">Panel de carga</span>
+                                </a>
+                            </li>
+            
+                            <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
+                                <a class="nav_link" routerLink="/onus/conductores">
+                                    <i class="align-middle fas fa-users" ></i> <span class="align-middle">Conductores</span>
+                                </a>
+                            </li>
+                        </ng-container>
+                        <ng-template #porteBlock>
+                            <li class="w-100" *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+                                <a class="nav_link">
+                                    <i class="align-middle fas fa-forward-fast" ></i> <span class="align-middle">Viajes</span>
+                                </a>
+                            </li>
+            
+                            <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+                                <a class="nav_link">
+                                    <i class="align-middle fas fa-paper-plane" ></i> <span class="align-middle">Expedir viajes</span>
+                                </a>
+                            </li>
+            
+                            <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isExpedidor"> 
+                                <a class="nav_link" routerLink="/onus/expedidores">
+                                    <i class="align-middle fas fa-users"></i> <span class="align-middle">Expedidores</span>
+                                </a>
+                            </li>
+                        </ng-template>
+                    </ul>
+                    <ng-container *ngIf="isTransporte || isConductor">
+                        <a href="#Equipo"  data-bs-toggle="collapse" class="nav_link active" id="menuEquipo"> 
+                            <i class="fas fa-screwdriver-wrench nav_icon"></i> 
+                            <span class="nav_name">Equipo</span> 
+                        </a> 
+                        <ul class="collapse show nav flex-column ms-2" id="Equipo" data-bs-parent="#menuEquipo">
+                            <li class="w-100" *ngIf="!datosSinCompletar && !cuentaSinCompletar">
+                                <a class="nav_link" routerLink="/onus/equipo">
+                                    <i class="align-middle fas fa-truck"></i> <span class="align-middle">Equipo</span>
+                                </a>
+                            </li>
+            
+                        </ul>
+                      </ng-container>    
+                      <a href="#Datos"  data-bs-toggle="collapse" class="nav_link active" id="menuDatos"> 
+                        <i class="fas fa-id-card nav_icon"></i> 
+                        <span class="nav_name">Datos</span> 
+                    </a> 
+                    <ul class="collapse show nav flex-column ms-2" id="Datos" data-bs-parent="#menuDatos">
+                        <li class="w-100">
+                            <a class="nav_link" routerLink="/onus/perfil">
+                                <i class="align-middle fas fa-gear"></i> <span class="align-middle">Perfil</span>
+                                <span class="position-absolute top-50 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" *ngIf="datosSinCompletar">
+                                    <span class="visually-hidden">New alerts</span>
+                                  </span>
+                            </a>
+                        </li>
+                        <li *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
+                            <a class="nav_link">
+                                <i class="align-middle fas fa-money-bill-trend-up"></i> <span class="align-middle">Pagos</span>
+                            </a>
+                        </li>
+        
+                        <li>
+                            <a class="nav_link" routerLink="/onus/cuenta-bancaria">
+                                <i class="align-middle fas fa-money-check"></i> <span class="align-middle">Cuenta Bancaria</span>
+                                <span class="position-absolute top-50 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" *ngIf="cuentaSinCompletar">
+                                    <span class="visually-hidden">New alerts</span>
+                                  </span>
+                            </a>
+                        </li>
+        
+                    </ul>
+                    <a href="#" class="nav_link"> <i class='fas fa-power-off nav_icon'></i> <span
+                        class="nav_name">Log Out</span> </a>
+            </div>
+        </div> 
+    </nav>
+</div>

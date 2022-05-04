@@ -1,16 +1,15 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/models/usuario';
 import { TokenService } from 'src/app/services/token.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
-
+declare var $:any;
 @Component({
-  selector: 'app-onus',
-  templateUrl: './onus.component.html',
-  styleUrls:['./onus.component.css'],
-  encapsulation: ViewEncapsulation.None, 
+  selector: 'bars',
+  templateUrl: './bars.component.html',
+  styleUrls: ['./bars.component.css']
 })
-export class OnusComponent implements OnInit {
+export class BarsComponent implements OnInit {
 
     //TipoUsuario
     isConductor:boolean;
@@ -77,4 +76,13 @@ logOut(){
   this.router.navigate(['/ptprincipal']);
 }
 
+
+  iniciarToggle(){
+    console.log("aqui");
+    $("#nav-bar").toggleClass('show');
+    $("#header-toggle").toggleClass('fa fa-bars');
+    $("#header-toggle").addClass('fa fa-xmark');
+    $("#body-pd").toggleClass('body-pd');
+    $("#header").toggleClass('body-pd');
+  }
 }

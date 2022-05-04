@@ -16,6 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BarsComponent } from './layaouts/bars/bars.component';
+import { ViajeComponent } from './porte/viaje/viaje.component';
+
 
 @NgModule({
   declarations: [OnusComponent,
@@ -26,7 +28,9 @@ import { BarsComponent } from './layaouts/bars/bars.component';
     ConductoresComponent,
     ExpedidoresComponent,
     EquipoComponent,
-    BarsComponent
+    BarsComponent,
+    ViajeComponent
+
 ],
   imports: [
     CommonModule,

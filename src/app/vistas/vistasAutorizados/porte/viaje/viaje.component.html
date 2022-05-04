@@ -1,4 +1,393 @@
+<div class="container-fluid g-0 p-0 m-0">
+  <div class="row g-0">
+    <div class="col-12 col-lg-12 col-sm-12 col-md-12">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
 
+        <form #singupform="ngForm" (submit)="onSubmit(singupform.value)" id="myform">
+
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>Datos del Viaje</a>
+            <ng-template ngbNavContent>
+              <div class="row g-0 d-flex justify-content-center">
+                <div class="col-10">
+                  <div class="card border-secondary mb-3">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-body text-secondary">
+                      <div class="row g-0">
+                        <div class="col-12">
+                          <h1 class="text-rigth header">DATOS DEL VIAJE <i class="fa fa-pencil-square-o bigicon"></i>
+                          </h1>
+                        </div>
+                      </div>
+                      <div class="row g-0">
+                        <div class="col-5 me-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="descripcion">DESCRIPCIÓN</label>
+                            <div class="form-floating mb-3">
+                              <input type="text" name="descripcion" id="descripcion" class="company form-control"
+                                placeholder="" #nombre="ngModel" ngModel nombreValidator />
+                              <label for="descripcion"> Descripción </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="fHoraFin">FECHA DE FIN</label>
+                            <div class="form-floating mb-3">
+                              <input type="date" name="fHoraFin" id="fHoraFin" class="company form-control"
+                                #fHoraFin="ngModel" ngModel fHoraFinValidator />
+                              <label for="fHoraFin"> Fecha de fin </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row g-0">
+                        <div class="col-5 ms-5 me-5">
+                          <div class="form-group">
+                            <label class="label" for="fHoraInicio">FECHA DE INICIO</label>
+                            <div class="form-floating mb-3">
+                              <input type="date" name="fHoraInicio" id="fHoraInicio" class="company form-control"
+                                #fHoraInicio="ngModel" ngModel fHoraInicioValidator />
+                              <label for="fHoraInicio"> Fecha de inicio </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="precio">PRECIO</label>
+                            <div class="form-floating mb-3">
+                              <input type="text" name="precio" id="precio" class="company form-control" placeholder="€"
+                                #precio="ngModel" ngModel precioValidator />
+                              <label for="precio"> Precio</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>Datos de Recogida</a>
+            <ng-template ngbNavContent>
+              <div class="row g-0 d-flex justify-content-center">
+
+                <div class="col-10">
+                  <div class="card border-secondary mb-3">
+                    <div class="card-header">
+                      <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
+                    </div>
+                    <div class="card-body text-secondary">
+                      <div class="row g-0">
+                        <div class="col-12">
+                          <h1 class="text-rigth header">Detalles de la autoridad</h1>
+                        </div>
+                      </div>
+
+                      <div class="row g-0">
+                        <div class="col-5 me-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="pais">PAIS</label>
+                            <div class="form-floating mb-3">
+                              <select name="pais" id="pais" class="form-control" #pais="ngModel" ngModel paisValidator
+                                (ngModelChange)="renewProvincias($event)">
+                                <option value="">Selecciona un pais</option>
+                                <option *ngFor="let pais of paises" [ngValue]="pais" class="option">{{pais.nombre}}
+                                </option>
+                              </select>
+                              <div *ngIf="pais.invalid && (pais.dirty ||pais.touched)">
+                                <div *ngIf="['paisv']" class="invalid-tooltip d-block">
+                                  {{pais.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="pais"> Pais </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="provincia">PROVINCIA</label>
+                            <div class="form-floating mb-3">
+                              <select name="provincia" id="provincia" class="form-control" #provincia="ngModel" ngModel
+                                provinciaValidator (ngModelChange)="renewLocalidades($event)">
+                                <option value="">Selecciona una provincia</option>
+                                <option *ngFor="let provincia of provincias" [ngValue]="provincia" class="option">
+                                  {{provincia.nombre}}</option>
+                              </select>
+                              <div *ngIf="provincia.invalid && (provincia.dirty ||provincia.touched)">
+                                <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
+                                  {{provincia.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="provincia">Provincia</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row g-0">
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="localidad">LOCALIDAD</label>
+                            <div class="form-floating mb-3">
+                              <select name="localidad" id="localidad" class="form-control" #localidad="ngModel" ngModel
+                                localidadValidator (ngModelChange)="renewCp($event)">
+                                <option value="">Selecciona una localidad</option>
+                                <option *ngFor="let localidad of localidades" [ngValue]="localidad" class="option">
+                                  {{localidad.nombre}}</option>
+                              </select>
+                              <div *ngIf="localidad.invalid && (localidad.dirty ||localidad.touched)">
+                                <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
+                                  {{localidad.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="localidad">Localidad</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row g-0">
+                        <div class="col-5 me-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="direccionvia">TIPO VIA</label>
+                            <div class="form-floating mb-3">
+                              <select name="direccionvia" id="direccionvia" class="form-control" #direccionvia="ngModel"
+                                ngModel tipoviaValidator>
+                                <option value="">Tipo de Via</option>
+                                <option value="calle">Calle</option>
+                              </select>
+                              <div *ngIf="direccionvia.invalid && (direccionvia.dirty ||direccionvia.touched)">
+                                <div *ngIf="['tipoviav']" class="invalid-tooltip d-block">
+                                  {{direccionvia.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="direccionvia"> Dirección vía </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="direccion">DIRECCION</label>
+                            <div class="form-floating mb-3">
+                              <input type="text" name="direccion" id="direccion" class="additional form-control"
+                                placeholder="direccion" #direccion="ngModel" ngModel direccionValidator>
+                              <div *ngIf="direccion.invalid && (direccion.dirty ||direccion.touched)">
+                                <div *ngIf="['direccionv']" class="invalid-tooltip d-block">
+                                  {{direccion.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="direccion">Dirección</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row g-0">
+                        <div class="col-5 me-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="direccionnumero">NUMERO</label>
+                            <div class="form-floating mb-3">
+                              <input type="text" name="direccionnumero" id="direccionnumero" class="zip form-control"
+                                #direccionnumero="ngModel" placeholder="nº" ngModel numeroValidator>
+                              <div *ngIf="direccionnumero.invalid && (direccionnumero.dirty ||direccionnumero.touched)">
+                                <div *ngIf="['numerov']" class="invalid-tooltip d-block">
+                                  {{direccionnumero.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="direccionnumero"> Número </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="zip">Código Postal</label>
+                            <input type="text" id="zip" name="zip" [(ngModel)]="cp" readonly>
+                            <label for="zip">Código Postal</label>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="3">
+            <a ngbNavLink>Datos de Entrega</a>
+            <ng-template ngbNavContent>
+              <div class="row g-0 d-flex justify-content-center">
+
+                <div class="col-10">
+                  <div class="card border-secondary mb-3">
+                    <div class="card-header">
+                      <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
+                    </div>
+                    <div class="card-body text-secondary">
+                      <div class="row g-0">
+                        <div class="col-12">
+                          <h1 class="text-rigth header">Detalles de la autoridad</h1>
+                        </div>
+                      </div>
+
+                      <div class="row g-0">
+                        <div class="col-5 me-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="pais2">PAIS</label>
+                            <div class="form-floating mb-3">
+                              <select name="pais2" id="pais2" class="form-control" #pais2="ngModel" ngModel
+                                paisValidator (ngModelChange)="renewProvincias($event)">
+                                <option value="">Selecciona un pais</option>
+                                <option *ngFor="let pais2 of paises" [ngValue]="pais2" class="option">{{pais2.nombre}}
+                                </option>
+                              </select>
+                              <div *ngIf="pais2.invalid && (pais2.dirty ||pais2.touched)">
+                                <div *ngIf="['paisv']" class="invalid-tooltip d-block">
+                                  {{pais2.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="pais2"> Pais </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="provincia2">PROVINCIA</label>
+                            <div class="form-floating mb-3">
+                              <select name="provincia2" id="provincia2" class="form-control" #provincia2="ngModel"
+                                ngModel provinciaValidator (ngModelChange)="renewLocalidades($event)">
+                                <option value="">Selecciona una provincia</option>
+                                <option *ngFor="let provincia2 of provincias" [ngValue]="provincia2" class="option">
+                                  {{provincia2.nombre}}</option>
+                              </select>
+                              <div *ngIf="provincia2.invalid && (provincia2.dirty ||provincia2.touched)">
+                                <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
+                                  {{provincia2.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="provincia2">Provincia</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row g-0">
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="localidad2">LOCALIDAD</label>
+                            <div class="form-floating mb-3">
+                              <select name="localidad2" id="localidad2" class="form-control" #localidad2="ngModel"
+                                ngModel localidadValidator (ngModelChange)="renewCp($event)">
+                                <option value="">Selecciona una localidad</option>
+                                <option *ngFor="let localidad2 of localidades" [ngValue]="localidad2" class="option">
+                                  {{localidad2.nombre}}</option>
+                              </select>
+                              <div *ngIf="localidad2.invalid && (localidad2.dirty ||localidad2.touched)">
+                                <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
+                                  {{localidad2.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="localidad2">Localidad</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row g-0">
+                        <div class="col-5 me-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="direccionvia2">TIPO VIA</label>
+                            <div class="form-floating mb-3">
+                              <select name="direccionvia2" id="direccionvia2" class="form-control"
+                                #direccionvia2="ngModel" ngModel tipoviaValidator>
+                                <option value="">Tipo de Via</option>
+                                <option value="calle">Calle</option>
+                              </select>
+                              <div *ngIf="direccionvia2.invalid && (direccionvia2.dirty ||direccionvia2.touched)">
+                                <div *ngIf="['tipoviav']" class="invalid-tooltip d-block">
+                                  {{direccionvia2.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="direccionvia2"> Dirección vía </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="direccion2">DIRECCION</label>
+                            <div class="form-floating mb-3">
+                              <input type="text" name="direccion2" id="direccion2" class="additional form-control"
+                                placeholder="direccion" #direccion2="ngModel" ngModel direccionValidator>
+                              <div *ngIf="direccion2.invalid && (direccion2.dirty ||direccion2.touched)">
+                                <div *ngIf="['direccionv']" class="invalid-tooltip d-block">
+                                  {{direccion2.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="direccion2">Dirección</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row g-0">
+                        <div class="col-5 me-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="direccionnumero2">NUMERO</label>
+                            <div class="form-floating mb-3">
+                              <input type="text" name="direccionnumero2" id="direccionnumero2" class="zip form-control"
+                                #direccionnumero2="ngModel" placeholder="nº" ngModel numeroValidator>
+                              <div
+                                *ngIf="direccionnumero2.invalid && (direccionnumero2.dirty ||direccionnumero2.touched)">
+                                <div *ngIf="['numerov']" class="invalid-tooltip d-block">
+                                  {{direccionnumero2.errors?.['requiredValue']}}
+                                </div>
+                              </div>
+                              <label for="direccionnumero2"> Número </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-5 ms-5">
+                          <div class="form-group">
+                            <label class="label" for="zip2">Código Postal</label>
+                            <input type="text" id="zip2" name="zip2" [(ngModel)]="cp" readonly>
+                            <label for="zip2">Código Postal</label>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+
+        </form>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<!--
+<nav-bar></nav-bar>
 <br>
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -38,7 +427,7 @@
   
           <div class="form-group">
               <span class="col-md-1 col-md-offset-2 text-center"></span>
-              <!--<div class="col-md-3">-->
+              <div class="col-md-3">
               <label class="label" for="fHoraFin">FECHA DE FIN</label>
                 <input type="date" 
                 name="fHoraFin"
@@ -48,12 +437,11 @@
                 ngModel 
                 fHoraFinValidator
                 />
-                <!--</div>-->
           </div><br>
   
           <div class="form-group">
               <span class="col-md-1 col-md-offset-2 text-center"></span>
-              <!--<div class="col-md-3">-->
+              <div class="col-md-3">
               <label class="label" for="fHoraInicio">FECHA DE INICIO</label>
                 <input type="date"  
                 name="fHoraInicio"
@@ -63,12 +451,11 @@
                 ngModel 
                 fHoraInicioValidator
                 />
-               <!--</div>-->
           </div><br>
   
           <div class="form-group">
               <span class="col-md-1 col-md-offset-2 text-center"></span>
-              <!--<div class="col-md-2">-->
+              <div class="col-md-2">
               <label class="label" for="precio">PRECIO</label>
               <input type="text"  
               name="precio"
@@ -79,7 +466,6 @@
               ngModel 
               precioValidator
               />
-              <!--</div>-->
           </div><br>
         </div>
       </div><br>
@@ -363,7 +749,7 @@
 </form>
 <br>
 
-<!--Modal Success-->
+
 <div id="successModal" class="modal fade">
   <div class="modal-dialog modal-confirm modal-lg">
       <div class="modal-content">
@@ -376,23 +762,23 @@
                     <div class="swal2-success-fix" style="background-color: rgb(255, 255, 255);"></div>
                     <div class="swal2-success-circular-line-right" style="background-color: rgb(255, 255, 255);"></div>
                    </div>
-                   <!--Para indicar error
+                   Para indicar error
                   <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;"><span class="swal2-x-mark"><span class="swal2-x-mark-line-left"></span><span class="swal2-x-mark-line-right"></span></span></div>
-                  -->
+                  
           </div>
           <div class="modal-body">
               <p class="text-center">Has registrado el viaje correctamente {{descripcionModal}}!</p>
           </div>
-          <!--
+          
           <div class="modal-footer justify-content-center btn-large">
               <button class="btn btn-success" data-bs-dismiss="modal" routerLink="/login">Login</button>
           </div>
-          -->
+        
       </div>
   </div>
 </div>
 
-<!--Modal error-->
+
           
 <div id="errorModal" class="modal fade">
   <div class="modal-dialog modal-confirm modal-lg">
@@ -414,3 +800,6 @@
       </div>
   </div>
 </div>
+
+<app-footer></app-footer>
+-->

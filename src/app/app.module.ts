@@ -68,7 +68,7 @@ import { OnusModule } from './vistas/vistasAutorizados/onus.module';
     passwordValidatorDirective,
     nombreUsuarioValidatorDirective,
     swiftBicValidatorDirective,
-    ibanValidatorDirective,
+    ibanValidatorDirective
   ],
   imports: [
     BrowserModule,

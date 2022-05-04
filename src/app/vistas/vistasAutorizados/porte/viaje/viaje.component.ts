@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Direccion } from '../../../../models/direccion';
-import { Pais } from '../../../../models/pais';
-import { Provincia } from '../../../../models/provincia';
-import { Localidad } from '../../../../models/localidad';
-import { PaisService } from '../../../../services/pais.service';
-import { ProvinciaService } from '../../../../services/provincia.service';
+
 import { TokenService } from 'src/app/services/token.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Viaje } from 'src/app/models/viaje';
 import { NgForm } from '@angular/forms';
+import { Pais } from 'src/app/models/pais';
+import { Provincia } from 'src/app/models/provincia';
+import { Localidad } from 'src/app/models/localidad';
+import { PaisService } from 'src/app/services/pais.service';
+import { ProvinciaService } from 'src/app/services/provincia.service';
+import { Direccion } from 'src/app/models/direccion';
 declare var $:any;
 
 @Component({
@@ -18,6 +19,7 @@ declare var $:any;
   styleUrls: ['./viaje.component.css']
 })
 export class ViajeComponent implements OnInit {
+  active = 1;
 
   /*Declaramos los datos que traemos para rellenar selects*/
   paises:Pais[];
@@ -54,6 +56,16 @@ export class ViajeComponent implements OnInit {
 
    onSubmit(data:any):void{
      console.log(data);
+    /*let viaje:Viaje = new Viaje(0,data['descripcion'],data['fHoraFin'] ,data['fHoraInicio'],data['precio'],0, 
+    new Direccion(0, data['direccionvia'] , data['direccion'] , Number(data['direccionnumero']) , data['localidad']),data['provincia'],
+    0,
+    new Direccion(0, data['direccionvia2'] , data['direccion2'] , Number(data['direccionnumero2']) , data['localidad2']),data['provincia2'],
+    0,0,0,0
+    )
+    if(data['descripcion']!=""){
+      this.descripcionModal = data['descripcion']
+    }*/
+    
 /*
     this.authService.nuevo(viaje).subscribe(
       data => {

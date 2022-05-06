@@ -8,7 +8,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   selector: 'app-onus',
   templateUrl: './onus.component.html',
   styleUrls:['./onus.component.css'],
-  encapsulation: ViewEncapsulation.None, 
+  encapsulation: ViewEncapsulation.None 
 })
 export class OnusComponent implements OnInit {
 

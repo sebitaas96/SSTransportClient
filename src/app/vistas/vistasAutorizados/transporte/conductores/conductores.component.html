@@ -5,15 +5,15 @@
               <li [ngbNavItem]="1">
                 <a ngbNavLink>Conductores</a>
                 <ng-template ngbNavContent>
-                  <div class="row g-0 w-100">
-                    <div class="col d-flex justify-content-start">
+                  <div class="row g-0">
+                    <div class="col-6 d-flex justify-content-start">
                       <div class="form-floating">
                         <input type="text" name="buscador" class="form-control" 
                           placeholder="Buscar..." [(ngModel)]="filterTerm">
                         <label for="correo">Buscar...</label>
                       </div >
                     </div>
-                    <div class="col d-flex justify-content-end">
+                    <div class="col-6 d-flex justify-content-end">
                       <div class="alert alert-success" role="alert" *ngIf="conductorEeliminadoC ||estadoConductorCambiado ">
                         {{errMsjEC}}
                       </div>
@@ -22,7 +22,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row mt-3 mb-3 w-100">
+                  <div class="row mt-3 mb-3 g-0">
                     <div class="col-12">
                       <ng-container *ngIf="conductores$ | async as conductores">
                       <table class="table">

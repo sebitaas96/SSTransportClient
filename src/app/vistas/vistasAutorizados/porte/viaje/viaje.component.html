@@ -1,10 +1,8 @@
-<div class="container-fluid g-0 p-0 m-0">
+<div class="container-fluid p-5">
   <div class="row g-0">
     <div class="col-12 col-lg-12 col-sm-12 col-md-12">
       <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
-
-        <form #singupform="ngForm" (submit)="onSubmit(singupform.value)" id="myform">
-
+        
           <li [ngbNavItem]="1">
             <a ngbNavLink>Datos del Viaje</a>
             <ng-template ngbNavContent>
@@ -16,7 +14,7 @@
                     <div class="card-body text-secondary">
                       <div class="row g-0">
                         <div class="col-12">
-                          <h1 class="text-rigth header">DATOS DEL VIAJE <i class="fa fa-pencil-square-o bigicon"></i>
+                          <h1 class="text-rigth">DATOS DEL VIAJE <i class="fa fa-pencil-square-o bigicon"></i>
                           </h1>
                         </div>
                       </div>
@@ -79,12 +77,12 @@
                 <div class="col-10">
                   <div class="card border-secondary mb-3">
                     <div class="card-header">
-                      <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
+                      <h1 class="text-center"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
                     </div>
                     <div class="card-body text-secondary">
                       <div class="row g-0">
                         <div class="col-12">
-                          <h1 class="text-rigth header">Detalles de la autoridad</h1>
+                          <h1 class="text-rigth">Detalles de la autoridad</h1>
                         </div>
                       </div>
 
@@ -230,12 +228,12 @@
                 <div class="col-10">
                   <div class="card border-secondary mb-3">
                     <div class="card-header">
-                      <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
+                      <h1 class="text-center"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
                     </div>
                     <div class="card-body text-secondary">
                       <div class="row g-0">
                         <div class="col-12">
-                          <h1 class="text-rigth header">Detalles de la autoridad</h1>
+                          <h1 class="text-rigth">Detalles de la autoridad</h1>
                         </div>
                       </div>
 
@@ -373,8 +371,6 @@
               </div>
             </ng-template>
           </li>
-
-        </form>
       </ul>
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>

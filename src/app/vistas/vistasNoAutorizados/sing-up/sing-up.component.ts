@@ -27,6 +27,8 @@ export class SingUpComponent implements OnInit {
   localidades:Localidad[];
   cp:string;
   nombreUsuarioModal:string;
+  passwordNoCoinciden:boolean;
+  blurRealizado:boolean;
 
   isLogged = false;
   errMsj:string;
@@ -51,6 +53,8 @@ export class SingUpComponent implements OnInit {
     this.errMsj = "";
     this.cp = "";
     this.nombreUsuarioModal="";
+    this.passwordNoCoinciden = false;
+    this.blurRealizado = false;
   }
 
 
@@ -142,6 +146,21 @@ export class SingUpComponent implements OnInit {
 
   renewCp(localidad:any){
     this.cp = localidad.cp;
+  }
+
+  comprobarPassword(data:any){
+    if(data["passwordr"]==""){
+      this.blurRealizado = true;
+      this.passwordNoCoinciden = false;
+    }
+    else if(data["password"] != data["passwordr"]){
+      this.passwordNoCoinciden = true;
+      this.blurRealizado = false;
+    }  
+    else if(data["password"] == data["passwordr"]){
+      this.blurRealizado = false;
+      this.passwordNoCoinciden = false;
+    }
   }
 
 

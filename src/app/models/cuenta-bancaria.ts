@@ -4,14 +4,14 @@ export class CuentaBancaria {
     id:number;
     nombreTitular:string;
     swiftBic:string;
-    iban:String;
+    iban:string;
     usuario:Usuario|null;
 
     constructor(
         id:number,
         nombreTitular:string,
         swiftBic:string,
-        iban:String,
+        iban:string,
         usuario:Usuario|null
     )
     {

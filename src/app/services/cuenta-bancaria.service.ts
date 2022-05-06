@@ -19,8 +19,12 @@ export class CuentaBancariaService {
     return this.http.get<CuentaBancaria>(this.cuentaBancariaUrl+'/'+idCuenta+'/findCuenta');
   }
 
-  public createCuenta(cuentaBancaria:CuentaBancaria):Observable<CuentaBancaria>{
-    return this.http.post<CuentaBancaria>(this.cuentaBancariaUrl+'/createCuenta' , cuentaBancaria);
+  public findCuentaIban(iban:string):Observable<CuentaBancaria>{
+    return this.http.get<CuentaBancaria>(this.cuentaBancariaUrl+'/'+iban+'/findCuentaIban');
+  }
+
+  public createCuenta(cuentaBancaria:CuentaBancaria):Observable<any>{
+    return this.http.post<any>(this.cuentaBancariaUrl+'/createCuenta' , cuentaBancaria);
   }
 
   public updateCuenta(cuentaBancaria:CuentaBancaria):Observable<any>{

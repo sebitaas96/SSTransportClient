@@ -1,4 +1,4 @@
-<div class="container-fluid g-0 p-0 m-0">
+<div class="container-fluid p-5">
         <div class="row g-0">
           <div class="col-12 col-lg-12 col-sm-12 col-md-12">
             <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" >
@@ -13,12 +13,12 @@
                     <div class="col-12">
                       <div class="card border-secondary mb-3">
                         <div class="card-header">
-                          <h1 class="text-center header">DATOS DE PERFIL <i class="fa fa-address-card bigicon"></i></h1>
+                          <h1 class="text-center">DATOS DE PERFIL <i class="fa fa-address-card bigicon"></i></h1>
                         </div>
                         <div class="card-body text-secondary">
                           <div class="row g-0">
                             <div class="col-12">
-                              <h1 class="text-rigth header">Detalles de la autoridad</h1>
+                              <h1 class="text-rigth">Detalles de la autoridad</h1>
                             </div>
                           </div>
                           <div class="row g-0">
@@ -83,7 +83,7 @@
                           </div>
                           <div class="row g-0">
                             <div class="col-12">
-                              <h1 class="text-rigth header">Correo electrónico y número de teléfono</h1>
+                              <h1 class="text-rigth">Correo electrónico y número de teléfono</h1>
                             </div>
                           </div>
                           <div class="row g-0">
@@ -148,7 +148,7 @@
                           </div>
                           <div class="row g-0">
                             <div class="col-12">
-                              <h1 class="text-rigth header">Dirección</h1>
+                              <h1 class="text-rigth">Dirección</h1>
                             </div>
                           </div>
                           <div *ngIf="perfil.residenteDeDireccion;else direccionBlock">
@@ -217,7 +217,7 @@
                                   aria-label="Floating label select example" 
                                   (ngModelChange)="renewProvincias($event)"
                                    >
-                                    <option value="" [selected] hidden>
+                                    <option value="" disabled [selected] hidden>
                                       {{paisO.nombre}}
                                     </option>
                                     <option *ngFor="let paisf of paises" [ngValue]="paisf">
@@ -260,7 +260,8 @@
                                       aria-label="Floating label select example"
                                       (ngModelChange)="renewCp($event);" 
                                       >
-                                        <option value="" disabled selected hidden> {{localidadO.nombre}}
+                                        <option value="" disabled [selected] hidden> 
+                                          {{localidadO.nombre}}
                                         </option>
                                         <option *ngFor="let localidadf of localidades" [ngValue]="localidadf">
                                           {{localidadf.nombre}}</option>
@@ -425,9 +426,9 @@
                               <div class="alert alert-success" role="alert" *ngIf="perfilActualizado">
                                 {{errMsjPerfil}}
                              </div>
-                             <div class="alert alert-danger" role="alert" *ngIf="perfilNoActualizado">
-                              {{errMsjPerfil}}
-                           </div>
+                              <div class="alert alert-danger" role="alert" *ngIf="perfilNoActualizado">
+                                {{errMsjPerfil}}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -448,12 +449,12 @@
                     <div class="col-12">
                       <div class="card border-secondary mb-3">
                         <div class="card-header">
-                          <h1 class="text-center header"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
+                          <h1 class="text-center"> PASSWORD <i class="fa fa-unlock-alt bigicon"></i></h1>
                         </div>
                         <div class="card-body text-secondary">
                           <div class="row g-0">
                             <div class="col-12">
-                              <h1 class="text-rigth header">Detalles de la autoridad</h1>
+                              <h1 class="text-rigth">Detalles de password</h1>
                             </div>
                           </div>
                           <div class="row g-0">
@@ -507,10 +508,10 @@
                             </div>
                           </div>
                           <div class="row g-0">
-                            <div class="col-6 mt-5">
+                            <div class="col-5 mt-5">
                               <input type="submit" name="actualizar" [disabled]="passwordform.invalid" class="btn btn-default" value="Actualizar"/>
                             </div>
-                            <div class="col-6 mt-5">
+                            <div class="col-5 mt-5">
                               <div class="alert alert-danger" role="alert" *ngIf="isCoincidente">
                                {{errMsjPwd}}
                             </div>
@@ -519,7 +520,7 @@
                            </div>
                            <div class="alert alert-danger" role="alert" *ngIf="pwdNoActualizada">
                             {{errMsjPwd}}
-                         </div>
+                            </div>
                             </div>
                           </div>
                         </div>

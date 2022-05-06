@@ -202,8 +202,6 @@ export class PerfilComponent implements OnInit {
         null); 
         instruccion = this.usuarioService.updateExpedidor(usuario);
       }
-
-      console.log(usuario);
     }
 
       instruccion.subscribe(data=>{
@@ -257,6 +255,7 @@ export class PerfilComponent implements OnInit {
 /*Renew de los selects*/
 renewProvincias(pais:any){
   if(pais != ""){
+    this.paisO = pais;
     this.paisService.findProvincias(pais.id).subscribe(data=>{
       this.provincias = data;
       if(this.provincias.length>0){

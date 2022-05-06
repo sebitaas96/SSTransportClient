@@ -6,7 +6,7 @@ export class Camion {
     id:number;
     matricula:string;
     estado:boolean;
-    camionDeTransporte:Transporte;
+    camionDeTransporte:Transporte|null;
     camionDeConductor:Conductor|null;
     camionDeTipoCamion:TipoCamion;
 
@@ -14,7 +14,7 @@ export class Camion {
         id:number,
         matricula:string,
         estado:boolean,
-        camionDeTransporte:Transporte,
+        camionDeTransporte:Transporte|null,
         camionDeConductor:Conductor|null,
         camionDeTipoCamion:TipoCamion
     ){

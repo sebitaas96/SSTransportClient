@@ -79,10 +79,10 @@ logOut(){
 
   iniciarToggle(){
     console.log("aqui");
-    $("#nav-bar").toggleClass('show');
+    $("#nav-bar").toggleClass('show2');
+    $("#pantalla").toggleClass('ptllActiva');
     $("#header-toggle").toggleClass('fa fa-bars');
     $("#header-toggle").addClass('fa fa-xmark');
-    $("#body-pd").toggleClass('body-pd');
-    $("#header").toggleClass('body-pd');
+    $("#header").toggleClass('body-pd2');
   }
 }

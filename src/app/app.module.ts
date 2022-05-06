@@ -28,8 +28,6 @@ import { checkboxValidatorDirective } from './validators/checkbox.validator';
 import { passwordValidatorDirective } from './validators/password.validator';
 import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.validator';
 import { tipoEmpresaValidatorDirective } from './validators/tipoEmpresa.validator';
-import { swiftBicValidatorDirective } from './validators/swiftBic.validator';
-import { ibanValidatorDirective } from './validators/iban.validator';
 import * as $ from 'jquery';
 import * as bootstrap from 'bootstrap';
 import { NavBarComponent } from './vistas/vistasNoAutorizados/nav-bar/nav-bar.component';
@@ -66,9 +64,7 @@ import { OnusModule } from './vistas/vistasAutorizados/onus.module';
     emailValidatorDirective,
     checkboxValidatorDirective,
     passwordValidatorDirective,
-    nombreUsuarioValidatorDirective,
-    swiftBicValidatorDirective,
-    ibanValidatorDirective
+    nombreUsuarioValidatorDirective
   ],
   imports: [
     BrowserModule,

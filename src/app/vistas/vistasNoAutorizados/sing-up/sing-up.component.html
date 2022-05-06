@@ -99,6 +99,29 @@
 							</div>
 						</div>
 					</div>
+					<div class="form-row">
+                        <label class="label" for="passwordr">REPETIR PASSWORD</label>
+						<input type="password"  
+						id="passwordr"
+						name="passwordr" 
+						class="company form-control" 
+						placeholder="Repetir password"
+						#passwordr = "ngModel"
+						ngModel 
+						passwordValidator
+						(keyup)="comprobarPassword(singupform.value);"
+						/>
+						<div *ngIf="passwordNoCoinciden">
+							<div class="invalid-tooltip d-block">			
+								La password no coincide	
+							</div>
+						</div>
+						<div *ngIf="blurRealizado">
+							<div class="invalid-tooltip d-block">			
+								El campo esta vacio
+							</div>
+						</div>
+                    </div>
 					
 					<!--<div class="form-group">
 					<div class="form-row form-row-1">

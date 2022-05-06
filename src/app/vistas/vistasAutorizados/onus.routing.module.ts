@@ -10,6 +10,7 @@ import { ConductoresComponent } from './transporte/conductores/conductores.compo
 import { PanelCargaComponent } from './transporte/panel-carga/panel-carga.component';
 import { EquipoComponent } from './transporte/equipo/equipo.component';
 import { ViajeComponent } from './porte/viaje/viaje.component';
+import { GuardService } from 'src/app/guards/guard.service';
 
 const routes: Routes = [
     {
@@ -18,35 +19,43 @@ const routes: Routes = [
         children: [
             {
                 path: 'dashboard',
-                component: DashboardComponent
+                component: DashboardComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte' , 'conductor' , 'porte','expedidor']}
             },
             {
                 path: 'panel-carga',
-                component: PanelCargaComponent
+                component: PanelCargaComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte' , 'conductor']}
             },
             {
                 path: 'conductores',
-                component: ConductoresComponent
+                component: ConductoresComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte']}
             },
             {
                 path: 'expedidores',
-                component: ExpedidoresComponent
+                component: ExpedidoresComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin','porte']}
             },
             {
                 path: 'perfil',
-                component: PerfilComponent
+                component: PerfilComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte' , 'conductor' , 'porte','expedidor']}
             },
             {
                 path: 'cuenta-bancaria',
-                component: CuentaBancariaComponent
+                component: CuentaBancariaComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte' , 'conductor' , 'porte','expedidor']}
             },
             {
                 path: 'equipo',
-                component: EquipoComponent
+                component: EquipoComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin' , 'transporte' , 'conductor']}
             },
             {
                 path: 'viaje',
-                component: ViajeComponent
+                component: ViajeComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin','porte','expedidor']}
             }
             
         ]

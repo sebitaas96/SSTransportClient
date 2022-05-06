@@ -1,5 +1,5 @@
 
-<div class="container-fluid g-0">
+<div class="container-fluid p-5">
       <div class="row g-0">
         <div class="col-12 col-lg-12 col-sm-12 col-md-12 mt-1 p-0 m-0">
           <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
@@ -8,11 +8,11 @@
               <ng-template ngbNavContent>
                 <div class="row g-0">
                   <div class="col d-flex justify-content-end">
-                    <div class="alert alert-success" role="alert">
-                      
+                    <div class="alert alert-success" role="alert" *ngIf="camionCreado ||remolqueCreado">
+                      {{errMsj}}
                     </div>
-                    <div class="alert alert-danger" role="alert">
-                      
+                    <div class="alert alert-danger" role="alert" *ngIf = "camionNoCreado || remolqueNoCreado">
+                      {{errMsj}}
                     </div>
                   </div>
                 </div>
@@ -22,7 +22,7 @@
                       <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                            Accordion Item #1
+                            Camiones
                           </button>
                         </h2>
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
@@ -37,8 +37,9 @@
                                     #tipoCamion="ngModel"
                                     ngModel
                                     class="form-select"
-                                    aria-label="Floating label select example" 
-                                     >
+                                    aria-label="Floating label select example"
+                                    tipoCamionValidator 
+                                     >      
                                       <option value="" hidden>
                                         Selecciona
                                       </option>
@@ -48,6 +49,11 @@
                                       </option>
                                     </ng-container>
                                     </select>
+                                    <div *ngIf="tipoCamion.invalid && (tipoCamion.dirty ||tipoCamion.touched)" >
+                                      <div *ngIf="['tipoCamionv']" class="invalid-tooltip d-block">
+                                        {{tipoCamion.errors?.['requiredValue']}}
+                                      </div>
+                                    </div>
                                     <label for="tipoCamion">Tipo de Camion</label>
                                   </div>
                                 </div>
@@ -56,89 +62,18 @@
                                     <label class="label" for="matricula">MATRICULA</label>
                                     <div class="form-floating mb-3">
                                       <input type="text" class="form-control" id="matricula" name="matricula"
-                                        #matricula="ngModel" ngModel>
+                                        #matricula="ngModel" ngModel matriculaValidator>
+                                        <div *ngIf="matricula.invalid && (matricula.dirty ||matricula.touched)" >
+                                          <div *ngIf="['matriculav']" class="invalid-tooltip d-block">
+                                            {{matricula.errors?.['requiredValue']}}
+                                          </div>
+                                        </div>
                                       <label for="matricula"> Matricula </label>
                                     </div>
                                   </div>
     
                                 </div>
-                                <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
-                                  <label class="label" for="conductor">ASIGNAR CONDUCTOR</label>
-                                  <div class="form-floating">
-                                    <select name="conductor" 
-                                    id="conductor" 
-                                    #conductor="ngModel"
-                                    ngModel
-                                    class="form-select"
-                                    aria-label="Floating label select example" 
-                                     >
-                                      <option value="" [selected]>
-                                        Ninguno
-                                      </option>
-                                      <ng-container *ngIf="conductores$ | async as conductores">
-                                        <ng-container *ngFor="let conductor of conductores">
-                                          <option  *ngIf="conductor.estado" [ngValue]="conductor">
-                                            {{conductor.nombre + " " + conductor.apellido}}
-                                          </option>
-                                        </ng-container>
-                                    </ng-container>
-                                    </select>
-                                    <label for="conductor">conductor</label>
-                                  </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-6 mt-5">
-                                <input type="submit" name="aniadir" [disabled]="camionform.invalid" class="btn btn-default" value="Añadir vehículo"/>
-                            </div>
-                            </div>
-                            </form>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="accordion-item">
-                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                            Accordion Item #2
-                          </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                          <div class="accordion-body">
-                            <form #remolqueform="ngForm" class="form-detail" (submit)="onRemolque(remolqueform.value)" id="myformRenolque">
-                              <div class="row">
-                                  <div class="col-6 col-sm-8 col-md-10 col-lg-4  ms-5">
-                                    <label class="label" for="tipoRemolque">TIPO DE REMOLQUE</label>
-                                    <div class="form-floating">
-                                      <select name="tipoRemolque" 
-                                      id="tipoRemolque" 
-                                      #tipoRemolque="ngModel"
-                                      ngModel
-                                      class="form-select"
-                                      aria-label="Floating label select example" 
-                                       >
-                                        <option value="" hidden>
-                                          Selecciona
-                                        </option>
-                                        <ng-container *ngIf="tiposRemolque$ | async as tiposRemolque">
-                                        <option *ngFor="let tipoRemolque of tiposRemolque" [ngValue]="tipoRemolque">
-                                          {{tipoRemolque.nombre}}
-                                        </option>
-                                      </ng-container>
-                                      </select>
-                                      <label for="tipoRemolque">Tipo de Remolque</label>
-                                    </div>
-                                  </div>
-                                  <div class="col-4 col-6 col-sm-8 col-md-10  col-lg-4 ms-5">
-                                    <div class="form-group">
-                                      <label class="label" for="matricula">MATRICULA</label>
-                                      <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="matricula" name="matricula"
-                                          #matricula="ngModel" ngModel>
-                                        <label for="matricula"> Matricula </label>
-                                      </div>
-                                    </div>
-      
-                                  </div>
+                                <ng-container *ngIf="!isConductor">
                                   <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
                                     <label class="label" for="conductor">ASIGNAR CONDUCTOR</label>
                                     <div class="form-floating">
@@ -153,16 +88,108 @@
                                           Ninguno
                                         </option>
                                         <ng-container *ngIf="conductores$ | async as conductores">
-                                        <ng-container  *ngFor="let conductor of conductores">
-                                          <option *ngIf="conductor.estado" [ngValue]="conductor">
-                                            {{conductor.nombre + " " + conductor.apellido}}
-                                          </option>
-                                        </ng-container>
+                                          <ng-container *ngFor="let conductor of conductores">
+                                            <option  *ngIf="conductor.estado && conductor.residenteDeDireccion && conductor.cuentaBancaria" [ngValue]="conductor">
+                                              {{conductor.nombre + " " + conductor.apellido}}
+                                            </option>
+                                          </ng-container>
                                       </ng-container>
                                       </select>
                                       <label for="conductor">conductor</label>
                                     </div>
                                   </div>
+                                </ng-container>
+                            </div>
+                            <div class="row">
+                              <div class="col-6 mt-5">
+                                <input type="submit" name="aniadir" [disabled]="camionform.invalid" class="btn btn-default" value="Añadir vehículo"/>
+                            </div>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            Remolques
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                          <div class="accordion-body">
+                            <form #remolqueform="ngForm" class="form-detail" (submit)="onRemolque(remolqueform.value)" id="myformRenolque">
+                              <div class="row">
+                                  <div class="col-6 col-sm-8 col-md-10 col-lg-4  ms-5">
+                                    <label class="label" for="tipoRemolque">TIPO DE REMOLQUE</label>
+                                    <div class="form-floating">
+                                      <select name="tipoRemolque" 
+                                      id="tipoRemolque" 
+                                      #tipoRemolque="ngModel"
+                                      ngModel
+                                      class="form-select"
+                                      aria-label="Floating label select example"
+                                      tipoRemolqueValidator 
+                                       >
+                                        <option value="" hidden>
+                                          Selecciona
+                                        </option>
+                                        <ng-container *ngIf="tiposRemolque$ | async as tiposRemolque">
+                                        <option *ngFor="let tipoRemolque of tiposRemolque" [ngValue]="tipoRemolque">
+                                          {{tipoRemolque.nombre}}
+                                        </option>
+                                      </ng-container>
+                                      </select>
+                                      <div *ngIf="tipoRemolque.invalid && (tipoRemolque.dirty ||tipoRemolque.touched)" >
+                                        <div *ngIf="['tipoRemolquev']" class="invalid-tooltip d-block">
+                                          {{tipoRemolque.errors?.['requiredValue']}}
+                                        </div>
+                                      </div>
+                                      <label for="tipoRemolque">Tipo de Remolque</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-4 col-6 col-sm-8 col-md-10  col-lg-4 ms-5">
+                                    <div class="form-group">
+                                      <label class="label" for="matricular">MATRICULA</label>
+                                      <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="matricular" name="matricular"
+                                          #matricular="ngModel" ngModel matriculaRemolqueValidator>
+                                          <div *ngIf="matricular.invalid && (matricular.dirty ||matricular.touched)" >
+                                            <div *ngIf="['matriculaRemolquev']" class="invalid-tooltip d-block">
+                                              {{matricular.errors?.['requiredValue']}}
+                                            </div>
+                                          </div>
+                                        <label for="matricular"> Matricula </label>
+                                      </div>
+                                    </div>
+      
+                                  </div>
+                                  <ng-container *ngIf="!isConductor">
+                                    <div class="col-6 col-sm-8 col-md-10 col-lg-2 ms-5">
+                                      <label class="label" for="conductor">ASIGNAR CONDUCTOR</label>
+                                      <div class="form-floating">
+                                        <select name="conductor" 
+                                        id="conductor" 
+                                        #conductor="ngModel"
+                                        ngModel
+                                        class="form-select"
+                                        aria-label="Floating label select example" 
+                                         >
+                                          <option value="" [selected] hidden>
+                                            Ninguno
+                                          </option>
+                                          <ng-container *ngIf="conductores$ | async as conductores">
+                                          <ng-container  *ngFor="let conductor of conductores">
+                                            <option *ngIf="conductor.estado && conductor.residenteDeDireccion && conductor.cuentaBancaria" [ngValue]="conductor">
+                                              {{conductor.nombre + " " + conductor.apellido}}
+                                            </option>
+                                          </ng-container>
+                                        </ng-container>
+                                        </select>
+                                        <label for="conductor">conductor</label>
+                                      </div>
+                                    </div>
+                                  </ng-container>
+
                               </div>
                               <div class="row">
                                 <div class="col-6 mt-5">
@@ -190,11 +217,11 @@
                     </div>
                   </div>
                   <div class="col d-flex justify-content-end">
-                    <div class="alert alert-success" role="alert">
-                      
+                    <div class="alert alert-success" role="alert" *ngIf="estadoCamionCambiado || camionEliminado || conductorCAsignado">
+                      {{errMsjC}}
                     </div>
-                    <div class="alert alert-danger" role="alert">
-                      
+                    <div class="alert alert-danger" role="alert" *ngIf="estadoCamionNoCambiado || camionNoEliminado || conductorCNoAsignado">
+                      {{errMsjC}}
                     </div>
                   </div>
                 </div>
@@ -206,7 +233,10 @@
                           <tr>
                             <th scope="col">Matricula</th>
                             <th scope="col">Tipo de Camion</th>
-                            <th scope="col">Conductor asignado</th>
+                            <th scope="col" *ngIf="!isConductor ; else thBlock">Conductor asignado</th>
+                            <ng-template #thBlock>
+                              <th scope="col">Propietario</th>
+                            </ng-template>
                             <th scope="col">Estado</th>
                             <th scope="col">Acciones</th>
                           </tr>
@@ -215,66 +245,243 @@
                         <tr *ngFor="let camion of camiones">
                           <td>{{camion.matricula}}</td>
                           <td>{{camion.camionDeTipoCamion.nombre}}</td>
-                          <td *ngIf="camion.camionDeConductor;else tdBlock">
-                            <div class="form-floating">
-                            <select name="conductor" 
-                            id="pais" 
-                            #conductor="ngModel"
-                            ngModel
-                            class="form-select"
-                            aria-label="Floating label select example" 
-                            >
-                              <option value="" [selected] hidden *ngIf="camion.camionDeConductor">
-                                {{camion.camionDeConductor.nombre}}
-                              </option>
-                              <ng-container *ngIf="conductores$ | async as conductores">
-                                <option *ngFor="let conductor of conductores" [ngValue]="conductor">
-                                  {{conductor.nombre}}
-                                </option>
+                          <td *ngIf="isConductor">
+                              <ng-container *ngIf="camion.camionDeTransporte;else propBlock">
+                                {{camion.camionDeTransporte.nombre}}
                               </ng-container>
-                            </select>
-                            <label for="conductor">Pais</label>
-                          </div></td>
-                          <ng-template #tdBlock><td>
-                            <div class="form-floating">
+                              <ng-template #propBlock>
+                                {{camion.camionDeConductor!.nombre + " "+camion.camionDeConductor!.apellido}}
+                              </ng-template>
+                          </td>
+                          <ng-container *ngIf="!isConductor">
+                            <td *ngIf="camion.camionDeConductor;else tdBlock">
+                              <div class="form-floating">
                               <select name="conductor" 
-                              id="pais" 
+                              id="conductor" 
                               #conductor="ngModel"
                               ngModel
                               class="form-select"
-                              aria-label="Floating label select example" 
+                              (ngModelChange)="cambiarConductorT($event)"
+                              aria-label="Floating label select example"
                               >
-                                <option value="" [selected] hidden>
+                                <option  value="" [selected] hidden *ngIf="camion.camionDeConductor">
+                                  {{camion.camionDeConductor.nombre + " "+camion.camionDeConductor.apellido}}
+                                </option>
+                                <option  value="">
                                   Sin asignar
                                 </option>
                                 <ng-container *ngIf="conductores$ | async as conductores">
-                                  <option *ngFor="let conductor of conductores" [ngValue]="conductor">
-                                    {{conductor.nombre + " " + conductor.apellido}}
-                                  </option>
+                                  <ng-container  *ngFor="let conductor of conductores">
+                                    <option *ngIf="(conductor.estado && conductor.residenteDeDireccion && conductor.cuentaBancaria)
+                                     && !(conductor.id === camion.camionDeConductor.id)"[ngValue]="conductor">
+                                      {{conductor.nombre + " " + conductor.apellido}}
+                                    </option>
+                                  </ng-container>
                                 </ng-container>
                               </select>
-                              <label for="conductor">Conductor</label>
-                            </div>
-                          </td></ng-template>
+                              <label for="conductor">CONDUCTOR</label>
+                            </div></td>
+                            <ng-template #tdBlock><td>
+                              <div class="form-floating">
+                                <select name="conductort" 
+                                id="conductort" 
+                                #conductort = "ngModel"
+                                ngModel
+                                (ngModelChange)="cambiarConductorT($event)"
+                                class="form-select"
+                                aria-label="Floating label select example" 
+                                
+                                >
+                                  <option value="" [selected]>
+                                    Sin asignar
+                                  </option>
+                                  <ng-container *ngIf="conductores$ | async as conductores">
+                                    <ng-container  *ngFor="let conductor of conductores">
+                                      <option *ngIf="conductor.estado && conductor.residenteDeDireccion && conductor.cuentaBancaria" [ngValue]="conductor">
+                                        {{conductor.nombre + " " + conductor.apellido}}
+                                      </option>
+                                    </ng-container>
+                                  </ng-container>
+                                </select>
+                                <label for="conductort">Conductor</label>
+                              </div>
+                            </td></ng-template>
+                          </ng-container>
+                          
                           <td><span class="badge rounded-pill bg-danger" *ngIf="!camion.estado" style="font-size:1em">Inactivo</span>
                             <span class="badge rounded-pill bg-success" *ngIf="camion.estado" style="font-size:1em">Activo</span></td>
                           <td>
-                            <div class="dropdown">
-                              <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                ...
+                            <ng-container *ngIf="!camion.camionDeTransporte || isTransporte ;else accionesCBlock">
+                              <div class="dropdown">
+                                <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                  ...
+                                </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                  <li *ngIf="!camion.estado"><a class="dropdown-item" (click)="cambiarEstadoC(true, camion.id)" >Activar</a></li>
+                                  <li *ngIf="camion.estado"><a class="dropdown-item" (click)="cambiarEstadoC(false , camion.id)">Desactivar</a></li>
+                                  <li *ngIf="!isConductor"><a class="dropdown-item" (click)="asignarConductorC(camion.id)">Asignar Conductor</a></li>
+                                  <li><a class="dropdown-item" (click)="eliminarCamion(camion.id)">Eliminar</a></li>
+                                </ul>
                               </div>
-                              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li *ngIf="!camion.estado"><a class="dropdown-item" (click)="cambiarEstadoC(true, camion.id)" >Activar</a></li>
-                                <li *ngIf="camion.estado"><a class="dropdown-item" (click)="cambiarEstadoC(false , camion.id)">Desactivar</a></li>
-                                <li><a class="dropdown-item" (click)="eliminarCamion(camion.id)">Eliminar</a></li>
-                              </ul>
-                            </div>
+                            </ng-container>
+                            <ng-template #accionesCBlock>
+                              <span class="badge bg-info text-dark">No permitido</span>
+                            </ng-template>
+
                           </td>
                         </tr>
                       </tbody>
                     </table>
                     <div>
-                      <ngb-pagination [collectionSize]="5 " [(page)]="page" [boundaryLinks]="true">
+                      <ngb-pagination [collectionSize]="camiones.length" [(page)]="page" [boundaryLinks]="true">
+                        <ng-template ngbPaginationPages let-page let-pages="pages">
+                          <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+                             <div class="mb-3 d-flex flex-nowrap px-2">
+                               <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                               <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                               id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                                (input)="formatInput($any($event).target)"
+                                 aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                                 <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                                 of {{pages.length}}</span>
+                              </div>
+                           </li>
+                          </ng-template>
+                       </ngb-pagination>
+                    </div>
+                    </ng-container>
+                  </div>
+                </div>
+            </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+              <a ngbNavLink>Remolques Disponibles</a>
+              <ng-template ngbNavContent>
+                <div class="row g-0">
+                  <div class="col d-flex justify-content-start">
+                    <div class="form-floating">
+                      <input type="text" name="buscador" class="form-control" 
+                        placeholder="Buscar..." [(ngModel)]="filterTerm">
+                      <label for="correo">Buscar...</label>
+                    </div>
+                  </div>
+                  <div class="col d-flex justify-content-end">
+                    <div class="alert alert-success" role="alert" *ngIf="estadoRemolqueCambiado || remolqueEliminado || conductorRAsignado">
+                      {{errMsjR}}
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="estadoRemolqueNoCambiado || remolqueNoEliminado || conductorRNoAsignado">
+                      {{errMsjR}}
+                    </div>
+                  </div>
+                </div>
+                <div class="row g-0 mt-3 mb-3">
+                  <div class="col">
+                    <ng-container *ngIf="remolques$ | async as remolques">
+                    <table class="table">
+                      <thead class="table-dark">
+                          <tr>
+                            <th scope="col">Matricula</th>
+                            <th scope="col">Tipo de Remolque</th>
+                            <th scope="col" *ngIf="!isConductor; else thBlockR" >Conductor asignado</th>
+                            <ng-template #thBlockR>
+                              <th scope="col">Propietario</th>
+                            </ng-template>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody >
+                        <tr *ngFor="let remolque of remolques">
+                          <td>{{remolque.matricula}}</td>
+                          <td>{{remolque.remolqueDeTipoRemolque.nombre}}</td>
+                          <td *ngIf="isConductor">
+                            <ng-container *ngIf="remolque.remolqueDeTransporte;else propBlock">
+                              {{remolque.remolqueDeTransporte.nombre}}
+                            </ng-container>
+                            <ng-template #propBlock>
+                              {{remolque.remolqueDeConductor!.nombre + " "+remolque.remolqueDeConductor!.apellido}}
+                            </ng-template>
+                        </td>
+                          <ng-container *ngIf="!isConductor">
+                            <td *ngIf="remolque.remolqueDeConductor;else tdBlock">
+                              <div class="form-floating">
+                              <select name="conductor" 
+                              id="conductor" 
+                              #conductor="ngModel"
+                              ngModel
+                              class="form-select"
+                              (ngModelChange)="cambiarConductorT($event)"
+                              aria-label="Floating label select example"
+                              >
+                                <option value="" [selected] hidden *ngIf="remolque.remolqueDeConductor">
+                                  {{remolque.remolqueDeConductor.nombre + " "+remolque.remolqueDeConductor.apellido}}
+                                </option>
+                                <option  value="">
+                                  Sin asignar
+                                </option>
+                                <ng-container *ngIf="conductores$ | async as conductores">
+                                  <ng-container  *ngFor="let conductor of conductores">
+                                    <option *ngIf="conductor.estado && conductor.residenteDeDireccion && conductor.cuentaBancaria
+                                    && !(conductor.id === remolque.remolqueDeConductor.id)" [ngValue]="conductor">
+                                      {{conductor.nombre + " " + conductor.apellido}}
+                                    </option>
+                                  </ng-container>
+                                </ng-container>
+                              </select>
+                              <label for="conductor">CONDUCTOR</label>
+                            </div></td>
+                            <ng-template #tdBlock><td>
+                              <div class="form-floating">
+                                <select name="conductort" 
+                                id="conductort" 
+                                #conductort = "ngModel"
+                                ngModel
+                                (ngModelChange)="cambiarConductorT($event)"
+                                class="form-select"
+                                aria-label="Floating label select example" 
+                                
+                                >
+                                  <option value="" [selected]>
+                                    Sin asignar
+                                  </option>
+                                  <ng-container *ngIf="conductores$ | async as conductores">
+                                    <ng-container  *ngFor="let conductor of conductores">
+                                      <option *ngIf="conductor.estado && conductor.residenteDeDireccion && conductor.cuentaBancaria" [ngValue]="conductor">
+                                        {{conductor.nombre + " " + conductor.apellido}}
+                                      </option>
+                                    </ng-container>
+                                  </ng-container>
+                                </select>
+                                <label for="conductort">Conductor</label>
+                              </div>
+                            </td></ng-template>
+                          </ng-container>
+                          
+                          <td><span class="badge rounded-pill bg-danger" *ngIf="!remolque.estado" style="font-size:1em">Inactivo</span>
+                            <span class="badge rounded-pill bg-success" *ngIf="remolque.estado" style="font-size:1em">Activo</span></td>
+                          <td>
+                            <ng-container *ngIf="!remolque.remolqueDeTransporte || isTransporte ;else accionesBlock">
+                              <div class="dropdown">
+                                <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                  ...
+                                </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                  <li *ngIf="!remolque.estado"><a class="dropdown-item" (click)="cambiarEstadoR(true, remolque.id)" >Activar</a></li>
+                                  <li *ngIf="remolque.estado"><a class="dropdown-item" (click)="cambiarEstadoR(false , remolque.id)">Desactivar</a></li>
+                                  <li *ngIf="!isConductor"><a class="dropdown-item" (click)="asignarConductorR(remolque.id)">Asignar Conductor</a></li>
+                                  <li><a class="dropdown-item" (click)="eliminarRemolque(remolque.id)">Eliminar</a></li>
+                                </ul>
+                              </div>
+                            </ng-container>
+                            <ng-template #accionesBlock>
+                              <span class="badge bg-info text-dark">No permitido</span>
+                            </ng-template>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div>
+                      <ngb-pagination [collectionSize]="remolques.length " [(page)]="page" [boundaryLinks]="true">
                         <ng-template ngbPaginationPages let-page let-pages="pages">
                           <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
                              <div class="mb-3 d-flex flex-nowrap px-2">

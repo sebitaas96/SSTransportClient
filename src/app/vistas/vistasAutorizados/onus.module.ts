@@ -17,6 +17,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BarsComponent } from './layaouts/bars/bars.component';
 import { ViajeComponent } from './porte/viaje/viaje.component';
+import { swiftBicValidatorDirective } from 'src/app/validators/swiftBic.validator';
+import { ibanValidatorDirective } from 'src/app/validators/iban.validator';
+import { tipoCamionValidatorDirective } from 'src/app/validators/tipoCamion.validator';
+import { tipoRemolqueValidatorDirective } from 'src/app/validators/tipoRemolque.validator';
+import { matriculaRemolqueValidatorDirective } from 'src/app/validators/matriculaRemolque.validator';
+import { matriculaValidatorDirective } from 'src/app/validators/matricula.validator';
+
 
 
 @NgModule({
@@ -29,8 +36,13 @@ import { ViajeComponent } from './porte/viaje/viaje.component';
     ExpedidoresComponent,
     EquipoComponent,
     BarsComponent,
-    ViajeComponent
-
+    ViajeComponent,
+    swiftBicValidatorDirective,
+    ibanValidatorDirective,
+    tipoCamionValidatorDirective,
+    tipoRemolqueValidatorDirective,
+    matriculaRemolqueValidatorDirective,
+    matriculaValidatorDirective
 ],
   imports: [
     CommonModule,

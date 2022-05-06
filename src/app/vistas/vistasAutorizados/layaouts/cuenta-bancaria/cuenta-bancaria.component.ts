@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { data } from 'jquery';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { addCuenta } from 'src/app/dto/addCuenta';
 import { CuentaBancaria } from 'src/app/models/cuenta-bancaria';
@@ -45,24 +44,34 @@ export class CuentaBancariaComponent implements OnInit {
     var cuenta: CuentaBancaria = new CuentaBancaria(0, dataForm["nombreTitular"], dataForm["swiftbic"], dataForm["numIban"] , null);
     this.cuentaBancariaService.createCuenta(cuenta).subscribe(
       data => {
-        var cuentaCreada: CuentaBancaria = data;
-        this.usuarioService.findUsuario(this.tokenService.getUserName()).subscribe(data => {
-          var addCuentadto: addCuenta = new addCuenta(cuentaCreada, data["id"]);
-          this.usuarioService.addCuenta(addCuentadto).subscribe(
-            data => {
-              this.refresh();
-              this.cuentaCreada = true;
-              this.cuentaNoCreada = false;
-              this.errMsjC = data["mensaje"];
-            },
-            err => {
-              this.cuentaCreada = false;
-              this.cuentaNoCreada = true;
-              this.errMsjC = err['error']['mensaje'];
-            }
-          )
-        })
+        var cuentaCreada: CuentaBancaria;
 
+        this.cuentaBancariaService.findCuentaIban(cuenta.iban).subscribe(
+          data=>{
+            cuentaCreada = data;
+            this.usuarioService.findUsuario(this.tokenService.getUserName()).subscribe(data => {
+              var addCuentadto: addCuenta = new addCuenta(cuentaCreada, data["id"]);
+              this.usuarioService.addCuenta(addCuentadto).subscribe(
+                data => {
+                  this.refresh();
+                  this.cuentaCreada = true;
+                  this.cuentaNoCreada = false;
+                  this.errMsjC = data["mensaje"];
+                },
+                err => {
+                  this.cuentaCreada = false;
+                  this.cuentaNoCreada = true;
+                  this.errMsjC = err['error']['mensaje'];
+                }
+              )
+            })
+          }
+        )
+      },
+      err=>{
+        this.cuentaCreada = false;
+        this.cuentaNoCreada = true;
+        this.errMsjC = err['error']['mensaje'];
       }
     )
   }

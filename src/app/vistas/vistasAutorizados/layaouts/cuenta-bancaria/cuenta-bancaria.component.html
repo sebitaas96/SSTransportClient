@@ -1,18 +1,18 @@
-<div class="container-fluid p-0">
-    <div class="row justify-content-center">
-        <div class="col-5  col-sm-5 col-md-5 col-lg-10 mt-5">
+<div class="container-fluid p-5">
+    <div class="row justify-content-center g-0">
+        <div class="col-5 col-sm-5 col-md-5 col-lg-10 mt-5">
             <div class="row g-0 d-flex justify-content-center">
                 <ng-container *ngIf="cuenta$ | async as cuenta ; else cuentaBlock">
                     <form #cuentaUform="ngForm" class="form-detail" (submit)="onUCuenta(cuenta)" id="myform">
                         <div class="col-5  col-sm-5 col-md-5 col-lg-10 mt-5">
                             <div class="card border-secondary mb-3">
                                 <div class="card-header">
-                                    <h1 class="text-center header">DATOS DE CUENTA <i class="fa fa-money-check"></i>
+                                    <h1 class="text-center">DATOS DE CUENTA <i class="fa fa-money-check"></i>
                                     </h1>
                                 </div>
                                 <div class="card-body text-secondary">
                                     <div class="row g-0">
-                                        <div class="col-5 me-5 ms-5">
+                                        <div class="col-5 ms-5">
                                             <div class="form-group">
                                                 <label class="label" for="nombreTitular">NOMBRE TITULAR</label>
                                                 <div class="form-floating mb-3">
@@ -29,7 +29,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-5 ms-5">
                                             <div class="form-group">
                                                 <label class="label" for="swiftbic">SWIFT/BIC</label>
                                                 <div class="form-floating mb-3">
@@ -78,6 +78,9 @@
                                             <div class="alert alert-danger" role="alert" *ngIf="cuentaNoActualizada">
                                                 {{errMsj}}
                                             </div>
+                                            <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
+                                                {{errMsjC}}
+                                            </div>
                                         </div>
                                     </div>
 
@@ -91,13 +94,13 @@
                         <div class="col-10">
                             <div class="card border-secondary mb-3">
                                 <div class="card-header">
-                                    <h1 class="text-center header">DATOS DE CUENTA <i class="fa fa-money-check"></i>
+                                    <h1 class="text-center">DATOS DE CUENTA <i class="fa fa-money-check"></i>
                                     </h1>
                                 </div>
 
                                 <div class="card-body text-secondary">
                                     <div class="row g-0">
-                                        <div class="col-5 me-5 ms-5">
+                                        <div class="col-5 ms-5">
                                             <div class="form-group">
                                                 <label class="label" for="nombreTitular">NOMBRE TITULAR</label>
                                                 <div class="form-floating mb-3">
@@ -114,7 +117,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-5 ms-5">
                                             <div class="form-group">
                                                 <label class="label" for="swiftbic">SWIFT/BIC</label>
                                                 <div class="form-floating mb-3">
@@ -155,9 +158,6 @@
                                                 class="btn btn-default" value="Actualizar" />
                                         </div>
                                         <div class="col-6 mt-5">
-                                            <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
-                                                {{errMsjC}}
-                                            </div>
                                             <div class="alert alert-danger" role="alert" *ngIf="cuentaNoCreada">
                                                 {{errMsjC}}
                                             </div>

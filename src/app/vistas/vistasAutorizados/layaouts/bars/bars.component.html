@@ -3,7 +3,8 @@
     <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
 </header>
 <div class="l-navbar" id="nav-bar">
-    <nav class="nav_s">
+    <nav>
+    <div class="nav_s">
         <div> <a href="#" class="nav_logo"> <i class='fa fa-layer-group nav_logo-icon'></i> <span
                     class="nav_logo-name">{{nombreUsuario |uppercase}}</span> </a>
             <div class="nav_list" id="menu"> 
@@ -57,7 +58,7 @@
                             </li>
             
                             <li  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
-                                <a class="nav_link">
+                                <a class="nav_link"  routerLink="/onus/viaje">
                                     <i class="align-middle fas fa-paper-plane" ></i> <span class="align-middle">Expedir viajes</span>
                                 </a>
                             </li>
@@ -89,11 +90,11 @@
                     </a> 
                     <ul class="collapse show nav flex-column ms-2" id="Datos" data-bs-parent="#menuDatos">
                         <li class="w-100">
+                            <span class="position-absolute p-1 bg-danger border border-light rounded-circle" *ngIf="datosSinCompletar">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
                             <a class="nav_link" routerLink="/onus/perfil">
                                 <i class="align-middle fas fa-gear"></i> <span class="align-middle">Perfil</span>
-                                <span class="position-absolute top-50 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" *ngIf="datosSinCompletar">
-                                    <span class="visually-hidden">New alerts</span>
-                                  </span>
                             </a>
                         </li>
                         <li *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
@@ -103,11 +104,11 @@
                         </li>
         
                         <li>
+                            <span class="position-absolute p-1 bg-danger border border-light rounded-circle" *ngIf="cuentaSinCompletar">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
                             <a class="nav_link" routerLink="/onus/cuenta-bancaria">
                                 <i class="align-middle fas fa-money-check"></i> <span class="align-middle">Cuenta Bancaria</span>
-                                <span class="position-absolute top-50 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" *ngIf="cuentaSinCompletar">
-                                    <span class="visually-hidden">New alerts</span>
-                                  </span>
                             </a>
                         </li>
         
@@ -116,5 +117,6 @@
                         class="nav_name">Log Out</span> </a>
             </div>
         </div> 
+    </div>
     </nav>
 </div>

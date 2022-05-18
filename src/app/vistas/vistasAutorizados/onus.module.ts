@@ -23,6 +23,10 @@ import { tipoCamionValidatorDirective } from 'src/app/validators/tipoCamion.vali
 import { tipoRemolqueValidatorDirective } from 'src/app/validators/tipoRemolque.validator';
 import { matriculaRemolqueValidatorDirective } from 'src/app/validators/matriculaRemolque.validator';
 import { matriculaValidatorDirective } from 'src/app/validators/matricula.validator';
+import {MatStepperModule} from '@angular/material/stepper';
+import { SharedModule } from 'src/app/shared.module';
+import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 
 
 
@@ -53,7 +57,13 @@ import { matriculaValidatorDirective } from 'src/app/validators/matricula.valida
     BrowserAnimationsModule,
     ReactiveFormsModule,
     NgbModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    MatStepperModule,
+    SharedModule,
+    AgmCoreModule.forRoot({
+      apiKey:'AIzaSyCGgmjdheC7MRP3yoqNWU2OSEe89dTLNJA'
+    }),
+    AgmDirectionModule
   ]
 })
 export class OnusModule { }

@@ -1,0 +1,25 @@
+::ng-deep .mat-stepper{
+  background-color: aliceblue;
+}
+
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+.mat-form-field {
+    margin-top: 16px;
+  }
+
+  .btn {
+    background-color: rgb(226, 50, 118);
+    color: white;
+    margin-left: 1%;
+}
+.btn:hover {
+    background-color: rgb(228, 109, 156);
+    border-color: rgb(228, 109, 156);
+}
+
+agm-map {
+  height: 400px;
+}

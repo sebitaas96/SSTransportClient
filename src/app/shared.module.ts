@@ -15,6 +15,9 @@ import { emailValidatorDirective } from './validators/email.validator';
 import { passwordValidatorDirective } from './validators/password.validator';
 import { checkboxValidatorDirective } from './validators/checkbox.validator';
 import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.validator';
+import {fInicioValidtor} from './validators/finicio.validator';
+import {fFinValidtor} from './validators/ffin.validator';
+import {descripcionValidatorDirective} from './validators/descripcion.validator';
 
 @NgModule({
     imports: [
@@ -35,7 +38,10 @@ import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.vali
         emailValidatorDirective,
         checkboxValidatorDirective,
         passwordValidatorDirective,
-        nombreUsuarioValidatorDirective
+        nombreUsuarioValidatorDirective,
+        fInicioValidtor,
+        fFinValidtor,
+        descripcionValidatorDirective
     ],
     exports: [
         nombreValidatorDirective,
@@ -52,7 +58,10 @@ import { nombreUsuarioValidatorDirective } from './validators/nombreUsuario.vali
         emailValidatorDirective,
         checkboxValidatorDirective,
         passwordValidatorDirective,
-        nombreUsuarioValidatorDirective
+        nombreUsuarioValidatorDirective,
+        fInicioValidtor,
+        fFinValidtor,
+        descripcionValidatorDirective
     ]
     })
     export class SharedModule {}

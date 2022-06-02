@@ -11,6 +11,7 @@ import { PanelCargaComponent } from './transporte/panel-carga/panel-carga.compon
 import { EquipoComponent } from './transporte/equipo/equipo.component';
 import { ViajeComponent } from './porte/viaje/viaje.component';
 import { GuardService } from 'src/app/guards/guard.service';
+import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedidos.component';
 
 const routes: Routes = [
     {
@@ -55,6 +56,11 @@ const routes: Routes = [
             {
                 path: 'viaje',
                 component: ViajeComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin','porte','expedidor']}
+            },
+            {
+                path: 'viajes-expedidos',
+                component: ViajesExpedidosComponent,
                 canActivate:[GuardService] , data:{expectedRol: ['admin','porte','expedidor']}
             }
             

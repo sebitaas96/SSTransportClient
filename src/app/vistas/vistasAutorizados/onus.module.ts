@@ -27,7 +27,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { SharedModule } from 'src/app/shared.module';
 import { AgmCoreModule } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction';
-
+import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedidos.component';
 
 
 @NgModule({
@@ -46,7 +46,8 @@ import { AgmDirectionModule } from 'agm-direction';
     tipoCamionValidatorDirective,
     tipoRemolqueValidatorDirective,
     matriculaRemolqueValidatorDirective,
-    matriculaValidatorDirective
+    matriculaValidatorDirective,
+    ViajesExpedidosComponent
 ],
   imports: [
     CommonModule,

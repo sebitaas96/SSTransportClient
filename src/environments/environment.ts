@@ -18,9 +18,10 @@ export const environment = {
   tipoCamionUrl:'http://localhost:8080/tipoCamion',
   tipoRemolqueUrl:'http://localhost:8080/tipoRemolque',
   camionUrl:'http://localhost:8080/camion',
-  remolqueUrl:'http://localhost:8080/remolque'
-};
-
+  remolqueUrl:'http://localhost:8080/remolque',
+  estadoUrl:'http://localhost:8080/estado',
+  viajeUrl:'http://localhost:8080/viaje',
+}
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

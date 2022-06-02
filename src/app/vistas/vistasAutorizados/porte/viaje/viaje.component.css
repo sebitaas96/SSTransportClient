@@ -20,6 +20,12 @@
     border-color: rgb(228, 109, 156);
 }
 
+#dist , #hor{
+  height: 30px;
+  line-height: 15px;
+  font-size: 1.4em;
+}
+
 agm-map {
   height: 400px;
 }

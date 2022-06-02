@@ -10,6 +10,19 @@ import { PaisService } from 'src/app/services/pais.service';
 import { ProvinciaService } from 'src/app/services/provincia.service';
 import {GooglemapsService} from 'src/app/services/googlemaps.service';
 import { data } from 'jquery';
+import { Observable } from 'rxjs';
+import { TipoRemolque } from 'src/app/models/tipo-remolque';
+import { TipoCamion } from 'src/app/models/tipo-camion';
+import { TipoCamionService } from 'src/app/services/tipo-camion.service';
+import { TipoRemolqueService } from 'src/app/services/tipo-remolque.service';
+import { EstadoService } from 'src/app/services/estado.service';
+import {ViajeService} from 'src/app/services/viaje.service';
+import { Viaje } from 'src/app/models/viaje';
+import { Direccion } from 'src/app/models/direccion';
+import { Estado } from 'src/app/models/estado';
+import { Porte } from 'src/app/models/porte';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Expedidor } from 'src/app/models/expedidor';
 declare var $:any;
 
 @Component({
@@ -21,6 +34,24 @@ export class ViajeComponent implements OnInit {
   active = 1;
   isLinear = false;
 
+  /**/
+  viaje:Viaje;
+  estados:Estado[];
+  porte:Porte;
+  expedidor:Expedidor;
+  viajeCreado:boolean;
+  viajeNoCreado:boolean;
+  errMsj:string;
+
+  /*Iniciamos selects*/
+  tiposCamion$!:Observable<TipoCamion[]>;
+  tiposRemolque$!:Observable<TipoRemolque[]>; 
+  /*Tipos date*/
+  hoy = new Date();
+  shortTime:boolean;
+
+  /*Precio*/
+  slowPrice:boolean;
 
   /*Declaramos los datos que traemos para rellenar selects*/
   paisesR:Pais[];
@@ -31,8 +62,10 @@ export class ViajeComponent implements OnInit {
   localidadesE:Localidad[];
   cpRecogida:string;
   cpEntrega:string;
-  errMsj:string;
   descripcionModal:string;
+
+
+
 
   /*Origen y destino del maps*/
   public lat = 24.799448;
@@ -41,13 +74,10 @@ export class ViajeComponent implements OnInit {
   public destination: any;
   origen:string;
   destino:string;
-  distanciaTxt:string;
-  tiempoTxt:string;
-  distancia:number;
-  tiempo:number;
+
   
-  /*Variables ajenas*/
-  precio:string;
+
+
 
   constructor(
     private route:ActivatedRoute , 
@@ -56,17 +86,34 @@ export class ViajeComponent implements OnInit {
     private provinciaService:ProvinciaService,
     private tokenService:TokenService,
     private authService:AuthService,
-    private googleMaps:GooglemapsService
+    private googleMaps:GooglemapsService,
+    private tipoCamionService:TipoCamionService,
+    private tipoRemolqueService:TipoRemolqueService,
+    private  estadoService:EstadoService,
+    private usuarioService:UsuarioService,
+    private viajeService:ViajeService,
     ) { 
+      /*Viaje*/
+      this.viaje = new Viaje(0,"",0,0,0,new Date(), new Date(),
+      new Direccion(0,"","",0,new Localidad(0,"",0 , new Provincia(0,"",new Pais(0,"")))),
+      new Direccion(0,"","",0,new Localidad(0,"",0 , new Provincia(0,"",new Pais(0,"")))),
+      null,null,null,null,
+      new TipoCamion(0,"",false),
+      new TipoRemolque(0,""),
+      null,
+      new Estado(0,"")
+      );
 
-      /*Google maps*/
-      this.distanciaTxt = "";
-      this.tiempoTxt = "";
-      this.tiempo = 0;
-      this.distancia = 0;
+      this.estados = [];
+      this.porte = new Porte(0,"","","","","","",null,null,null)
+      this.expedidor = new Expedidor(0,"","","","","","","",false,new Porte(0,"","","","","","",null,null,null),null,null,null);
+      this.viajeCreado = false;
+      this.viajeNoCreado = false;
+      /*Inicializamos dates*/
+      this.shortTime = false;
 
-      this.precio = "0";
-
+      /*Price*/
+      this.slowPrice = false;
       /*Inicializamos los selects*/
        this.paisesR = [];
        this.provinciasR = [];
@@ -85,6 +132,30 @@ export class ViajeComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    //Iniciamos empresa o expedidor 
+    if(this.tokenService.getIsPorte()){
+      this.usuarioService.findEmpresaPorteNombre(this.tokenService.getUserName()).subscribe(
+        data=>{
+          this.porte = data;
+        }
+      )
+    }
+    else if(this.tokenService.getIsExpedidor()){
+      this.usuarioService.findExpedidorNombre(this.tokenService.getUserName()).subscribe(
+        data=>{
+          this.expedidor = data;
+        }
+      )
+    }
+
+    //Iniciamos tipos Camion y remolque
+    this.tiposCamion$ = this.tipoCamionService.findAll();
+    this.tiposRemolque$ = this.tipoRemolqueService.findAll();
+    this.estadoService.findAll().subscribe(
+      data=>{
+        this.estados = data;
+      }
+    );
     //Iniciamos los paises
     this.paisService.findAll().subscribe(data=>{
       this.paisesR = data;
@@ -92,19 +163,25 @@ export class ViajeComponent implements OnInit {
     })
    }
 
-   onSubmit(data:any):void{
-     console.log(data);
-    /*let viaje:Viaje = new Viaje(0,data['descripcion'],data['fHoraFin'] ,data['fHoraInicio'],data['precio'],0, 
-    new Direccion(0, data['direccionvia'] , data['direccion'] , Number(data['direccionnumero']) , data['localidad']),data['provincia'],
-    0,
-    new Direccion(0, data['direccionvia2'] , data['direccion2'] , Number(data['direccionnumero2']) , data['localidad2']),data['provincia2'],
-    0,0,0,0
+   onSubmit():void{
+
+    this.viajeService.addViaje(this.viaje).subscribe(
+      data=>{
+        this.viajeCreado = true;
+        this.viajeNoCreado = false;
+        this.errMsj = data["mensaje"];
+        this.reset();
+        $("#reset").trigger("click");
+        console.log(data);
+      },
+      err=>{
+        this.viajeCreado = false;
+        this.viajeNoCreado = true;
+        this.errMsj = err['error']['mensaje'];
+        $("#reset").trigger("click");
+      }
     )
-    if(data['descripcion']!=""){
-      this.descripcionModal = data['descripcion']
-    }*/
-    
-/*
+  /*
     this.authService.nuevo(viaje).subscribe(
       data => {
         $('#successModal').modal("show");
@@ -119,53 +196,139 @@ export class ViajeComponent implements OnInit {
 
   onRecogida(data:any , estado:boolean){
     console.log(data);
-    this.origen = data['localidad']['nombre']+","+data["pais"]["nombre"];
+    this.viaje.recogidaDeDireccion = new Direccion(0 , data["direccionviaR"] ,data["direccionR"],data["direccionnumeroR"],
+    data["localidadR"]
+    );
+    this.origen = data['localidadR']['nombre']+","+data["paisR"]["nombre"];
     this.updateDirection()
   }
 
   onEntrega(data:any , estado:boolean){
     console.log(data);
-    this.destino = data['localidad']['nombre']+","+data["pais"]["nombre"];
+    this.viaje.entregaDeDireccion = new Direccion(0 , data["direccionviaE"] ,data["direccionE"],data["direccionnumeroE"],
+    data["localidadE"]);
+    this.destino = data['localidadE']['nombre']+","+data["paisE"]["nombre"];
     this.updateDirection()
   }
 
   onDatos(data:any , estado:boolean){
     console.log(data);
+    this.viaje.descripcion = data["descripcion"];
+    this.viaje.precio = parseFloat($("#precio").val());
+    this.viaje.distancia = parseInt($("#hdist").val());
+    this.viaje.tiempo = parseInt($("#hhor").val());
+    this.viaje.fHoraInicio = new Date($("#fInicio").val());
+    this.viaje.fHoraFin = new Date($("#fHoraFin").val());
+    this.viaje.viajeDeTipoCamion = data["tipoCamion"];
+    this.viaje.viajeDeEstado = this.estados[0];
+    if(!data["tipoCamion"]["enganche"]){
+      this.viaje.viajeDeTipoRemolque = null;
+    }
+    else{
+      this.viaje.viajeDeTipoRemolque = data["tipoRemolque"];
+    }
+
+    if(this.tokenService.getIsPorte()){
+      this.viaje.viajeDePorte = this.porte;
+    }
+    else if(this.tokenService.getIsExpedidor()){
+      this.viaje.viajeDeExpedidor = this.expedidor;
+      this.viaje.viajeDePorte = this.expedidor.expedidorDePorte;
+    }
+    console.log(this.viaje);
   }
 
+  reset(){
+    $("#rForm").trigger("reset");
+    $("#eForm").trigger("reset");
+    $("#dForm").trigger("reset");
 
+  }
 
   /*  Google maps*/
 
   updateDirection(){
     if(this.origen != "" && this.destino !=""){
       this.getDirection();
-     //var distancia = this.googleMaps.getDistancia(this.origen , this.destino);
-     new google.maps.DistanceMatrixService().getDistanceMatrix({'origins': [this.origen], 'destinations': [ this.destino], travelMode:google.maps.TravelMode.DRIVING},this.updateDistanceDuration);
+     /*var datos = this.googleMaps.getDistancia(this.origen, this.destino);
+     console.log(datos);
+     Promise.all([datos]).then(function(values){
+      distancia = values;
+     });*/
+     new google.maps.DistanceMatrixService().getDistanceMatrix({'origins': [this.origen], 'destinations': [this.destino], travelMode:google.maps.TravelMode.DRIVING}, this.updateDistanceDuration);
     }
   
     }
 
 
   getDirection() {
-    //this.origin = { lat: 24.799448, lng: 120.979021 };
-    //this.destination = { lat: 24.799524, lng: 120.975017 };
-  
     // Location within a string
     this.origin = this.origen;
     this.destination = this.destino;
   }
 
   updateDistanceDuration(response:any , status:any){
-    console.log(response.rows[0].elements[0].distance.text);
-    this.distanciaTxt = response.rows[0].elements[0].distance.text;
-    this.distancia = response.rows[0].elements[0].distance.value;
-    this.tiempoTxt = response.rows[0].elements[0].duration.text;
-    this.tiempo = response.rows[0].elements[0].duration.value;
-   // this.precio = (this.distancia/1000)*0.71;
+    
+    var distanciatxt=response.rows[0].elements[0].distance.text;    
+    var distanciaval = response.rows[0].elements[0].distance.value;
+    var tiempoTxt = response.rows[0].elements[0].duration.text;
+    var tiempo = response.rows[0].elements[0].duration.value;
+    var precio:number = (distanciaval/1000)*0.71;
+
+    //Configuracion de la fecha
+    var fechaEstimada = new Date(new Date().getTime()+(tiempo*1000));
+    var fechaAhora = new Date();
+    fechaEstimada.setMinutes(fechaEstimada.getMinutes()-fechaEstimada.getTimezoneOffset());
+    fechaAhora.setMinutes(fechaAhora.getMinutes()-fechaAhora.getTimezoneOffset());
+    //Configuracion de los inputs 
+   $("#dist").text("Distancia estimada : "+distanciatxt);
+   $("#hor").text("Tiempo estimado : "+ tiempoTxt);
+   $("#hdist").val(distanciaval);
+   $("#hhor").val(tiempo);
+
+   $("#precio").val(Math.round(precio*100)/100);
+   $("#labelPrecio").text("El precio minimo estimado de "+distanciatxt);
+   $("#fInicio").val(fechaAhora.toISOString().slice(0,16));
+   $("#fHoraFin").val(fechaEstimada.toISOString().slice(0,16));
+   $("#fHoraFin").attr("min",fechaEstimada.toISOString().slice(0,16));
   }
-  
+
   ///////////////////////////
+  /*Renew Hours*/
+  checkTime(){
+    var fVal = new Date($("#fHoraFin").val());
+    var fMin = new Date($("#fHoraFin").attr("min"));
+    if(fVal.getTime()<fMin.getTime()){
+      this.shortTime = true;
+    }
+    else {
+      this.shortTime = false;
+    }
+  }
+
+  checkPrice(){
+    var multiMin =parseFloat($("#multiplicador").attr("min"));
+    var multi = parseFloat($("#multiplicador").val());
+    var distancia = parseFloat($("#hdist").val());
+
+    if(multi>=multiMin){
+      this.slowPrice = false;
+      var precioActualizado = (distancia/1000)*multi;
+      $("#precio").val(precioActualizado.toFixed(2));
+    }
+    else{
+      this.slowPrice = true;
+    }
+  }
+
+  checkTipoCamion(data:any){
+    if(!data.enganche){
+      $("#tipoRemolque").attr("disabled","disabled");
+      $('#tipoRemolque').val("").attr("selected", "selected");;
+    }else{
+      $("#tipoRemolque").removeAttr("disabled","disabled");
+    }
+  }
 
 
   /*Renew de los selects*/

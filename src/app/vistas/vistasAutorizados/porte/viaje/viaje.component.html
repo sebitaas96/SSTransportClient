@@ -401,6 +401,7 @@
                               #fInicio = "ngModel"
                               ngModel
                               fInicioValidator
+                              (change)="updateTime()"
                               />
                               <div *ngIf="fInicio.invalid && (fInicio.dirty ||fInicio.touched)">
                                 <div *ngIf="['fechav']" class="invalid-tooltip d-block">

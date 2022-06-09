@@ -306,6 +306,14 @@ export class ViajeComponent implements OnInit {
     }
   }
 
+  updateTime(){
+    var fechaEstimada = new Date(new Date($("#fInicio").val()).getTime()+($("#hhor").val()*1000));
+    fechaEstimada.setMinutes(fechaEstimada.getMinutes()-fechaEstimada.getTimezoneOffset());
+    $("#fHoraFin").val(fechaEstimada.toISOString().slice(0,16));
+    $("#fHoraFin").attr("min",fechaEstimada.toISOString().slice(0,16));
+
+  }
+
   checkPrice(){
     var multiMin =parseFloat($("#multiplicador").attr("min"));
     var multi = parseFloat($("#multiplicador").val());

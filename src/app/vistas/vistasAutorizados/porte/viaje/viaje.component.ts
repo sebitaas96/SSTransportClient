@@ -23,6 +23,8 @@ import { Estado } from 'src/app/models/estado';
 import { Porte } from 'src/app/models/porte';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Expedidor } from 'src/app/models/expedidor';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 declare var $:any;
 
 @Component({
@@ -388,6 +390,92 @@ export class ViajeComponent implements OnInit {
 
   renewCpE(localidad:any){
     this.cpEntrega = localidad.cp;
+  }
+
+
+   /* Generador de PDF */
+   downloadPDF() {
+    var DATA: any;
+    DATA = document.getElementById('contenedorCanvas');
+    const doc = new jsPDF('p', 'pt', 'a4');
+    const options = {
+      background: 'white',
+      scale: 3
+    };
+    html2canvas(DATA, options).then((canvas) => {
+
+      const img = canvas.toDataURL('image/PNG');
+
+      
+      const bufferX = 15;
+      const bufferY = 140;
+      const imgProps = (doc as any).getImageProperties(img);
+      const pdfWidth = doc.internal.pageSize.getWidth() - 2 * bufferX;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      doc.addImage(img, 'PNG', bufferX, bufferY, pdfWidth, pdfHeight, undefined, 'FAST');
+      return doc;
+    }).then((docResult) => {
+      docResult.setFontSize(12);
+      docResult.setFont("helvetica");
+      docResult.text('DATOS DEL VIAJE',230, 17);
+
+      docResult.rect(25, 25, 550, 100); // empty square
+      docResult.text('Empresa: ' + this.porte.nombre + '\n' +
+                    'Número de documento: ' + this.porte.documento + '\n' +
+                    'Teléfono: ' + this.porte.telefono + '\n' +
+                    'Email: ' + this.porte.email,30,60);
+
+      docResult.text('Portador: ' + '\n' +
+                     'Número de documento: ' + '\n' +
+                     'Teléfono: ' +  '\n' +
+                     'Email: ' ,370, 60); 
+      
+      var hoy = new Date();
+      var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+      var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+      docResult.text('ONUS, ' + fecha + ' ' + hora,420,800);
+      
+      docResult.save(fecha + '_DatosViaje.pdf')
+      //docResult.save(`${new Date().toISOString()}_Resumen.pdf`);
+      //docResult.autoPrint(); Te saca junto la página pdf la pantalla de imprimir
+      //docResult.output('dataurlnewwindow'); Lo abre directamente en otra ventana
+    });
+  }
+
+
+  /* Visualizaciones en página de Resumen */
+  visualizarRecogida() {
+    console.log("aqui")
+    var $objetivo:any;
+    var $contenedorCanvas:any;
+    $objetivo = document.querySelector('#recogida'); //Que capturamos
+    $contenedorCanvas = document.querySelector('#contenedorCanvas'); //donde ponemos la captura
+    html2canvas($objetivo).then(canvas => {
+      $contenedorCanvas.appendChild(canvas);
+    })
+  }
+
+  visualizarEntrega() {
+    var $objetivo:any;
+    var $contenedorCanvas:any;
+    $objetivo = document.querySelector('#entrega'); //Que capturamos
+    $contenedorCanvas = document.querySelector('#contenedorCanvas'); //donde ponemos la captura
+    html2canvas($objetivo).then(canvas => {
+      $contenedorCanvas.appendChild(canvas);
+    })
+  }
+
+  visualizarDatos() {
+    var $objetivo:any;
+    var $contenedorCanvas:any;
+    $objetivo = document.querySelector('#datos'); //Que capturamos
+    var $eliminarMap:any;
+    $eliminarMap = document.querySelector('#borrarMap');
+    $eliminarMap.remove();
+    $contenedorCanvas = document.querySelector('#contenedorCanvas'); //donde ponemos la captura
+    html2canvas($objetivo).then(canvas => {
+      $contenedorCanvas.appendChild(canvas);
+    })
   }
 
 

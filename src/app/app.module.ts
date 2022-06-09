@@ -33,7 +33,7 @@ import { SharedModule } from './shared.module';
     PantallaInfoComponent,
     NavBarComponent,
     FooterComponent,
-    SingupExternosComponent
+    SingupExternosComponent,
   ],
   imports: [
     BrowserModule,

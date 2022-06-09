@@ -1,9 +1,9 @@
-<div class="container-fluid p-5">
+<div class="container-fluid p-5" id="todo">
   <mat-stepper [linear]="isLinear" #stepper> <mat-step label="Recogida">
     <form #recogidaForm="ngForm" (submit)="onRecogida(recogidaForm.value , true)" id="rForm">
       <div class="row g-0 d-flex justify-content-center">
         <div class="col-10">
-          <div class="card border-secondary mb-3">
+          <div class="card border-secondary mb-3" id="recogida">
             <div class="card-header">
               <h1 class="text-center"> Datos de recogida <i class="fa fa-truck-ramp-box"></i></h1>
             </div>
@@ -190,14 +190,14 @@
         </div>
       </div>
       <div>
-        <button type="submit" mat-button matStepperNext class="btn" [disabled]="recogidaForm.invalid">Next</button>
+        <button type="submit" mat-button matStepperNext class="btn" (click)="visualizarRecogida()" [disabled]="recogidaForm.invalid">Next</button>
       </div>
     </form>
   </mat-step>
   <mat-step  label="Entrega">
     <form #entregaForm="ngForm" (submit)="onEntrega(entregaForm.value , true)" id="eForm">
       <div class="row g-0 d-flex justify-content-center">
-        <div class="col-10">
+        <div class="col-10" id="entrega">
           <div class="card border-secondary mb-3">
             <div class="card-header">
               <h1 class="text-center"> Datos de entrega <i class="fa fa-dolly"></i></h1>
@@ -373,7 +373,7 @@
         </div>
       </div>
       <div>
-        <button type="submit" mat-button matStepperNext class="btn" [disabled]="entregaForm.invalid">Next</button>
+        <button type="submit" mat-button matStepperNext class="btn" (click)="visualizarEntrega()" [disabled]="entregaForm.invalid">Next</button>
         <button mat-button matStepperPrevious class="btn">Back</button>
       </div>
     </form>
@@ -384,10 +384,10 @@
         <div class="row g-0">
           <div class="col-10">
             <div class="row g-0">
-              <div class="card border-secondary mb-3">
+              <div class="card border-secondary mb-3" id="datos">
                 <div class="card-header">
                   <h1 class="text-center">Datos del viaje <i class="fa fa-pencil-square-o bigicon"></i></h1>
-              </div>
+               </div>
                 <div class="card-body text-secondary">
                   <div class="row g-0">
                     <div class="col-5 ms-5">
@@ -560,17 +560,16 @@
                           </div>
                           <label for="tipoRemolque">Tipo de Remolque</label>
                         </div>
-
                       </div>
-
+                    
                     </div>
                   </div>
-                  <div class="row g-0">
+                  <div class="row g-0" id="borrarMap">
                     <div class="col-12">
                        <input type="text" hidden id="hdist"><input type="text" hidden id="hhor">
                       <span class="badge bg-success" id="dist"></span>
                       <span class="badge bg-success" id="hor"></span>
-                      <agm-map [latitude]="lat" [longitude]="lng">
+                      <agm-map [latitude]="lat" [longitude]="lng" id="mapa">
                         <agm-direction 
                           [origin]="origin" 
                           [destination]="destination"
@@ -586,7 +585,7 @@
           </div>
         </div>
         <div>
-          <button type="submit" mat-button matStepperNext class="btn" [disabled]="datosForm.invalid">Next</button>
+          <button type="submit" mat-button matStepperNext class="btn" (click)="visualizarDatos()" [disabled]="datosForm.invalid">Next</button>
           <button mat-button matStepperPrevious class="btn">Back</button>
         </div>
       </form>
@@ -601,8 +600,12 @@
               <div class="card-header">
                 <h1 class="text-center">Vista previa<i class="fa fa-eye"></i></h1>
             </div>
-              <div class="card-body text-secondary">
-               
+              <!--<div class="card-body text-secondary" id="contenedorCanvas">-->
+                <br>
+                <div  id="contenedorCanvas"><br>
+                <!--<div id="contenedorCanvas" style="border: 1px solid red;">
+                </div>-->
+                
             
               </div>
             </div>
@@ -615,6 +618,10 @@
         <button mat-button matStepperPrevious class="btn">Back</button>
         <button mat-button (click)="stepper.reset()" (mouseup)="reset()" class="btn" id="reset">Reset</button>
         <button mat-button class="btn" (click)="onSubmit();">Expedir Viaje</button>
+
+        <!-- Boton para descargar 'captura'-->
+          <button class="btn" (click)="downloadPDF()"> PDF </button>
+
       </div>
     </mat-step>
   </mat-stepper>

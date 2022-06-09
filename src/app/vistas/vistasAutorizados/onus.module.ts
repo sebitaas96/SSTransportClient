@@ -28,6 +28,7 @@ import { SharedModule } from 'src/app/shared.module';
 import { AgmCoreModule } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction';
 import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedidos.component';
+import { NgxSimpleCountdownModule } from 'ngx-simple-countdown';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedi
     tipoRemolqueValidatorDirective,
     matriculaRemolqueValidatorDirective,
     matriculaValidatorDirective,
-    ViajesExpedidosComponent
+    ViajesExpedidosComponent,
+
 ],
   imports: [
     CommonModule,
@@ -64,7 +66,8 @@ import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedi
     AgmCoreModule.forRoot({
       apiKey:'AIzaSyCGgmjdheC7MRP3yoqNWU2OSEe89dTLNJA'
     }),
-    AgmDirectionModule
+    AgmDirectionModule,
+    NgxSimpleCountdownModule
   ]
 })
 export class OnusModule { }

@@ -1,172 +1,651 @@
 <div class="container-fluid">
-    <div class="row">
-    </div>
-    <div class="row">
-        <div class="col-2 col-lg-2 col-sm-2 col-md-2">
-        </div>
-        <div class="col-10 col-lg-10 col-sm-10 col-md-10 mt-5 ">
-            <div class="row filtros">
-                <div class="col-2">
-                    <div class="form-floating">
-                        <input name="origen"
-                        id="origen"
-                        class="form-control"
-                        #origen="ngModel"
-                        ngModel  
-                        aria-label="Floating label select example"
-                        list="Origen"
-                        >
-                        <datalist id="Origen">
-                            <option value="">Origen</option>
-                        <option *ngFor="let localidad of localidades" 
-							[ngValue]="localidad" 
-							class="option">{{localidad.nombre}}</option>
-                        </datalist>
-                        <label for="origen">Origen</label>
-                      </div>
-                </div>
-                <div class="col-2">
-                    <div class="form-floating">
-                        <input name="destino"
-                        id="destino"
-                        class="form-control"
-                        #destino="ngModel"
-                        ngModel  
-                        aria-label="Floating label select example"ç
-                        list="Destino"
-                        >
-                        <datalist id="Destino">
-                            <option value="">Destino</option>
-                        <option *ngFor="let localidad of localidades" 
-							[ngValue]="localidad" 
-							class="option">{{localidad.nombre}}</option>
-                        </datalist>
-                        <label for="destino">Destino</label>
+    <div class="row buscador"> 
+        <div class="col-12">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="label" for="paisR">PAIS</label>
+                        <div class="form-floating mb-3">
+                          <select name="paisR" 
+                          id="paisR" 
+                          class="form-control" 
+                          #paisR="ngModel" 
+                          ngModel 
+                          paisValidator
+                          (ngModelChange)="renewProvinciasR($event)">
+                            <option value="">Selecciona un pais</option>
+                            <option *ngFor="let pais of paisesR" [ngValue]="pais" class="option">{{pais.nombre}}
+                            </option>
+                          </select>
+                          <div *ngIf="paisR.invalid && (paisR.dirty ||paisR.touched)">
+                            <div *ngIf="['paisv']" class="invalid-tooltip d-block">
+                              {{paisR.errors?.['requiredValue']}}
+                            </div>
+                          </div>
+                          <label for="paisR"> Pais </label>
+                        </div>
                       </div>
                 </div>
                 <div class="col">
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                          <option selected>Open this select menu</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select>
-                        <label for="floatingSelect">Tipo remolque</label>
-                    </div>
-
+                    <div class="form-group">
+                        <label class="label" for="provinciaR">PROVINCIA</label>
+                        <div class="form-floating mb-3">
+                          <select 
+                          name="provinciaR" 
+                          id="provinciaR" 
+                          class="form-control" 
+                          #provinciaR="ngModel" 
+                          ngModel
+                          provinciaValidator 
+                          (ngModelChange)="renewLocalidadesR($event)">
+                            <option value="">Selecciona una provincia</option>
+                            <option *ngFor="let provincia of provinciasR" [ngValue]="provincia" class="option">
+                              {{provincia.nombre}}</option>
+                          </select>
+                          <div *ngIf="provinciaR.invalid && (provinciaR.dirty ||provinciaR.touched)">
+                            <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
+                              {{provinciaR.errors?.['requiredValue']}}
+                            </div>
+                          </div>
+                          <label for="provinciaR">Provincia</label>
+                        </div>
+                      </div>
                 </div>
                 <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div class="input-group form-floating">
-                                <input class="form-control"  id="inicio"
-                                       name="dp"  ngbDatepicker #d="ngbDatepicker">
-                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"><i class="fa fa-calendar"></i></button>
-                                <label for="inicio">Fecha inicio</label>
+                    <div class="form-group">
+                        <label class="label" for="localidadR">LOCALIDAD</label>
+                        <div class="form-floating mb-3">
+                          <select 
+                          name="localidadR" 
+                          id="localidadR" 
+                          class="form-control" 
+                          #localidadR="ngModel" 
+                          ngModel
+                          localidadValidator 
+                          (ngModelChange)="renewLocalidadR($event)"
+                         >
+                            <option value="">Selecciona una localidad</option>
+                            <option *ngFor="let localidad of localidadesR" [ngValue]="localidad" class="option">
+                              {{localidad.nombre}}</option>
+                          </select>
+                          <div *ngIf="localidadR.invalid && (localidadR.dirty ||localidadR.touched)">
+                            <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
+                              {{localidadR.errors?.['requiredValue']}}
                             </div>
+                          </div>
+                          <label for="localidadR">Localidad</label>
                         </div>
-                        <div class="col">
-                            <ngb-timepicker [(ngModel)]="timeInicio"></ngb-timepicker>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <div class="input-group form-floating">
-                                <input class="form-control"  id="fin"
-                                       name="dp"  ngbDatepicker #c="ngbDatepicker">
-                                <button class="btn btn-outline-secondary calendar" (click)="c.toggle()" type="button"><i class="fa fa-calendar"></i></button>
-                                <label for="fin">Fecha inicio</label>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <ngb-timepicker [(ngModel)]="timeFin"></ngb-timepicker>
-                        </div>
-                    </div>
+                      </div>
                 </div>
             </div>
-            <div class="row filtros">
-                <p>
-                    <button type="button" class="btn btn-outline-primary" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
-                      aria-controls="collapseExample">
-                      Mas filtros
-                    </button>
-                  </p>
-                  <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
-                    <div class="card">
-                      <div class="card-body">
-                        <div class="row">
-                            <div class="col-2">
-                                <div class="form-floating">
-                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                                    <label for="floatingPassword">Precio(min)</label>
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col">
+                    <label class="label" for="paisE">PAIS</label>
+                    <div class="form-floating mb-3">
+                      <select 
+                      name="paisE" 
+                      id="paisE" 
+                      class="form-control" 
+                      #paisE="ngModel" 
+                      ngModel
+                      paisValidator
+                      disabled
+                        (ngModelChange)="renewProvinciasE($event)">
+                        <option value="">Selecciona un pais</option>
+                        <option *ngFor="let pais of paisesE" [ngValue]="pais" class="option">{{pais.nombre}}
+                        </option>
+                      </select>
+                      <div *ngIf="paisE.invalid && (paisE.dirty ||paisE.touched)">
+                        <div *ngIf="['paisv']" class="invalid-tooltip d-block">
+                          {{paisE.errors?.['requiredValue']}}
                         </div>
                       </div>
+                      <label for="paisE"> Pais </label>
                     </div>
                   </div>
-            </div>
-            <div class="paginacion">
-                <table class="table table-dark table-borderless">
-                    
-                </table>
-                <ngb-pagination [collectionSize]="70" [(page)]="page" [boundaryLinks]="true">
-                    <ng-template ngbPaginationPages let-page let-pages="pages">
-                        <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
-                            <div class="mb-3 d-flex flex-nowrap px-2">
-                              <label
-                                  id="paginationInputLabel"
-                                  for="paginationInput"
-                                  class="col-form-label me-2 ms-1"
-                              >Page</label>
-                              <input #i
-                                  type="text"
-                                  inputmode="numeric"
-                                  pattern="[0-9]*"
-                                  class="form-control custom-pages-input"
-                                  id="paginationInput"
-                                  [value]="page"
-                                  (keyup.enter)="selectPage(i.value)"
-                                  (blur)="selectPage(i.value)"
-                                  (input)="formatInput($any($event).target)"
-                                  aria-labelledby="paginationInputLabel paginationDescription"
-                                  style="width: 2.5rem"
-                              />
-                              <span id="paginationDescription" class="col-form-label text-nowrap px-2">
-                                  of {{pages.length}}</span>
+                <div class="col">
+                    <div class="form-group">
+                        <label class="label" for="provinciaE">PROVINCIA</label>
+                        <div class="form-floating mb-3">
+                          <select name="provinciaE" 
+                          id="provinciaE" 
+                          class="form-control" 
+                          #provinciaE="ngModel" 
+                          ngModel
+                          disabled
+                            provinciaValidator (ngModelChange)="renewLocalidadesE($event)">
+                            <option value="">Selecciona una provincia</option>
+                            <option *ngFor="let provincia of provinciasE" [ngValue]="provincia" class="option">
+                              {{provincia.nombre}}</option>
+                          </select>
+                          <div *ngIf="provinciaE.invalid && (provinciaE.dirty ||provinciaE.touched)">
+                            <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
+                              {{provinciaE.errors?.['requiredValue']}}
                             </div>
-                        </li>
-                    </ng-template>
-                </ngb-pagination>
+                          </div>
+                          <label for="provinciaE">Provincia</label>
+                        </div>
+                      </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label class="label" for="localidadE">LOCALIDAD</label>
+                        <div class="form-floating mb-3">
+                          <select name="localidadE" 
+                          id="localidadE" 
+                          class="form-control" 
+                          #localidadE="ngModel" 
+                          ngModel
+                          disabled
+                            localidadValidator>
+                            <option value="">Selecciona una localidad</option>
+                            <option *ngFor="let localidad of localidadesE" [ngValue]="localidad" class="option">
+                              {{localidad.nombre}}</option>
+                          </select>
+                          <div *ngIf="localidadE.invalid && (localidadE.dirty ||localidadE.touched)">
+                            <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
+                              {{localidadE.errors?.['requiredValue']}}
+                            </div>
+                          </div>
+                          <label for="localidadE">Localidad</label>
+                        </div>
+                      </div>
+                </div>
             </div>
 
         </div>
-        <div id="errorModal" class="modal fade">
-            <div class="modal-dialog modal-confirm modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                            
-                            <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;">
-                                <span class="swal2-x-mark"><span class="swal2-x-mark-line-left">
-                                </span><span class="swal2-x-mark-line-right"></span></span>
+        <div class="col-12">
+            <p>
+                <a class="btn btn-primary disabled-link" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"
+                (click)="changeButton()" id="botonFiltros">
+                  Más filtros
+                </a>
+              </p>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label class="label" for="fInicio">FECHA DE INICIO</label>
+                                <div class="form-floating mb-3">
+                                  <input type="datetime-local"  class="company form-control" 
+                                  min = "{{ hoy | date: 'yyyy-MM-ddTHH:mm'}}" 
+                                  name="fInicio" 
+                                  id="fInicio"
+                                  #fInicio = "ngModel"
+                                  ngModel
+                                  fInicioValidator
+                                  />
+                                  <div *ngIf="fInicio.invalid && (fInicio.dirty ||fInicio.touched)">
+                                    <div *ngIf="['fechav']" class="invalid-tooltip d-block">
+                                      {{fInicio.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="fInicio"> Fecha de inicio </label>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label class="label" for="fHoraFin">FECHA DE FIN</label>
+                                <div class="form-floating mb-3">
+                                  <input type="datetime-local" 
+                                  name="fHoraFin"
+                                  id="fHoraFin" 
+                                  class="company form-control"
+                                  #fHoraFin="ngModel" 
+                                  ngModel 
+                                  fFinValidtor 
+                                  (change)="checkTime()"
+                                    />
+                                    <div *ngIf="(fInicio.invalid && (fInicio.dirty ||fInicio.touched)) || shortTime">
+                                      <div *ngIf="['fechav']" class="invalid-tooltip d-block">
+                                        {{fInicio.errors?.['requiredValue']}}
+                                      </div>
+                                      <div *ngIf="shortTime" class="invalid-tooltip d-block">
+                                        Tiempo de trasito muy corto
+                                      </div>
+                                    </div>
+                                  <label for="fHoraFin"> Fecha de fin </label>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label class="label" for="tipoCamion">TIPO DE CAMION</label>
+                                <div class="form-floating mb-3">
+                                  <select name="tipoCamion" 
+                                  id="tipoCamion" 
+                                  #tipoCamion="ngModel"
+                                  ngModel
+                                  class="form-select"
+                                  aria-label="Floating label select example"
+                                  tipoCamionValidator
+                                  (ngModelChange)="checkTipoCamion($event)" 
+                                   >      
+                                    <option value="" hidden>
+                                      Selecciona
+                                    </option>
+                                    <ng-container *ngIf="tiposCamion$ | async as tiposCamion">
+                                    <option *ngFor="let tipoCamion of tiposCamion" [ngValue]="tipoCamion">
+                                      {{tipoCamion.nombre}}
+                                    </option>
+                                  </ng-container>
+                                  </select>
+                                  <div *ngIf="tipoCamion.invalid && (tipoCamion.dirty ||tipoCamion.touched)" >
+                                    <div *ngIf="['tipoCamionv']" class="invalid-tooltip d-block">
+                                      {{tipoCamion.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="tipoCamion">Tipo de Camion</label>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label class="label" for="tipoRemolque">TIPO DE REMOLQUE</label>
+                                <div class="form-floating mb-3">
+                                  <select name="tipoRemolque" 
+                                  id="tipoRemolque" 
+                                  #tipoRemolque="ngModel"
+                                  ngModel
+                                  class="form-select"
+                                  aria-label="Floating label select example"
+                                  tipoRemolqueValidator 
+                                   >
+                                    <option value="" hidden>
+                                      Selecciona
+                                    </option>
+                                    <ng-container *ngIf="tiposRemolque$ | async as tiposRemolque">
+                                    <option *ngFor="let tipoRemolque of tiposRemolque" [ngValue]="tipoRemolque">
+                                      {{tipoRemolque.nombre}}
+                                    </option>
+                                  </ng-container>
+                                  </select>
+                                  <div *ngIf="tipoRemolque.invalid && (tipoRemolque.dirty ||tipoRemolque.touched)" >
+                                    <div *ngIf="['tipoRemolquev']" class="invalid-tooltip d-block">
+                                      {{tipoRemolque.errors?.['requiredValue']}}
+                                    </div>
+                                  </div>
+                                  <label for="tipoRemolque">Tipo de Remolque</label>
+                                </div>
+                    
+                              </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label class="label" for="pago">PAGO(mín)</label>
+                                <div class="form-floating mb-3">
+                                  <input type="text" 
+                                  name="pago" 
+                                  id="pago" 
+                                  class="company form-control" 
+                                  #pago="ngModel"
+                                  ngModel
+                                  descripcionValidator />
+                                     <div *ngIf="pago.invalid && (pago.dirty ||pago.touched)">
+                                      <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                        {{pago.errors?.['requiredValue']}}
+                                      </div>
+                                    </div>
+                                  <label for="pago"> Pago</label>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label class="label" for="tipoFiltro">DURACION DEL VIAJE</label>
+                                <div class="form-floating mb-3">
+                                  <select name="tipoFiltro" 
+                                  id="tipoFiltro"
+                                  #tipoFiltro="ngModel"
+                                  ngModel 
+                                  class="form-select"
+                                  aria-label="Floating label select example"
+                                  (ngModelChange)="changeDuration($event)"
+                                  >      
+                                    <option value="duracion" selected>
+                                      Duracion
+                                    </option>
+                                    <option value="distancia">
+                                        Distancia
+                                      </option></select>
+                                  <label for="tipoFiltro">Duracion del viaje</label>
+                                </div>
+                              </div>
+                        </div>
+                        <ng-container *ngIf="isDuracion;else distanciaBlock">
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label class="label" for="horasmin">HORAS(MÍN)</label>
+                                    <div class="form-floating mb-3">
+                                      <input type="text" 
+                                      name="horasmin" 
+                                      id="horasmin" 
+                                      class="company form-control" 
+                                      #horasmin="ngModel"
+                                      ngModel
+                                      descripcionValidator />
+                                         <div *ngIf="horasmin.invalid && (horasmin.dirty ||horasmin.touched)">
+                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                            {{horasmin.errors?.['requiredValue']}}
+                                          </div>
+                                        </div>
+                                      <label for="horasmin"> Horas(mín)</label>
+                                    </div>
+                                  </div>
                             </div>
-                            
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-center">{{errMsj}}</p>
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                        <button class="btn btn-danger"  [routerLink]="'/dashboard'" data-bs-dismiss="modal">Volver</button>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label class="label" for="horasmax">HORAS(MAX)</label>
+                                    <div class="form-floating mb-3">
+                                      <input type="text" 
+                                      name="horasmax" 
+                                      id="horasmax" 
+                                      class="company form-control" 
+                                      #horasmax="ngModel"
+                                      ngModel
+                                      descripcionValidator />
+                                         <div *ngIf="horasmax.invalid && (horasmax.dirty ||horasmax.touched)">
+                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                            {{horasmax.errors?.['requiredValue']}}
+                                          </div>
+                                        </div>
+                                      <label for="horasmax"> Horas(max)</label>
+                                    </div>
+                                  </div>
+                            </div>
+                        </ng-container>
+                        <ng-template #distanciaBlock>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label class="label" for="distanciamin">KM(MÍN)</label>
+                                    <div class="form-floating mb-3">
+                                      <input type="text" 
+                                      name="distanciamin" 
+                                      id="distanciamin" 
+                                      class="company form-control" 
+                                      #distanciamin="ngModel"
+                                      ngModel
+                                      descripcionValidator />
+                                         <div *ngIf="distanciamin.invalid && (distanciamin.dirty ||distanciamin.touched)">
+                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                            {{distanciamin.errors?.['requiredValue']}}
+                                          </div>
+                                        </div>
+                                      <label for="distanciamin"> Km(mín)</label>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label class="label" for="distanciamax">KM(MAX)</label>
+                                    <div class="form-floating mb-3">
+                                      <input type="text" 
+                                      name="distanciamax" 
+                                      id="distanciamax" 
+                                      class="company form-control" 
+                                      #distanciamax="ngModel"
+                                      ngModel
+                                      descripcionValidator />
+                                         <div *ngIf="distanciamax.invalid && (distanciamax.dirty ||distanciamax.touched)">
+                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                            {{distanciamax.errors?.['requiredValue']}}
+                                          </div>
+                                        </div>
+                                      <label for="distanciamax"> Km(max)</label>
+                                    </div>
+                                  </div>
+                            </div>
+                        </ng-template>
+
+                        </div>
                     </div>
                 </div>
+              </div>
+        </div>
+        <div class="row barraActualizacion">
+          <div class="col-6">
+            <div class="d-flex justify-content-start">
+
+            </div>
+          </div>
+            <div class="col-6">
+              <div class="d-flex justify-content-end">
+                <span class="texto">Siguiente actualización {{timeLeft}}s</span>
+                <button type="button" class="btn btn-light" (click)="refreshTime();">  
+                  <i class="fa-solid fa-arrow-rotate-right"></i>
+                </button>
+                <button type="button" class="btn btn-light" *ngIf="!timePaused;else startBlock" (click)="pauseTimer();">  
+                  <i class="fa-solid fa-pause"></i>
+                </button>
+                <ng-template #startBlock>
+                  <button type="button" class="btn btn-light" (click)="startTimer();">  
+                    <i class="fa-solid fa-play"></i>
+                  </button>
+                </ng-template>
+                <div class="dropdown">
+                  <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-light">  
+                      <i class="fa-solid fa-gear"></i>
+                    </button>
+                  </div>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li class="times" (click)="changeTimer(15);">15 seconds</li>
+                    <li class="times" (click)="changeTimer(30);">30 seconds</li>
+                    <li class="times" (click)="changeTimer(40);">40 seconds</li>
+                    <li class="times" (click)="changeTimer(60);">60 seconds</li>
+                  </ul>
+                </div>
+              </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-    </div>    
+        <div class="row panel g-0 mt-5">
+          <div class="col-12">
+            <div class="row">
+              <ng-container *ngFor="let viaje of viajesFiltrados ; let indice =index">
+                  <a class="btn btn-primary" data-bs-toggle="collapse" [attr.href]="'#collapse' + indice" role="button" aria-expanded="false" aria-controls="collapseExample" 
+                  style="margin:0 ; background-color: rgba(228, 225, 225, 0.555); color: black; margin-bottom: 5px;"
+                  >
+                    <div class="row">
+                        <div class="col-3">
+                         <i class="fa-solid fa-1"></i> 
+                         {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                         {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                         <p>
+                             {{viaje.fHoraInicio| date :'fullDate'}}
+                             {{viaje.fHoraInicio| date :'shortTime'}}
+                         </p> 
+                         
+                        </div>
+                        <div class="col">
+                         <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                        <div class="col-3">
+                         <i class="fa-solid fa-2"></i> 
+                         {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                         {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                         <p>
+                             {{viaje.fHoraFin| date :'fullDate'}}
+                             {{viaje.fHoraFin| date :'shortTime'}}
+                         </p> 
+                         
+                        </div>
+                        <div class="col">
+                         {{(viaje.distancia/1000).toFixed(0)}} Km
+                         <p>
+                             {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                             {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                         </p>
+                        </div>
+                        <div class="col">
+                         <i class="fa-solid fa-truck"></i>
+                            <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                        </div>
+                        <div class="col">
+                         <i class="fa-solid fa-trailer"></i>
+                         <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                         <ng-template #remolqueBlock>
+                         <p>Sin remolque</p>
+                         </ng-template>
+                        </div>
+                        <div class="col">
+                         <i class="fa-solid fa-euro-sign"></i>
+                         <p>
+                             {{viaje.precio}} €
+                         </p>
+                        </div>
+                    </div>
+                 </a>
+             <div class="collapse" [attr.id]="'collapse' + indice" >
+              <div class="card border-secondary mb-3">
+                  <div class="card-header">
+                      <div class="row" id="titulo">
+                          <div class="col">
+                              <i class="fa-solid fa-circle-arrow-up"></i>
+                          </div>
+                          <div class="col-3">
+                           <i class="fa-solid fa-1"></i> 
+                           {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                           {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                           <p>
+                               {{viaje.fHoraInicio| date :'fullDate'}}
+                               {{viaje.fHoraInicio| date :'shortTime'}}
+                           </p> 
+                           
+                          </div>
+                          <div class="col">
+                           <i class="fa-solid fa-arrow-right"></i>
+                          </div>
+                          <div class="col-3">
+                           <i class="fa-solid fa-2"></i> 
+                           {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                           {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                           <p>
+                               {{viaje.fHoraFin| date :'fullDate'}}
+                               {{viaje.fHoraFin| date :'shortTime'}}
+                           </p> 
+                           
+                          </div>
+                          <div class="col">
+                           {{(viaje.distancia/1000).toFixed(0)}} Km
+                           <p>
+                               {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                               {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                           </p>
+                          </div>
+                          <div class="col">
+                           <i class="fa-solid fa-truck"></i>
+                              <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                          </div>
+                          <div class="col">
+                           <i class="fa-solid fa-trailer"></i>
+                           <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                           <ng-template #remolqueBlock>
+                           <p>Sin remolque</p>
+                           </ng-template>
+                          </div>
+                          <div class="col">
+                           <i class="fa-solid fa-euro-sign"></i>
+                           <p>
+                               {{viaje.precio}} €
+                           </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card-body text-secondary">
+                    <div class="row g-0">
+                      <div class="col">
+                          <p><i class="fa-solid fa-1"></i></p>
+                          
+                          {{viaje.recogidaDeDireccion.tipo}} 
+                          {{viaje.recogidaDeDireccion.nombre}}, 
+                          {{viaje.recogidaDeDireccion.numero}}
+                          <p>
+                              {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}}, 
+                              {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                              {{viaje.recogidaDeDireccion.direccionDeLocalidad.cp}}
+                          </p>
+                    </div>
+                    <div class="col">
+                        <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                        {{viaje.descripcion}} 
+                    </div>
+                    <div class="col">
+                        <p>
+                          <i class="fa-solid fa-clock"></i> Llegada al centro de carga
+                        </p>
+                        <p>
+                          {{viaje.fHoraInicio| date :'fullDate'}}
+                          {{viaje.fHoraInicio| date :'shortTime'}}
+                      </p> 
+  
+                    </div>
+                    <div class="col">
+                        Matricula Vehículo : Pendiente...
+                        <p>
+                          <i class="fa-solid fa-circle"></i>
+                          {{viaje.viajeDeTipoCamion.nombre}}
+                        </p>
+                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                          Matricula Remolque : Pendiente...
+                        </p>
+                        <ng-template #remolqueBlock2>
+  
+                        </ng-template>
+                    </div>
+  
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col">
+                          <p><i class="fa-solid fa-2"></i></p>
+                          
+                          {{viaje.entregaDeDireccion.tipo}} 
+                          {{viaje.entregaDeDireccion.nombre}}, 
+                          {{viaje.entregaDeDireccion.numero}}
+                          <p>
+                              {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}}, 
+                              {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                              {{viaje.entregaDeDireccion.direccionDeLocalidad.cp}}
+                          </p>
+                         
+                    </div>
+                    <div class="col">
+                      <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                      {{viaje.descripcion}} 
+                  </div>
+                  <div class="col">
+                      <p>
+                        <i class="fa-solid fa-clock"></i> Llegada al centro de descarga
+                      </p>
+                      <p>
+                          {{viaje.fHoraFin| date :'fullDate'}}
+                          {{viaje.fHoraFin| date :'shortTime'}}
+                      </p> 
+                  </div>
+                    <div class="col">
+                      Matricula Vehículo : Pendiente...
+                      <p>
+                        <i class="fa-solid fa-circle"></i>
+                        {{viaje.viajeDeTipoCamion.nombre}}
+                      </p>
+                      <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                        Matricula Remolque : Pendiente...
+                      </p>
+                      <ng-template #remolqueBlock2>
+                        
+                      </ng-template>
+                  </div>
+  
+                    </div>
+                  </div>
+                </div>
+            </div>
+  </ng-container>
+            </div>
+          </div>
+        </div>
 </div>
 
 

@@ -23,6 +23,10 @@ export class ViajeService {
     return this.http.get<Viaje[]>(this.viajeUrl+'/'+idEmpresa+'/findAll');
   }
 
+  public findAllPanel():Observable<Viaje[]>{
+    return this.http.get<Viaje[]>(this.viajeUrl+"/findAllPanel");
+  }
+
   public findAllExpedidor(idExpedidor:number):Observable<Viaje[]>{
     return this.http.get<Viaje[]>(this.viajeUrl+'/'+idExpedidor+'/findAllExpedidor');
   }

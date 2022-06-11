@@ -334,7 +334,7 @@ export class ViajeComponent implements OnInit {
   checkTipoCamion(data:any){
     if(!data.enganche){
       $("#tipoRemolque").attr("disabled","disabled");
-      $('#tipoRemolque').val("").attr("selected", "selected");;
+      $('#tipoRemolque').val("").attr("selected", "selected");
     }else{
       $("#tipoRemolque").removeAttr("disabled","disabled");
     }
@@ -478,8 +478,8 @@ export class ViajeComponent implements OnInit {
     var $contenedorCanvas:any;
     $objetivo = document.querySelector('#datos'); //Que capturamos
     var $eliminarMap:any;
-    $eliminarMap = document.querySelector('#borrarMap');
-    $eliminarMap.remove();
+    //$eliminarMap = document.querySelector('#borrarMap');
+    //$eliminarMap.remove();
     $contenedorCanvas = document.querySelector('#contenedorCanvas'); //donde ponemos la captura
     html2canvas($objetivo).then(canvas => {
       $contenedorCanvas.appendChild(canvas);

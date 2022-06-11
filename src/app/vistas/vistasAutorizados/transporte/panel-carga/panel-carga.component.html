@@ -11,17 +11,11 @@
                           class="form-control" 
                           #paisR="ngModel" 
                           ngModel 
-                          paisValidator
                           (ngModelChange)="renewProvinciasR($event)">
                             <option value="">Selecciona un pais</option>
                             <option *ngFor="let pais of paisesR" [ngValue]="pais" class="option">{{pais.nombre}}
                             </option>
                           </select>
-                          <div *ngIf="paisR.invalid && (paisR.dirty ||paisR.touched)">
-                            <div *ngIf="['paisv']" class="invalid-tooltip d-block">
-                              {{paisR.errors?.['requiredValue']}}
-                            </div>
-                          </div>
                           <label for="paisR"> Pais </label>
                         </div>
                       </div>
@@ -36,17 +30,11 @@
                           class="form-control" 
                           #provinciaR="ngModel" 
                           ngModel
-                          provinciaValidator 
                           (ngModelChange)="renewLocalidadesR($event)">
                             <option value="">Selecciona una provincia</option>
                             <option *ngFor="let provincia of provinciasR" [ngValue]="provincia" class="option">
                               {{provincia.nombre}}</option>
                           </select>
-                          <div *ngIf="provinciaR.invalid && (provinciaR.dirty ||provinciaR.touched)">
-                            <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
-                              {{provinciaR.errors?.['requiredValue']}}
-                            </div>
-                          </div>
                           <label for="provinciaR">Provincia</label>
                         </div>
                       </div>
@@ -61,18 +49,12 @@
                           class="form-control" 
                           #localidadR="ngModel" 
                           ngModel
-                          localidadValidator 
                           (ngModelChange)="renewLocalidadR($event)"
                          >
                             <option value="">Selecciona una localidad</option>
                             <option *ngFor="let localidad of localidadesR" [ngValue]="localidad" class="option">
                               {{localidad.nombre}}</option>
                           </select>
-                          <div *ngIf="localidadR.invalid && (localidadR.dirty ||localidadR.touched)">
-                            <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
-                              {{localidadR.errors?.['requiredValue']}}
-                            </div>
-                          </div>
                           <label for="localidadR">Localidad</label>
                         </div>
                       </div>
@@ -88,18 +70,12 @@
                       class="form-control" 
                       #paisE="ngModel" 
                       ngModel
-                      paisValidator
                       disabled
                         (ngModelChange)="renewProvinciasE($event)">
                         <option value="">Selecciona un pais</option>
                         <option *ngFor="let pais of paisesE" [ngValue]="pais" class="option">{{pais.nombre}}
                         </option>
                       </select>
-                      <div *ngIf="paisE.invalid && (paisE.dirty ||paisE.touched)">
-                        <div *ngIf="['paisv']" class="invalid-tooltip d-block">
-                          {{paisE.errors?.['requiredValue']}}
-                        </div>
-                      </div>
                       <label for="paisE"> Pais </label>
                     </div>
                   </div>
@@ -113,16 +89,11 @@
                           #provinciaE="ngModel" 
                           ngModel
                           disabled
-                            provinciaValidator (ngModelChange)="renewLocalidadesE($event)">
+                          (ngModelChange)="renewLocalidadesE($event)">
                             <option value="">Selecciona una provincia</option>
                             <option *ngFor="let provincia of provinciasE" [ngValue]="provincia" class="option">
                               {{provincia.nombre}}</option>
                           </select>
-                          <div *ngIf="provinciaE.invalid && (provinciaE.dirty ||provinciaE.touched)">
-                            <div *ngIf="['provinciav']" class="invalid-tooltip d-block">
-                              {{provinciaE.errors?.['requiredValue']}}
-                            </div>
-                          </div>
                           <label for="provinciaE">Provincia</label>
                         </div>
                       </div>
@@ -137,16 +108,12 @@
                           #localidadE="ngModel" 
                           ngModel
                           disabled
-                            localidadValidator>
+                      
+                            (ngModelChange)="renewLocalidadE($event)">
                             <option value="">Selecciona una localidad</option>
                             <option *ngFor="let localidad of localidadesE" [ngValue]="localidad" class="option">
                               {{localidad.nombre}}</option>
                           </select>
-                          <div *ngIf="localidadE.invalid && (localidadE.dirty ||localidadE.touched)">
-                            <div *ngIf="['localidadv']" class="invalid-tooltip d-block">
-                              {{localidadE.errors?.['requiredValue']}}
-                            </div>
-                          </div>
                           <label for="localidadE">Localidad</label>
                         </div>
                       </div>
@@ -175,6 +142,7 @@
                                   #fInicio = "ngModel"
                                   ngModel
                                   fInicioValidator
+                                  (change)="updateTime()"
                                   />
                                   <div *ngIf="fInicio.invalid && (fInicio.dirty ||fInicio.touched)">
                                     <div *ngIf="['fechav']" class="invalid-tooltip d-block">
@@ -198,9 +166,9 @@
                                   fFinValidtor 
                                   (change)="checkTime()"
                                     />
-                                    <div *ngIf="(fInicio.invalid && (fInicio.dirty ||fInicio.touched)) || shortTime">
+                                    <div *ngIf="(fHoraFin.invalid && (fHoraFin.dirty ||fHoraFin.touched)) || shortTime">
                                       <div *ngIf="['fechav']" class="invalid-tooltip d-block">
-                                        {{fInicio.errors?.['requiredValue']}}
+                                        {{fHoraFin.errors?.['requiredValue']}}
                                       </div>
                                       <div *ngIf="shortTime" class="invalid-tooltip d-block">
                                         Tiempo de trasito muy corto
@@ -220,7 +188,6 @@
                                   ngModel
                                   class="form-select"
                                   aria-label="Floating label select example"
-                                  tipoCamionValidator
                                   (ngModelChange)="checkTipoCamion($event)" 
                                    >      
                                     <option value="" hidden>
@@ -232,11 +199,6 @@
                                     </option>
                                   </ng-container>
                                   </select>
-                                  <div *ngIf="tipoCamion.invalid && (tipoCamion.dirty ||tipoCamion.touched)" >
-                                    <div *ngIf="['tipoCamionv']" class="invalid-tooltip d-block">
-                                      {{tipoCamion.errors?.['requiredValue']}}
-                                    </div>
-                                  </div>
                                   <label for="tipoCamion">Tipo de Camion</label>
                                 </div>
                               </div>
@@ -251,7 +213,7 @@
                                   ngModel
                                   class="form-select"
                                   aria-label="Floating label select example"
-                                  tipoRemolqueValidator 
+                                  (ngModelChange)="checkTipoRemolque($event)"
                                    >
                                     <option value="" hidden>
                                       Selecciona
@@ -262,11 +224,6 @@
                                     </option>
                                   </ng-container>
                                   </select>
-                                  <div *ngIf="tipoRemolque.invalid && (tipoRemolque.dirty ||tipoRemolque.touched)" >
-                                    <div *ngIf="['tipoRemolquev']" class="invalid-tooltip d-block">
-                                      {{tipoRemolque.errors?.['requiredValue']}}
-                                    </div>
-                                  </div>
                                   <label for="tipoRemolque">Tipo de Remolque</label>
                                 </div>
                     
@@ -282,12 +239,14 @@
                                   class="company form-control" 
                                   #pago="ngModel"
                                   ngModel
-                                  descripcionValidator />
-                                     <div *ngIf="pago.invalid && (pago.dirty ||pago.touched)">
-                                      <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
-                                        {{pago.errors?.['requiredValue']}}
-                                      </div>
+                                  precioValidator 
+                                  (ngModelChange)="checkPagoMin($event)"
+                                  />
+                                  <div *ngIf="pago.invalid && (pago.dirty ||pago.touched)">
+                                    <div *ngIf="['preciov']" class="invalid-tooltip d-block">
+                                      {{pago.errors?.['requiredValue']}}
                                     </div>
+                                  </div>
                                   <label for="pago"> Pago</label>
                                 </div>
                               </div>
@@ -325,9 +284,11 @@
                                       class="company form-control" 
                                       #horasmin="ngModel"
                                       ngModel
-                                      descripcionValidator />
+                                      precioValidator 
+                                      (ngModelChange)="checkHorasMin($event)"
+                                      />
                                          <div *ngIf="horasmin.invalid && (horasmin.dirty ||horasmin.touched)">
-                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                          <div *ngIf="['preciov']" class="invalid-tooltip d-block">
                                             {{horasmin.errors?.['requiredValue']}}
                                           </div>
                                         </div>
@@ -345,11 +306,16 @@
                                       class="company form-control" 
                                       #horasmax="ngModel"
                                       ngModel
-                                      descripcionValidator />
+                                      precioValidator 
+                                      (ngModelChange)="checkHorasMax($event)"
+                                      />
                                          <div *ngIf="horasmax.invalid && (horasmax.dirty ||horasmax.touched)">
-                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                          <div *ngIf="['preciov']" class="invalid-tooltip d-block">
                                             {{horasmax.errors?.['requiredValue']}}
                                           </div>
+                                        </div>
+                                        <div *ngIf=isMinMayMax class="invalid-tooltip d-block">
+                                          La hora maxima no puede ser inferior a la minima
                                         </div>
                                       <label for="horasmax"> Horas(max)</label>
                                     </div>
@@ -367,9 +333,11 @@
                                       class="company form-control" 
                                       #distanciamin="ngModel"
                                       ngModel
-                                      descripcionValidator />
+                                      precioValidator 
+                                      (ngModelChange)="checkDistanciaMin($event)"
+                                      />
                                          <div *ngIf="distanciamin.invalid && (distanciamin.dirty ||distanciamin.touched)">
-                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                          <div *ngIf="['preciov']" class="invalid-tooltip d-block">
                                             {{distanciamin.errors?.['requiredValue']}}
                                           </div>
                                         </div>
@@ -387,11 +355,16 @@
                                       class="company form-control" 
                                       #distanciamax="ngModel"
                                       ngModel
-                                      descripcionValidator />
+                                      precioValidator
+                                      (ngModelChange)="checkDistanciaMax($event)"
+                                      />
                                          <div *ngIf="distanciamax.invalid && (distanciamax.dirty ||distanciamax.touched)">
-                                          <div *ngIf="['descripcionv']" class="invalid-tooltip d-block">
+                                          <div *ngIf="['preciov']" class="invalid-tooltip d-block">
                                             {{distanciamax.errors?.['requiredValue']}}
                                           </div>
+                                        </div>
+                                        <div *ngIf=isMinMayMax class="invalid-tooltip d-block">
+                                          La distancia maxima no puede ser inferior a la minima
                                         </div>
                                       <label for="distanciamax"> Km(max)</label>
                                     </div>
@@ -407,7 +380,7 @@
         <div class="row barraActualizacion">
           <div class="col-6">
             <div class="d-flex justify-content-start">
-
+              <span class="texto">Mostrando {{nResultados}} resultados</span>
             </div>
           </div>
             <div class="col-6">
@@ -440,6 +413,71 @@
               </div>
             </div>
         </div>
+        <div class="row">
+          <div class="col-12 badges">
+            <span *ngIf="isFInicio" class="badge rounded-pill bg-info text-dark spanCross" id="fechaInicio">
+              Fecha de Inicio : {{infoFInicio}} 
+              <button class="butonspan" (click)=" removeFInicio();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span *ngIf="isFFin" class="badge rounded-pill bg-info text-dark spanCross">Fecha de Fin: {{infoFFin}}   
+              <button class="butonspan" (click)=" removeFFin();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span  *ngIf="isTipoCamion" class="badge rounded-pill bg-info text-dark spanCross">Tipo camion: {{infoTipoCamion}}  
+              <button class="butonspan" (click)=" removeTipoCamion();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span  *ngIf="isTipoRemolque" class="badge rounded-pill bg-info text-dark spanCross">Tipo remolque: {{infoTipoRemolque}}  
+              <button class="butonspan" (click)=" removeTipoRemolque();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span *ngIf="isPagoMinimo"  class="badge rounded-pill bg-info text-dark spanCross">Pago mínimo : {{infoPagoMinimo}}  
+              <button class="butonspan" (click)=" removePagoMinimo();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span  *ngIf="isHorasMinimo" class="badge rounded-pill bg-info text-dark spanCross">Horas mínimas : {{infoHorasMinimo}}  
+              <button class="butonspan" (click)=" removeHorasMinimo();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span  *ngIf="isHorasMaximo" class="badge rounded-pill bg-info text-dark spanCross">Horas máximas : {{infoHorasMaximo}}  
+              <button class="butonspan" (click)=" removeHorasMaximo();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span  *ngIf="isDistanciaMinimo" class="badge rounded-pill bg-info text-dark spanCross">Distancia mínima : {{infoDistanciaMinimo}} 
+              <button class="butonspan" (click)=" removeDistanciaMinimo();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+            <span *ngIf="isDistanciaMaximo"  class="badge rounded-pill bg-info text-dark spanCross">Distancia máxima : {{infoDistanciaMaximo}}  
+              <button class="butonspan" (click)=" removeDistanciaMaximo();"><i class="fa-solid fa-circle-xmark"></i></button>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="alert alert-success" role="alert" *ngIf="isReservado">
+            {{errMsj}}
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="notReservado">
+            {{errMsj}}
+          </div>
+        </div>
+        <div class="row">
+          <ng-template #content let-modal>
+            <form #expedidorform="ngForm" (submit)="onReserva(expedidorform.value)" id="myForm">
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Reservar viaje</h4>
+                <button type="button" class="btn-close" aria-label="Close"
+                  (click)="modal.dismiss('Cross click')"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row g-0">
+                  <div class="col-12 mt-2">
+                    La confirmación de la reserva conllevará el contrato por ambas partes (portadora-expedidora) a cumplir con sus obligaciones , 
+                    tanto a la recepción como a la entrega de la mercancía y en oposición el pago de la misma , cualquier parte incumplida de 
+                    dicho contrato acarreará sanciones de rendimiento y perdida al panel de carga por parte de la empresa portadora  y por parte 
+                    de la empresa expedidora se le sancionará economicamente.
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cancelado')">Cancelar</button>
+                <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Reservado')">Confirmar reserva</button>
+              </div>
+            </form>
+          </ng-template>
+        </div>
         <div class="row panel g-0 mt-5">
           <div class="col-12">
             <div class="row">
@@ -447,7 +485,7 @@
                   <a class="btn btn-primary" data-bs-toggle="collapse" [attr.href]="'#collapse' + indice" role="button" aria-expanded="false" aria-controls="collapseExample" 
                   style="margin:0 ; background-color: rgba(228, 225, 225, 0.555); color: black; margin-bottom: 5px;"
                   >
-                    <div class="row">
+                    <div class="row align-items-center">
                         <div class="col-3">
                          <i class="fa-solid fa-1"></i> 
                          {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
@@ -495,12 +533,17 @@
                              {{viaje.precio}} €
                          </p>
                         </div>
+                        <div class="col">
+                          <button type="button" class="btn btn-light" (click)="open(content , viaje.id)">  
+                            Reservar
+                          </button>
+                        </div>
                     </div>
                  </a>
              <div class="collapse" [attr.id]="'collapse' + indice" >
               <div class="card border-secondary mb-3">
                   <div class="card-header">
-                      <div class="row" id="titulo">
+                      <div class="row align-items-center" id="titulo">
                           <div class="col">
                               <i class="fa-solid fa-circle-arrow-up"></i>
                           </div>
@@ -554,7 +597,7 @@
                       </div>
                   </div>
                   <div class="card-body text-secondary">
-                    <div class="row g-0">
+                    <div class="row g-0 align-items-center">
                       <div class="col">
                           <p><i class="fa-solid fa-1"></i></p>
                           
@@ -580,24 +623,10 @@
                           {{viaje.fHoraInicio| date :'shortTime'}}
                       </p> 
   
-                    </div>
-                    <div class="col">
-                        Matricula Vehículo : Pendiente...
-                        <p>
-                          <i class="fa-solid fa-circle"></i>
-                          {{viaje.viajeDeTipoCamion.nombre}}
-                        </p>
-                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
-                          Matricula Remolque : Pendiente...
-                        </p>
-                        <ng-template #remolqueBlock2>
-  
-                        </ng-template>
-                    </div>
-  
+                    </div>  
                     </div>
                     <hr>
-                    <div class="row">
+                    <div class="row align-items-center">
                       <div class="col">
                           <p><i class="fa-solid fa-2"></i></p>
                           
@@ -610,7 +639,7 @@
                               {{viaje.entregaDeDireccion.direccionDeLocalidad.cp}}
                           </p>
                          
-                    </div>
+                      </div>
                     <div class="col">
                       <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
                       {{viaje.descripcion}} 
@@ -623,21 +652,22 @@
                           {{viaje.fHoraFin| date :'fullDate'}}
                           {{viaje.fHoraFin| date :'shortTime'}}
                       </p> 
-                  </div>
-                    <div class="col">
-                      Matricula Vehículo : Pendiente...
-                      <p>
-                        <i class="fa-solid fa-circle"></i>
-                        {{viaje.viajeDeTipoCamion.nombre}}
-                      </p>
-                      <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
-                        Matricula Remolque : Pendiente...
-                      </p>
-                      <ng-template #remolqueBlock2>
-                        
-                      </ng-template>
-                  </div>
-  
+                  </div>  
+                    </div>
+                    <hr>
+                    <div class="row align-items-center">
+                      <button type="button" class="btn btn-light" (click)="updateMap(viaje.id);" id="viaje.id">  
+                        <i class="fa-solid fa-map-location-dot"></i>
+                      </button>
+                      <ng-container *ngIf ="idMap === viaje.id">
+                        <agm-map [latitude]="24.799448" [longitude]="120.979021" id="mapa">
+                          <agm-direction 
+                            [origin]="viaje.recogidaDeDireccion.direccionDeLocalidad.nombre" 
+                            [destination]="viaje.entregaDeDireccion.direccionDeLocalidad.nombre"
+                          >
+                          </agm-direction>
+                        </agm-map>
+                      </ng-container>
                     </div>
                   </div>
                 </div>

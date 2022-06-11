@@ -425,9 +425,9 @@
                               fFinValidtor 
                               (change)="checkTime()"
                                 />
-                                <div *ngIf="(fInicio.invalid && (fInicio.dirty ||fInicio.touched)) || shortTime">
+                                <div *ngIf="(fHoraFin.invalid && (fHoraFin.dirty ||fHoraFin.touched)) || shortTime">
                                   <div *ngIf="['fechav']" class="invalid-tooltip d-block">
-                                    {{fInicio.errors?.['requiredValue']}}
+                                    {{fHoraFin.errors?.['requiredValue']}}
                                   </div>
                                   <div *ngIf="shortTime" class="invalid-tooltip d-block">
                                     Tiempo de trasito muy corto
@@ -471,7 +471,6 @@
                               class="company form-control" 
                               #precio="ngModel"
                               ngModel
-                              precioValidator
                               readonly />
                               <label for="precio"> Precio</label>
                             </div>
@@ -554,7 +553,7 @@
                             </option>
                           </ng-container>
                           </select>
-                          <div *ngIf="tipoRemolque.invalid && (tipoRemolque.dirty ||tipoRemolque.touched)" >
+                          <div *ngIf="tipoRemolque.invalid && (tipoRemolque.dirty ||tipoRemolque.touched)"  id="validadorRemolque">
                             <div *ngIf="['tipoRemolquev']" class="invalid-tooltip d-block">
                               {{tipoRemolque.errors?.['requiredValue']}}
                             </div>

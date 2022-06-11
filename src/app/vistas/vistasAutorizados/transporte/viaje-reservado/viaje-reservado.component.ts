@@ -1,6 +1,4 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { data } from 'jquery';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Viaje } from 'src/app/models/viaje';
 import { TokenService } from 'src/app/services/token.service';
@@ -8,18 +6,14 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { ViajeService } from 'src/app/services/viaje.service';
 
 @Component({
-  selector: 'app-viajes-expedidos',
-  templateUrl: './viajes-expedidos.component.html',
-  styleUrls: ['./viajes-expedidos.component.css']
+  selector: 'app-viaje-reservado',
+  templateUrl: './viaje-reservado.component.html',
+  styleUrls: ['./viaje-reservado.component.css']
 })
-export class ViajesExpedidosComponent implements OnInit {
+export class ViajeReservadoComponent implements OnInit {
   active = 1;
   public isCollapsed = true;
   
-  //Acctions
-  isCancelado:boolean;
-  notCancelado:boolean;
-  errMsjCancelado:string;
   
   //Viajes
   viajes$!:Observable<Viaje[]>;
@@ -29,16 +23,9 @@ export class ViajesExpedidosComponent implements OnInit {
     private viajeService:ViajeService,
     private tokenService:TokenService,
     private usuarioService:UsuarioService
-  ) { 
-    //Actions
-    this.isCancelado = false;
-    this.notCancelado = false;
-    this.errMsjCancelado ="";
-
-  }
+  ) { }
 
   ngOnInit(): void {
-    
     if(this.tokenService.getIsPorte()){
       this.usuarioService.findEmpresaPorteNombre(this.tokenService.getUserName()).subscribe(
         data=>{
@@ -54,24 +41,6 @@ export class ViajesExpedidosComponent implements OnInit {
       )
     }
 
-    
-  }
-
-  CancelarViaje(viajeId:number){
-    this.viajeService.cancelarViaje(viajeId).subscribe(
-      data=>{
-        this.isCancelado = true;
-        this.notCancelado = false;
-        this.errMsjCancelado = data["mensaje"];
-        console.log(data);
-        this.refreshViajes$.next(true);
-      },
-      err=>{
-        this.notCancelado = true;
-        this.isCancelado = false;
-        this.errMsjCancelado = err['error']['mensaje'];
-      }
-    )
   }
 
 }

@@ -12,6 +12,7 @@ import { EquipoComponent } from './transporte/equipo/equipo.component';
 import { ViajeComponent } from './porte/viaje/viaje.component';
 import { GuardService } from 'src/app/guards/guard.service';
 import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedidos.component';
+import { ViajeReservadoComponent } from './transporte/viaje-reservado/viaje-reservado.component';
 
 const routes: Routes = [
     {
@@ -62,6 +63,11 @@ const routes: Routes = [
                 path: 'viajes-expedidos',
                 component: ViajesExpedidosComponent,
                 canActivate:[GuardService] , data:{expectedRol: ['admin','porte','expedidor']}
+            },
+            {
+                path: 'viajes-reservados',
+                component: ViajeReservadoComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin','transporte','conductor']}
             }
             
         ]

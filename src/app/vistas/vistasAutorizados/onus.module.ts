@@ -29,6 +29,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction';
 import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedidos.component';
 import { NgxSimpleCountdownModule } from 'ngx-simple-countdown';
+import  {ViajeReservadoComponent} from './transporte/viaje-reservado/viaje-reservado.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { NgxSimpleCountdownModule } from 'ngx-simple-countdown';
     matriculaRemolqueValidatorDirective,
     matriculaValidatorDirective,
     ViajesExpedidosComponent,
+    ViajeReservadoComponent
 
 ],
   imports: [

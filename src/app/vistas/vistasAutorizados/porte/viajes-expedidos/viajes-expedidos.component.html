@@ -9,207 +9,224 @@
                 <li [ngbNavItem]="1">
                   <a ngbNavLink>Expedidos</a>
                   <ng-template ngbNavContent>
+                    <div class="row">
+                      <div class="alert alert-success" role="alert" *ngIf="isCancelado">
+                        {{errMsjCancelado}}
+                      </div>
+                      <div class="alert alert-danger" role="alert" *ngIf="notCancelado">
+                        {{errMsjCancelado}}
+                      </div>
+                    </div>
                     <div class="row g-0 me-5">
                         <ng-container *ngIf="viajes$ | async as viajes">
                             <ng-container *ngFor="let viaje of viajes ; let indice =index">
-                                            <a class="btn btn-primary" data-bs-toggle="collapse" [attr.href]="'#collapse' + indice" role="button" aria-expanded="false" aria-controls="collapseExample" id="miEnlace">
-                                               <div class="row">
-                                                   <div class="col-3">
-                                                    <i class="fa-solid fa-1"></i> 
-                                                    {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
-                                                    {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
-                                                    <p>
-                                                        {{viaje.fHoraInicio| date :'fullDate'}}
-                                                        {{viaje.fHoraInicio| date :'shortTime'}}
-                                                    </p> 
-                                                    
-                                                   </div>
-                                                   <div class="col">
-                                                    <i class="fa-solid fa-arrow-right"></i>
-                                                   </div>
-                                                   <div class="col-3">
-                                                    <i class="fa-solid fa-2"></i> 
-                                                    {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
-                                                    {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
-                                                    <p>
-                                                        {{viaje.fHoraFin| date :'fullDate'}}
-                                                        {{viaje.fHoraFin| date :'shortTime'}}
-                                                    </p> 
-                                                    
-                                                   </div>
-                                                   <div class="col">
-                                                    {{(viaje.distancia/1000).toFixed(0)}} Km
-                                                    <p>
-                                                        {{viaje.tiempo*1000 | date:'H':'UTC'}} h
-                                                        {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
-                                                    </p>
-                                                   </div>
-                                                   <div class="col">
-                                                    <i class="fa-solid fa-truck"></i>
-                                                       <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
-                                                   </div>
-                                                   <div class="col">
-                                                    <i class="fa-solid fa-trailer"></i>
-                                                    <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
-                                                    <ng-template #remolqueBlock>
-                                                    <p>Sin remolque</p>
-                                                    </ng-template>
-                                                   </div>
-                                                   <div class="col">
-                                                    <i class="fa-solid fa-euro-sign"></i>
-                                                    <p>
-                                                        {{viaje.precio}} €
-                                                    </p>
-                                                   </div>
-                                               </div>
-                                            </a>
-                                    <div class="row ms-5">
-                                        <div class="collapse" [attr.id]="'collapse' + indice" >
-                                            <div class="card border-secondary mb-3">
-                                                <div class="card-header">
-                                                    <div class="row" id="titulo">
-                                                        <div class="col">
-                                                            <i class="fa-solid fa-circle-arrow-up"></i>
-                                                        </div>
-                                                        <div class="col-3">
-                                                         <i class="fa-solid fa-1"></i> 
-                                                         {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
-                                                         {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
-                                                         <p>
-                                                             {{viaje.fHoraInicio| date :'fullDate'}}
-                                                             {{viaje.fHoraInicio| date :'shortTime'}}
-                                                         </p> 
-                                                         
-                                                        </div>
-                                                        <div class="col">
-                                                         <i class="fa-solid fa-arrow-right"></i>
-                                                        </div>
-                                                        <div class="col-3">
-                                                         <i class="fa-solid fa-2"></i> 
-                                                         {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
-                                                         {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
-                                                         <p>
-                                                             {{viaje.fHoraFin| date :'fullDate'}}
-                                                             {{viaje.fHoraFin| date :'shortTime'}}
-                                                         </p> 
-                                                         
-                                                        </div>
-                                                        <div class="col">
-                                                         {{(viaje.distancia/1000).toFixed(0)}} Km
-                                                         <p>
-                                                             {{viaje.tiempo*1000 | date:'H':'UTC'}} h
-                                                             {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
-                                                         </p>
-                                                        </div>
-                                                        <div class="col">
-                                                         <i class="fa-solid fa-truck"></i>
-                                                            <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
-                                                        </div>
-                                                        <div class="col">
-                                                         <i class="fa-solid fa-trailer"></i>
-                                                         <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
-                                                         <ng-template #remolqueBlock>
-                                                         <p>Sin remolque</p>
-                                                         </ng-template>
-                                                        </div>
-                                                        <div class="col">
-                                                         <i class="fa-solid fa-euro-sign"></i>
-                                                         <p>
-                                                             {{viaje.precio}} €
-                                                         </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body text-secondary">
-                                                  <div class="row g-0">
-                                                    <div class="col">
-                                                        <p><i class="fa-solid fa-1"></i></p>
-                                                        
-                                                        {{viaje.recogidaDeDireccion.tipo}} 
-                                                        {{viaje.recogidaDeDireccion.nombre}}, 
-                                                        {{viaje.recogidaDeDireccion.numero}}
-                                                        <p>
-                                                            {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}}, 
-                                                            {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
-                                                            {{viaje.recogidaDeDireccion.direccionDeLocalidad.cp}}
-                                                        </p>
-                                                  </div>
-                                                  <div class="col">
-                                                      <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
-                                                      {{viaje.descripcion}} 
-                                                  </div>
-                                                  <div class="col">
-                                                      <p>
-                                                        <i class="fa-solid fa-clock"></i> Llegada al centro de carga
-                                                      </p>
-                                                      <p>
-                                                        {{viaje.fHoraInicio| date :'fullDate'}}
-                                                        {{viaje.fHoraInicio| date :'shortTime'}}
-                                                    </p> 
-     
-                                                  </div>
-                                                  <div class="col">
-                                                      Matricula Vehículo : Pendiente...
-                                                      <p>
-                                                        <i class="fa-solid fa-circle"></i>
-                                                        {{viaje.viajeDeTipoCamion.nombre}}
-                                                      </p>
-                                                      <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
-                                                        Matricula Remolque : Pendiente...
-                                                      </p>
-                                                      <ng-template #remolqueBlock2>
+                              <ng-container *ngIf="viaje.viajeDeEstado.nombre == 'Expedido'">
+                                <a class="btn btn-primary" data-bs-toggle="collapse" [attr.href]="'#collapse' + indice" 
+                                role="button" aria-expanded="false" aria-controls="collapseExample" id="miEnlace"
+                                style="margin:0 ; background-color: rgba(228, 225, 225, 0.555); color: black; margin-bottom: 5px;"
+                                >
 
-                                                      </ng-template>
-                                                  </div>
-
-                                                  </div>
-                                                  <hr>
-                                                  <div class="row">
-                                                    <div class="col">
-                                                        <p><i class="fa-solid fa-2"></i></p>
-                                                        
-                                                        {{viaje.entregaDeDireccion.tipo}} 
-                                                        {{viaje.entregaDeDireccion.nombre}}, 
-                                                        {{viaje.entregaDeDireccion.numero}}
-                                                        <p>
-                                                            {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}}, 
-                                                            {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
-                                                            {{viaje.entregaDeDireccion.direccionDeLocalidad.cp}}
-                                                        </p>
-                                                       
-                                                  </div>
-                                                  <div class="col">
-                                                    <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
-                                                    {{viaje.descripcion}} 
-                                                </div>
-                                                <div class="col">
-                                                    <p>
-                                                      <i class="fa-solid fa-clock"></i> Llegada al centro de descarga
-                                                    </p>
-                                                    <p>
-                                                        {{viaje.fHoraFin| date :'fullDate'}}
-                                                        {{viaje.fHoraFin| date :'shortTime'}}
-                                                    </p> 
-                                                </div>
-                                                  <div class="col">
-                                                    Matricula Vehículo : Pendiente...
-                                                    <p>
-                                                      <i class="fa-solid fa-circle"></i>
-                                                      {{viaje.viajeDeTipoCamion.nombre}}
-                                                    </p>
-                                                    <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
-                                                      Matricula Remolque : Pendiente...
-                                                    </p>
-                                                    <ng-template #remolqueBlock2>
-                                                      
-                                                    </ng-template>
-                                                </div>
-
-                                                  </div>
-                                                </div>
-                                              </div>
-                                          </div>
+                                   <div class="row align-items-center">
+                                       <div class="col-3">
+                                        <i class="fa-solid fa-1"></i> 
+                                        {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                        {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                        <p>
+                                            {{viaje.fHoraInicio| date :'fullDate'}}
+                                            {{viaje.fHoraInicio| date :'shortTime'}}
+                                        </p> 
+                                        
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                       </div>
+                                       <div class="col-3">
+                                        <i class="fa-solid fa-2"></i> 
+                                        {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                        {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                        <p>
+                                            {{viaje.fHoraFin| date :'fullDate'}}
+                                            {{viaje.fHoraFin| date :'shortTime'}}
+                                        </p> 
+                                        
+                                       </div>
+                                       <div class="col">
+                                        {{(viaje.distancia/1000).toFixed(0)}} Km
+                                        <p>
+                                            {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                            {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                        </p>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-truck"></i>
+                                           <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-trailer"></i>
+                                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                        <ng-template #remolqueBlock>
+                                        <p>Sin remolque</p>
+                                        </ng-template>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-euro-sign"></i>
+                                        <p>
+                                            {{viaje.precio}} €
+                                        </p>
+                                       </div>
+                                       <div class="col">
+                                        <button type="button" class="btn btn-light" (click)="CancelarViaje(viaje.id);">  
+                                          Cancelar
+                                        </button>
+                                      </div>
+                                   </div>
+                                </a>
+                            <div class="collapse" [attr.id]="'collapse' + indice" >
+                                <div class="card border-secondary mb-3">
+                                    <div class="card-header">
+                                        <div class="row align-items-center" id="titulo">
+                                            <div class="col">
+                                                <i class="fa-solid fa-circle-arrow-up"></i>
+                                            </div>
+                                            <div class="col-3">
+                                             <i class="fa-solid fa-1"></i> 
+                                             {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                             {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                             <p>
+                                                 {{viaje.fHoraInicio| date :'fullDate'}}
+                                                 {{viaje.fHoraInicio| date :'shortTime'}}
+                                             </p> 
+                                             
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div class="col-3">
+                                             <i class="fa-solid fa-2"></i> 
+                                             {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                             {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                             <p>
+                                                 {{viaje.fHoraFin| date :'fullDate'}}
+                                                 {{viaje.fHoraFin| date :'shortTime'}}
+                                             </p> 
+                                             
+                                            </div>
+                                            <div class="col">
+                                             {{(viaje.distancia/1000).toFixed(0)}} Km
+                                             <p>
+                                                 {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                                 {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                             </p>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-truck"></i>
+                                                <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-trailer"></i>
+                                             <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                             <ng-template #remolqueBlock>
+                                             <p>Sin remolque</p>
+                                             </ng-template>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-euro-sign"></i>
+                                             <p>
+                                                 {{viaje.precio}} €
+                                             </p>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="card-body text-secondary">
+                                      <div class="row g-0 align-items-center">
+                                        <div class="col">
+                                            <p><i class="fa-solid fa-1"></i></p>
+                                            
+                                            {{viaje.recogidaDeDireccion.tipo}} 
+                                            {{viaje.recogidaDeDireccion.nombre}}, 
+                                            {{viaje.recogidaDeDireccion.numero}}
+                                            <p>
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.cp}}
+                                            </p>
+                                      </div>
+                                      <div class="col">
+                                          <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                          {{viaje.descripcion}} 
+                                      </div>
+                                      <div class="col">
+                                          <p>
+                                            <i class="fa-solid fa-clock"></i> Llegada al centro de carga
+                                          </p>
+                                          <p>
+                                            {{viaje.fHoraInicio| date :'fullDate'}}
+                                            {{viaje.fHoraInicio| date :'shortTime'}}
+                                        </p> 
+
+                                      </div>
+                                      <div class="col">
+                                          Matricula Vehículo : Pendiente...
+                                          <p>
+                                            <i class="fa-solid fa-circle"></i>
+                                            {{viaje.viajeDeTipoCamion.nombre}}
+                                          </p>
+                                          <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                            Matricula Remolque : Pendiente...
+                                          </p>
+                                          <ng-template #remolqueBlock2>
+
+                                          </ng-template>
+                                      </div>
+
+                                      </div>
+                                      <hr>
+                                      <div class="row align-items-center">
+                                        <div class="col">
+                                            <p><i class="fa-solid fa-2"></i></p>
+                                            
+                                            {{viaje.entregaDeDireccion.tipo}} 
+                                            {{viaje.entregaDeDireccion.nombre}}, 
+                                            {{viaje.entregaDeDireccion.numero}}
+                                            <p>
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.cp}}
+                                            </p>
+                                           
+                                      </div>
+                                      <div class="col">
+                                        <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                        {{viaje.descripcion}} 
+                                    </div>
+                                    <div class="col">
+                                        <p>
+                                          <i class="fa-solid fa-clock"></i> Llegada al centro de descarga
+                                        </p>
+                                        <p>
+                                            {{viaje.fHoraFin| date :'fullDate'}}
+                                            {{viaje.fHoraFin| date :'shortTime'}}
+                                        </p> 
+                                    </div>
+                                      <div class="col">
+                                        Matricula Vehículo : Pendiente...
+                                        <p>
+                                          <i class="fa-solid fa-circle"></i>
+                                          {{viaje.viajeDeTipoCamion.nombre}}
+                                        </p>
+                                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                          Matricula Remolque : Pendiente...
+                                        </p>
+                                        <ng-template #remolqueBlock2>
+                                          
+                                        </ng-template>
+                                    </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              </ng-container>
                             </ng-container>
                         </ng-container>
                     </div>
@@ -218,13 +235,638 @@
                 <li [ngbNavItem]="2">
                   <a ngbNavLink>Reservados</a>
                   <ng-template ngbNavContent>
+                    <div class="row g-0 me-5">
+                      <ng-container *ngIf="viajes$ | async as viajes">
+                          <ng-container *ngFor="let viaje of viajes ; let indice =index">
+                            <ng-container *ngIf="viaje.viajeDeEstado.nombre == 'Reservado'">
+                              <a class="btn btn-primary" data-bs-toggle="collapse" [attr.href]="'#collapse' + indice" 
+                              role="button" aria-expanded="false" aria-controls="collapseExample" id="miEnlace"
+                              style="margin:0 ; background-color: rgba(228, 225, 225, 0.555); color: black; margin-bottom: 5px;"
+                              >
+                                 <div class="row align-items-center">
+                                     <div class="col-3">
+                                      <i class="fa-solid fa-1"></i> 
+                                      {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                      {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                      <p>
+                                          {{viaje.fHoraInicio| date :'fullDate'}}
+                                          {{viaje.fHoraInicio| date :'shortTime'}}
+                                      </p> 
+                                      
+                                     </div>
+                                     <div class="col">
+                                      <i class="fa-solid fa-arrow-right"></i>
+                                     </div>
+                                     <div class="col-3">
+                                      <i class="fa-solid fa-2"></i> 
+                                      {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                      {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                      <p>
+                                          {{viaje.fHoraFin| date :'fullDate'}}
+                                          {{viaje.fHoraFin| date :'shortTime'}}
+                                      </p> 
+                                      
+                                     </div>
+                                     <div class="col">
+                                      {{(viaje.distancia/1000).toFixed(0)}} Km
+                                      <p>
+                                          {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                          {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                      </p>
+                                     </div>
+                                     <div class="col">
+                                      <i class="fa-solid fa-truck"></i>
+                                         <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                     </div>
+                                     <div class="col">
+                                      <i class="fa-solid fa-trailer"></i>
+                                      <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                      <ng-template #remolqueBlock>
+                                      <p>Sin remolque</p>
+                                      </ng-template>
+                                     </div>
+                                     <div class="col">
+                                      <i class="fa-solid fa-euro-sign"></i>
+                                      <p>
+                                          {{viaje.precio}} €
+                                      </p>
+                                     </div>
 
+                                 </div>
+                              </a>
+                          <div class="collapse" [attr.id]="'collapse' + indice" >
+                              <div class="card border-secondary mb-3">
+                                  <div class="card-header">
+                                      <div class="row align-items-center" id="titulo">
+                                          <div class="col">
+                                              <i class="fa-solid fa-circle-arrow-up"></i>
+                                          </div>
+                                          <div class="col-3">
+                                           <i class="fa-solid fa-1"></i> 
+                                           {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                           {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                           <p>
+                                               {{viaje.fHoraInicio| date :'fullDate'}}
+                                               {{viaje.fHoraInicio| date :'shortTime'}}
+                                           </p> 
+                                           
+                                          </div>
+                                          <div class="col">
+                                           <i class="fa-solid fa-arrow-right"></i>
+                                          </div>
+                                          <div class="col-3">
+                                           <i class="fa-solid fa-2"></i> 
+                                           {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                           {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                           <p>
+                                               {{viaje.fHoraFin| date :'fullDate'}}
+                                               {{viaje.fHoraFin| date :'shortTime'}}
+                                           </p> 
+                                           
+                                          </div>
+                                          <div class="col">
+                                           {{(viaje.distancia/1000).toFixed(0)}} Km
+                                           <p>
+                                               {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                               {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                           </p>
+                                          </div>
+                                          <div class="col">
+                                           <i class="fa-solid fa-truck"></i>
+                                              <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                          </div>
+                                          <div class="col">
+                                           <i class="fa-solid fa-trailer"></i>
+                                           <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                           <ng-template #remolqueBlock>
+                                           <p>Sin remolque</p>
+                                           </ng-template>
+                                          </div>
+                                          <div class="col">
+                                           <i class="fa-solid fa-euro-sign"></i>
+                                           <p>
+                                               {{viaje.precio}} €
+                                           </p>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="card-body text-secondary">
+                                    <div class="row g-0 align-items-center">
+                                      <div class="col">
+                                          <p><i class="fa-solid fa-1"></i></p>
+                                          
+                                          {{viaje.recogidaDeDireccion.tipo}} 
+                                          {{viaje.recogidaDeDireccion.nombre}}, 
+                                          {{viaje.recogidaDeDireccion.numero}}
+                                          <p>
+                                              {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                              {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                              {{viaje.recogidaDeDireccion.direccionDeLocalidad.cp}}
+                                          </p>
+                                    </div>
+                                    <div class="col">
+                                        <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                        {{viaje.descripcion}} 
+                                    </div>
+                                    <div class="col">
+                                        <p>
+                                          <i class="fa-solid fa-clock"></i> Llegada al centro de carga
+                                        </p>
+                                        <p>
+                                          {{viaje.fHoraInicio| date :'fullDate'}}
+                                          {{viaje.fHoraInicio| date :'shortTime'}}
+                                      </p> 
+
+                                    </div>
+                                    <div class="col">
+                                        Matricula Vehículo : Pendiente...
+                                        <p>
+                                          <i class="fa-solid fa-circle"></i>
+                                          {{viaje.viajeDeTipoCamion.nombre}}
+                                        </p>
+                                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                          Matricula Remolque : Pendiente...
+                                        </p>
+                                        <ng-template #remolqueBlock2>
+
+                                        </ng-template>
+                                    </div>
+
+                                    </div>
+                                    <hr>
+                                    <div class="row align-items-center">
+                                      <div class="col">
+                                          <p><i class="fa-solid fa-2"></i></p>
+                                          
+                                          {{viaje.entregaDeDireccion.tipo}} 
+                                          {{viaje.entregaDeDireccion.nombre}}, 
+                                          {{viaje.entregaDeDireccion.numero}}
+                                          <p>
+                                              {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                              {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                              {{viaje.entregaDeDireccion.direccionDeLocalidad.cp}}
+                                          </p>
+                                         
+                                    </div>
+                                    <div class="col">
+                                      <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                      {{viaje.descripcion}} 
+                                  </div>
+                                  <div class="col">
+                                      <p>
+                                        <i class="fa-solid fa-clock"></i> Llegada al centro de descarga
+                                      </p>
+                                      <p>
+                                          {{viaje.fHoraFin| date :'fullDate'}}
+                                          {{viaje.fHoraFin| date :'shortTime'}}
+                                      </p> 
+                                  </div>
+                                    <div class="col">
+                                      Matricula Vehículo : Pendiente...
+                                      <p>
+                                        <i class="fa-solid fa-circle"></i>
+                                        {{viaje.viajeDeTipoCamion.nombre}}
+                                      </p>
+                                      <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                        Matricula Remolque : Pendiente...
+                                      </p>
+                                      <ng-template #remolqueBlock2>
+                                        
+                                      </ng-template>
+                                  </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            </ng-container>
+                          </ng-container>
+                      </ng-container>
+                  </div>
                 </ng-template>
                 </li>
                 <li [ngbNavItem]="3">
                     <a ngbNavLink>Finalizados</a>
                     <ng-template ngbNavContent>
-  
+                      <div class="row g-0 me-5">
+                        <ng-container *ngIf="viajes$ | async as viajes">
+                            <ng-container *ngFor="let viaje of viajes ; let indice =index">
+                              <ng-container *ngIf="viaje.viajeDeEstado.nombre == 'Finalizado'">
+                                <a class="btn btn-primary" data-bs-toggle="collapse" [attr.href]="'#collapse' + indice" 
+                                role="button" aria-expanded="false" aria-controls="collapseExample" id="miEnlace"
+                                style="margin:0 ; background-color: rgba(228, 225, 225, 0.555); color: black; margin-bottom: 5px;"
+                                >
+                                   <div class="row align-items-center">
+                                       <div class="col-3">
+                                        <i class="fa-solid fa-1"></i> 
+                                        {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                        {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                        <p>
+                                            {{viaje.fHoraInicio| date :'fullDate'}}
+                                            {{viaje.fHoraInicio| date :'shortTime'}}
+                                        </p> 
+                                        
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                       </div>
+                                       <div class="col-3">
+                                        <i class="fa-solid fa-2"></i> 
+                                        {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                        {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                        <p>
+                                            {{viaje.fHoraFin| date :'fullDate'}}
+                                            {{viaje.fHoraFin| date :'shortTime'}}
+                                        </p> 
+                                        
+                                       </div>
+                                       <div class="col">
+                                        {{(viaje.distancia/1000).toFixed(0)}} Km
+                                        <p>
+                                            {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                            {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                        </p>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-truck"></i>
+                                           <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-trailer"></i>
+                                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                        <ng-template #remolqueBlock>
+                                        <p>Sin remolque</p>
+                                        </ng-template>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-euro-sign"></i>
+                                        <p>
+                                            {{viaje.precio}} €
+                                        </p>
+                                       </div>
+                                   </div>
+                                </a>
+                            <div class="collapse" [attr.id]="'collapse' + indice" >
+                                <div class="card border-secondary mb-3">
+                                    <div class="card-header">
+                                        <div class="row align-items-center" id="titulo">
+                                            <div class="col">
+                                                <i class="fa-solid fa-circle-arrow-up"></i>
+                                            </div>
+                                            <div class="col-3">
+                                             <i class="fa-solid fa-1"></i> 
+                                             {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                             {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                             <p>
+                                                 {{viaje.fHoraInicio| date :'fullDate'}}
+                                                 {{viaje.fHoraInicio| date :'shortTime'}}
+                                             </p> 
+                                             
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div class="col-3">
+                                             <i class="fa-solid fa-2"></i> 
+                                             {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                             {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                             <p>
+                                                 {{viaje.fHoraFin| date :'fullDate'}}
+                                                 {{viaje.fHoraFin| date :'shortTime'}}
+                                             </p> 
+                                             
+                                            </div>
+                                            <div class="col">
+                                             {{(viaje.distancia/1000).toFixed(0)}} Km
+                                             <p>
+                                                 {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                                 {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                             </p>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-truck"></i>
+                                                <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-trailer"></i>
+                                             <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                             <ng-template #remolqueBlock>
+                                             <p>Sin remolque</p>
+                                             </ng-template>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-euro-sign"></i>
+                                             <p>
+                                                 {{viaje.precio}} €
+                                             </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body text-secondary">
+                                      <div class="row g-0 align-items-center">
+                                        <div class="col">
+                                            <p><i class="fa-solid fa-1"></i></p>
+                                            
+                                            {{viaje.recogidaDeDireccion.tipo}} 
+                                            {{viaje.recogidaDeDireccion.nombre}}, 
+                                            {{viaje.recogidaDeDireccion.numero}}
+                                            <p>
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.cp}}
+                                            </p>
+                                      </div>
+                                      <div class="col">
+                                          <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                          {{viaje.descripcion}} 
+                                      </div>
+                                      <div class="col">
+                                          <p>
+                                            <i class="fa-solid fa-clock"></i> Llegada al centro de carga
+                                          </p>
+                                          <p>
+                                            {{viaje.fHoraInicio| date :'fullDate'}}
+                                            {{viaje.fHoraInicio| date :'shortTime'}}
+                                        </p> 
+
+                                      </div>
+                                      <div class="col">
+                                          Matricula Vehículo : Pendiente...
+                                          <p>
+                                            <i class="fa-solid fa-circle"></i>
+                                            {{viaje.viajeDeTipoCamion.nombre}}
+                                          </p>
+                                          <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                            Matricula Remolque : Pendiente...
+                                          </p>
+                                          <ng-template #remolqueBlock2>
+
+                                          </ng-template>
+                                      </div>
+
+                                      </div>
+                                      <hr>
+                                      <div class="row align-items-center">
+                                        <div class="col">
+                                            <p><i class="fa-solid fa-2"></i></p>
+                                            
+                                            {{viaje.entregaDeDireccion.tipo}} 
+                                            {{viaje.entregaDeDireccion.nombre}}, 
+                                            {{viaje.entregaDeDireccion.numero}}
+                                            <p>
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.cp}}
+                                            </p>
+                                           
+                                      </div>
+                                      <div class="col">
+                                        <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                        {{viaje.descripcion}} 
+                                    </div>
+                                    <div class="col">
+                                        <p>
+                                          <i class="fa-solid fa-clock"></i> Llegada al centro de descarga
+                                        </p>
+                                        <p>
+                                            {{viaje.fHoraFin| date :'fullDate'}}
+                                            {{viaje.fHoraFin| date :'shortTime'}}
+                                        </p> 
+                                    </div>
+                                      <div class="col">
+                                        Matricula Vehículo : Pendiente...
+                                        <p>
+                                          <i class="fa-solid fa-circle"></i>
+                                          {{viaje.viajeDeTipoCamion.nombre}}
+                                        </p>
+                                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                          Matricula Remolque : Pendiente...
+                                        </p>
+                                        <ng-template #remolqueBlock2>
+                                          
+                                        </ng-template>
+                                    </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                  </ng-template>
+                  </li>
+                  <li [ngbNavItem]="4">
+                    <a ngbNavLink>Caducados/Cancelados</a>
+                    <ng-template ngbNavContent>
+                      <div class="row g-0 me-5">
+                        <ng-container *ngIf="viajes$ | async as viajes">
+                            <ng-container *ngFor="let viaje of viajes ; let indice =index">
+                              <ng-container *ngIf="viaje.viajeDeEstado.nombre == 'Caducado'">
+                                <a class="btn btn-primary" data-bs-toggle="collapse" [attr.href]="'#collapse' + indice" 
+                                role="button" aria-expanded="false" aria-controls="collapseExample" id="miEnlace"
+                                style="margin:0 ; background-color: rgba(228, 225, 225, 0.555); color: black; margin-bottom: 5px;"
+                                >
+                                   <div class="row align-items-center">
+                                       <div class="col-3">
+                                        <i class="fa-solid fa-1"></i> 
+                                        {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                        {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                        <p>
+                                            {{viaje.fHoraInicio| date :'fullDate'}}
+                                            {{viaje.fHoraInicio| date :'shortTime'}}
+                                        </p> 
+                                        
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                       </div>
+                                       <div class="col-3">
+                                        <i class="fa-solid fa-2"></i> 
+                                        {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                        {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                        <p>
+                                            {{viaje.fHoraFin| date :'fullDate'}}
+                                            {{viaje.fHoraFin| date :'shortTime'}}
+                                        </p> 
+                                        
+                                       </div>
+                                       <div class="col">
+                                        {{(viaje.distancia/1000).toFixed(0)}} Km
+                                        <p>
+                                            {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                            {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                        </p>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-truck"></i>
+                                           <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-trailer"></i>
+                                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                        <ng-template #remolqueBlock>
+                                        <p>Sin remolque</p>
+                                        </ng-template>
+                                       </div>
+                                       <div class="col">
+                                        <i class="fa-solid fa-euro-sign"></i>
+                                        <p>
+                                            {{viaje.precio}} €
+                                        </p>
+                                       </div>
+                                   </div>
+                                </a>
+                            <div class="collapse" [attr.id]="'collapse' + indice" >
+                                <div class="card border-secondary mb-3">
+                                    <div class="card-header">
+                                        <div class="row align-items-center" id="titulo">
+                                            <div class="col">
+                                                <i class="fa-solid fa-circle-arrow-up"></i>
+                                            </div>
+                                            <div class="col-3">
+                                             <i class="fa-solid fa-1"></i> 
+                                             {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}},
+                                             {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                             <p>
+                                                 {{viaje.fHoraInicio| date :'fullDate'}}
+                                                 {{viaje.fHoraInicio| date :'shortTime'}}
+                                             </p> 
+                                             
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-arrow-right"></i>
+                                            </div>
+                                            <div class="col-3">
+                                             <i class="fa-solid fa-2"></i> 
+                                             {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}},
+                                             {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}},
+                                             <p>
+                                                 {{viaje.fHoraFin| date :'fullDate'}}
+                                                 {{viaje.fHoraFin| date :'shortTime'}}
+                                             </p> 
+                                             
+                                            </div>
+                                            <div class="col">
+                                             {{(viaje.distancia/1000).toFixed(0)}} Km
+                                             <p>
+                                                 {{viaje.tiempo*1000 | date:'H':'UTC'}} h
+                                                 {{viaje.tiempo*1000 | date:'mm':'UTC'}} m
+                                             </p>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-truck"></i>
+                                                <p>{{viaje.viajeDeTipoCamion.nombre}}</p>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-trailer"></i>
+                                             <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock">{{viaje.viajeDeTipoRemolque.nombre}}</p>
+                                             <ng-template #remolqueBlock>
+                                             <p>Sin remolque</p>
+                                             </ng-template>
+                                            </div>
+                                            <div class="col">
+                                             <i class="fa-solid fa-euro-sign"></i>
+                                             <p>
+                                                 {{viaje.precio}} €
+                                             </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body text-secondary">
+                                      <div class="row g-0 align-items-center">
+                                        <div class="col">
+                                            <p><i class="fa-solid fa-1"></i></p>
+                                            
+                                            {{viaje.recogidaDeDireccion.tipo}} 
+                                            {{viaje.recogidaDeDireccion.nombre}}, 
+                                            {{viaje.recogidaDeDireccion.numero}}
+                                            <p>
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                                {{viaje.recogidaDeDireccion.direccionDeLocalidad.cp}}
+                                            </p>
+                                      </div>
+                                      <div class="col">
+                                          <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                          {{viaje.descripcion}} 
+                                      </div>
+                                      <div class="col">
+                                          <p>
+                                            <i class="fa-solid fa-clock"></i> Llegada al centro de carga
+                                          </p>
+                                          <p>
+                                            {{viaje.fHoraInicio| date :'fullDate'}}
+                                            {{viaje.fHoraInicio| date :'shortTime'}}
+                                        </p> 
+
+                                      </div>
+                                      <div class="col">
+                                          Matricula Vehículo : Pendiente...
+                                          <p>
+                                            <i class="fa-solid fa-circle"></i>
+                                            {{viaje.viajeDeTipoCamion.nombre}}
+                                          </p>
+                                          <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                            Matricula Remolque : Pendiente...
+                                          </p>
+                                          <ng-template #remolqueBlock2>
+
+                                          </ng-template>
+                                      </div>
+
+                                      </div>
+                                      <hr>
+                                      <div class="row align-items-center">
+                                        <div class="col">
+                                            <p><i class="fa-solid fa-2"></i></p>
+                                            
+                                            {{viaje.entregaDeDireccion.tipo}} 
+                                            {{viaje.entregaDeDireccion.nombre}}, 
+                                            {{viaje.entregaDeDireccion.numero}}
+                                            <p>
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.nombre}}, 
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.localidadDeProvincia.nombre}}
+                                                {{viaje.entregaDeDireccion.direccionDeLocalidad.cp}}
+                                            </p>
+                                           
+                                      </div>
+                                      <div class="col">
+                                        <p><i class="fa-solid fa-clipboard"></i> Descripcion</p>
+                                        {{viaje.descripcion}} 
+                                    </div>
+                                    <div class="col">
+                                        <p>
+                                          <i class="fa-solid fa-clock"></i> Llegada al centro de descarga
+                                        </p>
+                                        <p>
+                                            {{viaje.fHoraFin| date :'fullDate'}}
+                                            {{viaje.fHoraFin| date :'shortTime'}}
+                                        </p> 
+                                    </div>
+                                      <div class="col">
+                                        Matricula Vehículo : Pendiente...
+                                        <p>
+                                          <i class="fa-solid fa-circle"></i>
+                                          {{viaje.viajeDeTipoCamion.nombre}}
+                                        </p>
+                                        <p *ngIf="viaje.viajeDeTipoRemolque; else remolqueBlock2">
+                                          Matricula Remolque : Pendiente...
+                                        </p>
+                                        <ng-template #remolqueBlock2>
+                                          
+                                        </ng-template>
+                                    </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </div>
                   </ng-template>
                   </li>
               </ul>

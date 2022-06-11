@@ -49,3 +49,18 @@ ul ,li{
     background-color: rgb(162, 176, 184);
     border-color: rgb(162, 176, 184);
   }
+
+  .butonspan{
+    border-radius: 100px;
+    border-style: none;
+    color: rgb(4, 104, 134);
+    background-color: rgb(240, 152, 186);
+  }
+
+  .spanCross{
+    margin-left: 1%;
+  }
+
+  agm-map {
+    height: 400px;
+  }

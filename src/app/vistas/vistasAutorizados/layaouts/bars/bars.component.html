@@ -33,7 +33,7 @@
                     <ul class="collapse show nav flex-column ms-2" id="Trabajo" data-bs-parent="#menuTrabajo">
                         <ng-container *ngIf="isTransporte || isConductor ;else porteBlock">
                             <li class="w-100" *ngIf="!datosSinCompletar && !cuentaSinCompletar">
-                                <a class="nav_link">
+                                <a class="nav_link" routerLink="/onus/viajes-reservados">
                                     <i class="align-middle fas fa-forward-fast"></i> <span class="align-middle">Viajes</span>
                                 </a>
                             </li>

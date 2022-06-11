@@ -16,25 +16,12 @@ export class precioValidatorDirective implements Validator, OnInit {
   validate(control: FormControl) {
     if (control.value == null) { return null}
     let v:string = control.value;
-    let patron1 = /^[a-zA-ZÁÉÍÓÚáéíóúüÜñçÇÑ]{2}$/
-    let patron2 = /^[a-zA-ZÁÉÍÓÚáéíóúüÜñçÇÑ]{2}[a-zA-ZÁÉÍÓÚáéíóúüÜñçÇÑ\- ]{1,38}$/;
+    let patron1 = /^[123456789]{1}[\d]*$/
 
-    if (v =='') {
-      return { 'descripcionv': true, 'requiredValue': 'El campo esta vacio' }
+    if(!patron1.test(v) && v!=""){
+      return{'preciov': true, 'requiredValue': 'Valor inválido'}
     }
-    if(v.length<5){
-      return { 'descripcionv': true, 'requiredValue': 'La descripcion no puede tener menos de 5 caracteres' }
-    }
-    if(v.length>200){
-      return { 'descripcionv': true, 'requiredValue': 'La descripcion no puede tener mas de 200 caracteres' }
-    }
-    if(!patron1.test(v.substring(0,2))){
-      return{'descripcionv': true, 'requiredValue': 'La descripcion tiene que comenzar con 2 letras'}
-    }
-    if(!patron2.test(v)){
-      return{'descripcionv': true, 'requiredValue': 'Caracteres no permitidos'}
-    }
- 
+
     return null;
   }
 }

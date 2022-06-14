@@ -9,7 +9,7 @@ import { Localidad } from 'src/app/models/localidad';
 import { PaisService } from 'src/app/services/pais.service';
 import { ProvinciaService } from 'src/app/services/provincia.service';
 import {GooglemapsService} from 'src/app/services/googlemaps.service';
-import { data } from 'jquery';
+import { data } from 'jquery'; 
 import { Observable } from 'rxjs';
 import { TipoRemolque } from 'src/app/models/tipo-remolque';
 import { TipoCamion } from 'src/app/models/tipo-camion';
@@ -455,7 +455,169 @@ export class ViajeComponent implements OnInit {
   }
 
 
-   /* Generador de PDF */
+  /* Generar PDF */
+  downloadPDF() {
+    var hoy = new Date();
+    var fecha = hoy.getDate() + '-' + ( hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+    var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+    var aleatorio = Math.round(Math.random()*200)+1;
+    const doc = new jsPDF('p', 'pt', 'a4');
+    doc.setFontSize(12);
+    //doc.rect(5, 5, 585, 100); // caja entera
+
+    //Primera linea 
+    doc.rect(5,5,290.3,85); //caja izquierda
+    doc.setFont('helvetica','bold');
+    doc.text('1',15,30);
+    doc.setFont('helvetica','normal');
+    doc.text('Empresa: ' + this.porte.nombre + '\n' +
+                    'Número de documento: ' + this.porte.documento + '\n' +
+                    'Teléfono: ' + this.porte.telefono + '\n' +
+                    'Email: ' + this.porte.email,30,30);
+    
+    doc.rect(293,5,292,85); //caja derecha
+    doc.text('LETTRE DE VOITURE' + '\n' +
+              'CONSIGNAMENT NOTE ' +'\n' +
+              'FRACHTBRIEF' + '\n',310,20);
+    doc.setFont('helvetica','bold');
+    doc.rect(310,56,10,10);
+    doc.rect(310,70,10,10);
+    doc.text('X',311,65);
+    doc.text('National' + '\n' +
+              'International',330,65);
+    doc.setFont('helvetica','normal');
+
+    //Seguna linea
+    doc.rect(5, 90, 580, 100);
+    doc.text('Ce transport est soumis, nonobstant toute clause contraire, á la Convention relative au contrat de transport' + '\n' + 'international de marchandises par route (CMR).' + '\n' +
+             'This carriage is subject notwithstanding any clause to the contrary, to the Convention on the contract for the' + '\n' + 'International Carriage of goods by road (CMR).' + '\n' +
+             'Diese Beförderung unterliegt trotz einer gegenteiligen Abmachung den Bestimmungen des' + '\n' + 'Übereinkommens über den Beförderungsvertrag im internationalen.',10,110);
+
+    //Tercera linea
+    doc.rect(5,191,290.3,85); //caja izquierda   
+    doc.setFont('helvetica','bold');
+    doc.text('2',15,210);
+    doc.setFont('helvetica','normal');
+    doc.text('Empresa: Pendiente' + '\n' +
+                    'Número de documento: Pendiente' + '\n' +
+                    'Teléfono: Pendiente' + '\n' +
+                    'Email: Pendiente',30,210);
+    
+    doc.rect(293,191,292,85); //caja derecha 
+    doc.text('Destinatarie(nom,adresse,pays)' + '\n' + 
+              'Consignee (name,address,country)' + '\n' + 
+              'Empfänger(name, anschrift, land)',310,203);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9);
+    doc.text('QUIJOTE SEXTO CENTENARIO, SDAD COOP' + '\n' + 'DE CLM, FELIX PALACIOS, 21' + '\n' +
+              ', Mota del Cuervo, CUENCA 16630, ES' + '\n' + 
+              'VAT: F45756277',310,241);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(12);
+
+    //Cuarta y quinta linea
+    doc.rect(5,276,290.3,85); //caja izquierda
+    doc.setFont('helvetica','bold');
+    doc.text('3',15,293);
+    doc.setFont('helvetica','normal');
+    doc.text('Lieu prêvu pour la livraison de la marchandise' + '\n' + 
+                    'Place of delivery of the goods (place,country)' + '\n' + 
+                    'Auslieferungsort des Gutes (ort, land)' ,30,292.5);
+    doc.setFont('helvetica','bold');
+    doc.text('Please refer to section 2.',30,340);
+
+    doc.rect(5,361,290.3,85); //caja izquierda
+    doc.setFont('helvetica','bold');
+    doc.text('4',15,380);
+    doc.setFont('helvetica','normal');
+    doc.text('Lieu et date de la prise en charge' + '\n' +
+                    'Date and place of handover of goods' + '\n' +
+                    'Tag und Ort der Übernahme des Guts' ,30,380);
+    doc.setFont('helvetica','bold');
+    doc.text(fecha + ' ' + hora + ' .Please refer to section 1' + '\n' + 'for place of handover.',30,425);
+    doc.setFont('helvetica','normal');
+
+    doc.rect(293,276,292,170); //caja derecha 
+    doc.setFont('helvetica','bold');
+    doc.text('5',310,293);
+    doc.setFont('helvetica','normal');
+    doc.text('Reserves et observations des transporteurs' + '\n' + 
+              'Carriers reservation and observations' + '\n' + 
+              'Vorbehalte und Bemerkungen der Frachtführer' + '\n' + 
+              'Documents annexés' + '\n' + 
+              'Documents attached' + '\n' + 
+              'Beigefügte Dokumente',320,292.5);
+    doc.setFont('helvetica','bold');
+    doc.text('VRID: 1156PJJQZ' + '\n' + 
+              'Trailer number: ANNYG R0391 BCD' + '\n' + 
+              'Serial number: 350290' + '\n' + 
+              'CRID: ' + aleatorio,320,385);
+    doc.setFont('helvetica','normal');
+
+    //sexta linea
+    doc.rect(5, 446, 580, 100);
+    doc.setFont('helvetica','bold');
+    doc.text('6',15,460);
+    doc.setFont('helvetica','normal');
+    doc.text('Instructions de lexpéditeur (formalités douaniêre et autres)' + '\n' + 
+              'Senders instructions' + '\n' + 
+              'Vorbehalte und Bemerkungen der Frachtführer' + '\n' + 
+              'Anweisungen des Absenders (Zoll- und sonstige amtliche Behandlung)',28,460);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(11);
+    doc.text('SEAL NUMBER: ' + aleatorio + '\n' + 
+              'Dangerous Goods packed in Limited Quantities(LQ) do not require a dangerous declaration,per ADR 3.4',28,520);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(12);
+
+    //septima linea 
+    doc.rect(5,546,290.3,85); //caja izquierda
+    doc.setFont('helvetica','bold');
+    doc.text('7',15,570);
+    doc.setFont('helvetica','normal');
+    doc.text('Prescription daffranchissement' + '\n' +
+              'Prescription postage' + '\n' +
+              'Frachtzahlunganweisungen' ,30,570);
+
+    doc.rect(293,546,292,85); //caja derecha 
+    doc.setFont('helvetica','bold');
+    doc.text('8',310,570);
+    doc.setFont('helvetica','normal');
+    doc.text('Conventions particulières' + '\n' + 
+              'Particular Convention' + '\n' + 
+              'Besondere Vereinbarungen',325,570);
+    doc.rect(325,610,10,10);
+    doc.setFont('helvetica','bold');
+    doc.text('X',326,620);
+    doc.text('Adhered to the agreement',338,620);
+
+    //octava linea
+    doc.rect(5, 631, 580, 100);
+    doc.setFont('helvetica','bold');
+    doc.text('9',15,660);
+    doc.setFont('helvetica','normal');
+    doc.text('Etablie à / Established in / Ausgefertigt in / MAD8 le / on / am' + fecha + ' ' + hora + '\n' + 
+              'Non Franco / Carriage unpaid / unfrei' + '\n' + 
+              'Franco / Carriage paid / Frei' + '\n' + 
+              'Amtl. Kennzeichen / License plate ',28,660);
+
+    //novena linea
+    doc.rect(5, 731, 580, 30);
+    doc.setFont('helvetica','bold');
+    doc.text('10',15,750);
+    doc.setFont('helvetica','normal');  
+    doc.text('         Company signature:       ' + '            Carrier signature:          ' + '          Trailer number:',28,750);
+    doc.setFont('helvetica','bold');
+    doc.text('ANNYG R0391BCD',470,750);
+
+    doc.text('ONUS, ' + fecha + ' ' + hora,415,815);
+    doc.save('DatosViaje.pdf');
+  }
+
+
+
+
+   /* Generador de PDF antiguo
    downloadPDF() {
     var DATA: any;
     DATA = document.getElementById('contenedorCanvas');
@@ -502,7 +664,7 @@ export class ViajeComponent implements OnInit {
       //docResult.autoPrint(); Te saca junto la página pdf la pantalla de imprimir
       //docResult.output('dataurlnewwindow'); Lo abre directamente en otra ventana
     });
-  }
+  }*/
 
 
   /* Visualizaciones en página de Resumen */

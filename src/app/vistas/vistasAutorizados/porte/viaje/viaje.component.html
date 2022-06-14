@@ -1,4 +1,7 @@
 <div class="container-fluid p-5" id="todo">
+
+  <h1 class="h3 mb-3"><strong>Viajes</strong></h1>
+
   <mat-stepper [linear]="isLinear" #stepper> <mat-step label="Recogida">
     <form #recogidaForm="ngForm" (submit)="onRecogida(recogidaForm.value , true)" id="rForm">
       <div class="row g-0 d-flex justify-content-center">
@@ -600,12 +603,15 @@
               <div class="card-header">
                 <h1 class="text-center">Vista previa<i class="fa fa-eye"></i></h1>
             </div>
-              <!--<div class="card-body text-secondary" id="contenedorCanvas">-->
-                <br>
-                <div  id="contenedorCanvas"><br>
-                <!--<div id="contenedorCanvas" style="border: 1px solid red;">
-                </div>-->
+              <div class="card-body text-secondary">
                 
+                <!--
+                <iframe src="http://docs.google.com/gview?url=
+                http://www.educoas.org/portal/bdigital/contenido/valzacchi/ValzacchiCapitulo-2New.pdf
+                &embedded=true" style="width:100%; height:500px;" frameborder="0" ></iframe> -->
+                
+                <iframe src="../../../../../assets/DatosViaje.pdf"
+                style="width:100%; height:600px;" frameborder="0"></iframe>
             
               </div>
             </div>
@@ -624,5 +630,15 @@
 
       </div>
     </mat-step>
-  </mat-stepper>
+  </mat-stepper><br>
+
+
+  <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a routerLink="/onus/dashboard">Dashboard /</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Viajes</li>
+      </ol>
+    </nav>
+
 </div>

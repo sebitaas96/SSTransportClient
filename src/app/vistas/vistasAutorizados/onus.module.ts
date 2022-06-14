@@ -32,6 +32,7 @@ import { NgxSimpleCountdownModule } from 'ngx-simple-countdown';
 import  {ViajeReservadoComponent} from './transporte/viaje-reservado/viaje-reservado.component';
 import { PagosComponent } from './layaouts/pagos/pagos.component';
 import { FooterAuthComponent } from './layaouts/footer-auth/footer-auth.component';
+import { FooterInsideComponent } from '../vistasAutorizados/footer-inside/footer-inside.component'
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -56,7 +57,8 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     ViajesExpedidosComponent,
     ViajeReservadoComponent,
     PagosComponent,
-    FooterAuthComponent
+    FooterAuthComponent,
+    FooterInsideComponent
 
 
 ],

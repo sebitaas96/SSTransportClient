@@ -1,4 +1,7 @@
 <div class="container-fluid p-5">
+
+  <h1 class="h3 mb-3"> Datos de <strong>Perfil</strong></h1>
+
         <div class="row g-0">
           <div class="col-12 col-lg-12 col-sm-12 col-md-12">
             <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" >
@@ -514,5 +517,15 @@
             </ul>
             <div [ngbNavOutlet]="nav" class="mt-2"></div>
           </div>
-      </div>
+      </div><br>
+
+
+      <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a routerLink="/onus/dashboard">Dashboard /</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Datos de Perfil</li>
+          </ol>
+        </nav>
+
 </div>

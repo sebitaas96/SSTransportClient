@@ -20,6 +20,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SingupExternosComponent } from './vistas/vistasNoAutorizados/singup-externos/singup-externos.component';
 import { OnusModule } from './vistas/vistasAutorizados/onus.module';
 import { SharedModule } from './shared.module';
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+import { environment } from 'src/environments/environment';
+import {ConfirmacionComponent} from './vistas/vistasNoAutorizados/confirmacion/confirmacion.component';
 
 
 
@@ -34,6 +37,8 @@ import { SharedModule } from './shared.module';
     NavBarComponent,
     FooterComponent,
     SingupExternosComponent,
+    ConfirmacionComponent
+
   ],
   imports: [
     BrowserModule,
@@ -46,9 +51,16 @@ import { SharedModule } from './shared.module';
     NgbModule,
     Ng2SearchPipeModule,
     OnusModule,
-    SharedModule
+    SharedModule,
+    RecaptchaV3Module
+    
   ],
-  providers: [interceptorProvider],
+  providers: [interceptorProvider,
+    {
+      provide: RECAPTCHA_V3_SITE_KEY,
+      useValue: environment.recaptcha.siteKey,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,6 +5,12 @@ import { CuentaBancaria } from 'src/app/models/cuenta-bancaria';
 import { CuentaBancariaService } from 'src/app/services/cuenta-bancaria.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'cuenta-bancaria',
@@ -14,30 +20,27 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class CuentaBancariaComponent implements OnInit {
   cuenta$!: Observable<CuentaBancaria>;
   refreshCuenta$ = new BehaviorSubject<boolean>(true);
+
+  //Notificaciones
+  gravedad$!:Gravedad[];
+  usuario$!:Usuario;
   
-  //Creacion
-  cuentaCreada:boolean;
-  cuentaNoCreada:boolean;
-  errMsjC:string;
-
-  //Actualizacion
-  cuentaActualizada:boolean;
-  cuentaNoActualizada:boolean;
-  errMsj:string;
-
   constructor(private usuarioService: UsuarioService,
     private cuentaBancariaService: CuentaBancariaService,
-    private tokenService: TokenService) { 
-      this.cuentaActualizada = false;
-      this.cuentaNoActualizada = false;
-      this.errMsj = "";
-      this.cuentaCreada = false;
-      this.cuentaNoCreada = false;
-      this.errMsjC = "";
+    private tokenService: TokenService,
+    private toastr: ToastrService,
+    private notificacionService:NotificacionService,
+    private gravedadService:GravedadService
+    ) { 
     }
 
   ngOnInit(): void {
     this.refresh();
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
   }
 
   onCCuenta(dataForm: any) {
@@ -53,15 +56,30 @@ export class CuentaBancariaComponent implements OnInit {
               var addCuentadto: addCuenta = new addCuenta(cuentaCreada, data["id"]);
               this.usuarioService.addCuenta(addCuentadto).subscribe(
                 data => {
+                          //Notificacion
+        var notificacion = new NuevaNotificacion("Cuenta bancaria añadida" , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success('Cuenta bancaria añadida!', 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
                   this.refresh();
-                  this.cuentaCreada = true;
-                  this.cuentaNoCreada = false;
-                  this.errMsjC = data["mensaje"];
+                  
                 },
                 err => {
-                  this.cuentaCreada = false;
-                  this.cuentaNoCreada = true;
-                  this.errMsjC = err['error']['mensaje'];
+                          //Notificacion
+                          var notificacion = new NuevaNotificacion("Ha habiado un error añadiendo la cuenta bancaria" , new Date(),this.usuario$.id, this.gravedad$[2].id);
+                          this.notificacionService.addNotificacion(notificacion).subscribe();
+                  
+                          this.toastr.success('Ha sucedido un error!', 'Notificación',{
+                            progressBar:true,
+                            timeOut: 3000,
+                            easing:'ease-in',
+                            easeTime:300
+                          });
                 }
               )
             })
@@ -69,9 +87,7 @@ export class CuentaBancariaComponent implements OnInit {
         )
       },
       err=>{
-        this.cuentaCreada = false;
-        this.cuentaNoCreada = true;
-        this.errMsjC = err['error']['mensaje'];
+
       }
     )
   }
@@ -80,14 +96,26 @@ export class CuentaBancariaComponent implements OnInit {
     this.cuentaBancariaService.updateCuenta(cuentaBancaria).subscribe(
       data=>{
         this.refreshCuenta$.next(true);
-        this.cuentaActualizada = true;
-        this.cuentaNoActualizada = false;
-        this.errMsj = data["mensaje"];
+        //Notificacion
+        var notificacion = new NuevaNotificacion("Cuenta bancaria actualizada" , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success('Cuenta bancaria actualizada!', 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.cuentaActualizada = false;
-        this.cuentaNoActualizada = true;
-        this.errMsj = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion("Ha sucedido un error actualizando la cuenta bancaria" , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error('Ha sucedido un error!', 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
 
@@ -96,6 +124,7 @@ export class CuentaBancariaComponent implements OnInit {
   refresh(){
     this.usuarioService.findUsuario(this.tokenService.getUserName()).subscribe(
       data => {
+        this.usuario$ = data;
         if (data["cuentaBancaria"] != null) {
           this.cuenta$ = this.refreshCuenta$.pipe(switchMap(_ => this.cuentaBancariaService.findCuenta(data["cuentaBancaria"]!["id"])));
         }

@@ -16,7 +16,7 @@
                             <h2 class="mb-4 signIn">Sign In</h2>
                         </div>
                     </div>
-                    <form #loginform="ngForm" class="signin-form" (submit)="onLogin(loginform.value)">
+                    <form #loginform="ngForm" class="signin-form" (submit)="send(loginform.value)">
                         <div class="form-group mb-3">
                             <label class="label" for="name">Username</label>
                             <input type="text" class="form-control cajas" placeholder="Username" name="nombreUsuario"

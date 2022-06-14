@@ -14,6 +14,11 @@ import { CambioPassword } from 'src/app/dto/cambioPassword';
 import { Conductor } from 'src/app/models/conductor';
 import { Porte } from 'src/app/models/porte';
 import { Expedidor } from 'src/app/models/expedidor';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
 declare var $:any;
 
 @Component({
@@ -62,11 +67,17 @@ export class PerfilComponent implements OnInit {
   telefonoO:string;
 
 
+    //Notificaciones
+    gravedad$!:Gravedad[];
+    usuario$!:Usuario;
 
   constructor(private usuarioService: UsuarioService 
     , private tokenService:TokenService
     , private paisService:PaisService,
-     private provinciaService:ProvinciaService
+     private provinciaService:ProvinciaService,
+     private gravedadService:GravedadService,
+     private notificacionService:NotificacionService,
+     private toastr: ToastrService,
      ) { 
     //password
       this.isCoincidente = false;
@@ -92,11 +103,23 @@ export class PerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.tokenService.getIsConductor() ||this.tokenService.getIsExpedidor()){
+      this.isConductor = true;
+      this.isExpedidor = true;
+    }
+
       this.perfil$ = this.refreshPerfil$.pipe(switchMap(_=>this.usuarioService.findUsuario(this.tokenService.getUserName())));
       this.usuarioService.findUsuario(this.tokenService.getUserName()).subscribe(data=>{
+        this.usuario$ = data;
         this.perfil = data;
         this.inicializacion(this.perfil);
       })
+
+      this.gravedadService.findAll().subscribe(
+        data=>{
+          this.gravedad$ = data;
+        }
+      )
   }
 
   inicializacion(perfil:any){
@@ -144,25 +167,25 @@ export class PerfilComponent implements OnInit {
       }
       if(this.tokenService.getIsTransporte()){
         usuario = new Transporte(data["id"] , data["nombre"] , data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO ,  new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
+        data["email"] , this.prefijoO+this.telefonoO ,true,new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
         data["cuentaBancaria"]); 
         instruccion = this.usuarioService.updateTransporte(usuario);
       }
       else if(this.tokenService.getIsPorte()){
         usuario = new Porte(data["id"] , data["nombre"] , data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO ,  new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
+        data["email"] , this.prefijoO+this.telefonoO , true, new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
         data["cuentaBancaria"]); 
         instruccion = this.usuarioService.updatePorte(usuario);
       }
       else if(this.tokenService.getIsConductor()){
         usuario = new Conductor(data["id"] , data["nombre"] ,data["apellido"], data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO , data["estado"] , data["conductorDeTransporte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
+        data["email"] , this.prefijoO+this.telefonoO , data["activo"] , data["conductorDeTransporte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
         data["cuentaBancaria"]); 
         instruccion = this.usuarioService.updateConductor(usuario);
       }
       else if(this.tokenService.getIsExpedidor()){
         usuario = new Expedidor(data["id"] , data["nombre"] ,data["apellido"], data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO , data["estado"] , data["conductorDeTransporte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
+        data["email"] , this.prefijoO+this.telefonoO , data["activo"] , data["conductorDeTransporte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
         data["cuentaBancaria"]); 
         instruccion = this.usuarioService.updateExpedidor(usuario);
       }
@@ -172,7 +195,7 @@ export class PerfilComponent implements OnInit {
       console.log("aqui");
       if(this.tokenService.getIsTransporte()){
         usuario = new Transporte(data["id"] , data["nombre"] , data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO , 
+        data["email"] , this.prefijoO+this.telefonoO , true,
         new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
         dataform["provincia"],
         null); 
@@ -180,7 +203,7 @@ export class PerfilComponent implements OnInit {
       }
       else if(this.tokenService.getIsConductor()){
         usuario = new Conductor(data["id"] , data["nombre"] ,data["apellido"] ,data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO , data["estado"],
+        data["email"] , this.prefijoO+this.telefonoO , data["activo"],
         data["conductorDeTransporte"],new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
         dataform["provincia"],
         null); 
@@ -188,7 +211,7 @@ export class PerfilComponent implements OnInit {
       }
       else if(this.tokenService.getIsPorte()){
         usuario = new Porte(data["id"] , data["nombre"] , data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO , 
+        data["email"] , this.prefijoO+this.telefonoO , true,
         new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
         dataform["provincia"],
         null); 
@@ -196,7 +219,7 @@ export class PerfilComponent implements OnInit {
       }
       else if(this.tokenService.getIsExpedidor()){
         usuario = new Expedidor(data["id"] , data["nombre"] ,data["apellido"] ,data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO , data["estado"],
+        data["email"] , this.prefijoO+this.telefonoO , data["activo"],
         data["conductorDeTransporte"],new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
         dataform["provincia"],
         null); 
@@ -205,15 +228,33 @@ export class PerfilComponent implements OnInit {
     }
 
       instruccion.subscribe(data=>{
+
+        var notificacion = new NuevaNotificacion("Perfil actualizado" , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success('Perfil actualizado!', 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+
+
       this.refreshPerfil$.next(true);
-      this.perfilActualizado = true;
-      this.perfilNoActualizado = false;
-      this.errMsjPerfil = "Perfil actualizado correctamente";
+
+
+
+
       },
       err=>{
-        this.perfilNoActualizado = true;
-        this.perfilActualizado = false;
-        this.errMsjPerfil = "Ha sucedido un error";
+        var notificacion = new NuevaNotificacion("Ha sucedido un error actualizando el perfil" , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error('Ha sucedido un error!', 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     
     )  
@@ -236,16 +277,26 @@ export class PerfilComponent implements OnInit {
       var cambioPwd :CambioPassword = new CambioPassword(dataform["passwordvieja"],dataform["passwordnueva"] ,dataform["passwordnuevar"],this.perfil.id)
       this.usuarioService.updatePassword(cambioPwd).subscribe(
         data=>{
-          this.isCoincidente = false;
-          this.pwdActualizada = true;
-          this.pwdNoActualizada = false;
-          this.errMsjPwd = data["mensaje"];
+          var notificacion = new NuevaNotificacion("Password actualizada" , new Date(),this.usuario$.id, this.gravedad$[1].id);
+          this.notificacionService.addNotificacion(notificacion).subscribe();
+  
+          this.toastr.success('Password actualizada!', 'Notificación',{
+            progressBar:true,
+            timeOut: 3000,
+            easing:'ease-in',
+            easeTime:300
+          });
           },
           err=>{
-            this.isCoincidente = false;
-            this.pwdActualizada = false;
-            this.pwdNoActualizada = true;
             this.errMsjPwd = err['error']['mensaje'];
+            var notificacion = new NuevaNotificacion("Ha sucedido un error actualizando el perfil" , new Date(),this.usuario$.id, this.gravedad$[2].id);
+            this.notificacionService.addNotificacion(notificacion).subscribe();
+            this.toastr.error( this.errMsjPwd , 'Notificación',{
+              progressBar:true,
+              timeOut: 3000,
+              easing:'ease-in',
+              easeTime:300
+            });
           }
       );
     })

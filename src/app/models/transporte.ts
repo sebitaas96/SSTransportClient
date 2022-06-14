@@ -26,11 +26,12 @@ export class Transporte extends Usuario {
         documento:string,
         email:string,
         telefono:string,
+        activo:boolean,
         residenteDeDireccion:Direccion|null,
         operadorDeProvincia:Provincia|null,
         cuentaBancaria:CuentaBancaria|null,
     ){
-        super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
+        super(id , nombre ,nombreUsuario,password, documento , email , telefono ,activo, residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
         this.conductores = [];
         this.camiones = [];
         this.remolques = [];

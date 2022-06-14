@@ -13,6 +13,7 @@ export const environment = {
   expediorUrl : 'http://localhost:8080/expedidor',
   emailUrl:'http://localhost:8080/email',
   registroExternos:'http://localhost:4200/singup-externos',
+  confirmacion:'http://localhost:4200/confirmacion',
   usuarioUrl:'http://localhost:8080/usuario',
   cuentaBancariaUrl:'http://localhost:8080/cuentaBancaria',
   tipoCamionUrl:'http://localhost:8080/tipoCamion',
@@ -21,6 +22,13 @@ export const environment = {
   remolqueUrl:'http://localhost:8080/remolque',
   estadoUrl:'http://localhost:8080/estado',
   viajeUrl:'http://localhost:8080/viaje',
+  pagoUrl:'http://localhost:8080/pago',
+  estadoPagoUrl:'http://localhost:8080/estadoPago',
+  notificacionUrl:'http://localhost:8080/notificacion',
+  gravedadUrl:'http://localhost:8080/gravedad',
+  recaptcha: {
+    siteKey: '6LdZ-GggAAAAANeQllf2Hd3DvLyaZLtEldMwDAKV',
+  },
 }
 /*
  * For easier debugging in development mode, you can import the following file

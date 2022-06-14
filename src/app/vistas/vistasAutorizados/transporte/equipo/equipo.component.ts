@@ -16,6 +16,13 @@ import { TipoCamionService } from 'src/app/services/tipo-camion.service';
 import { TipoRemolqueService } from 'src/app/services/tipo-remolque.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
+import { Usuario } from 'src/app/models/usuario';
+import { NgForm } from '@angular/forms';
 declare var $:any;
 const FILTER_PAG_REGEX = /[^0-9]/g;
 
@@ -69,6 +76,9 @@ export class EquipoComponent implements OnInit {
   errMsjR:string;
 
 
+    //Notificaciones
+    gravedad$!:Gravedad[];
+    usuario$!:Usuario;
 
   constructor(
     private tipoCamionService:TipoCamionService,
@@ -77,8 +87,11 @@ export class EquipoComponent implements OnInit {
     private remolqueService:RemolqueService,
     private usuarioService:UsuarioService,
     private tokenService:TokenService
+    ,  private gravedadService:GravedadService,
+    private notificacionService:NotificacionService,
+    private toastr: ToastrService,
   ) { 
-    this.empresa = new Transporte(0,"","","","","","",null,null,null)
+    this.empresa = new Transporte(0,"","","","","","",true,null,null,null)
     this.errMsj = "";
     this.errMsjC = "";
     this.errMsjR = "";
@@ -98,7 +111,7 @@ export class EquipoComponent implements OnInit {
     this.remolqueNoEliminado = false;
     this.conductorRAsignado = false;
     this.conductorRNoAsignado = false;
-    this.conductort = new Conductor(0,"","","","","","","",false,new Transporte(0,"","","","","","",null,null,null),null,null,null);
+    this.conductort = new Conductor(0,"","","","","","","",false,new Transporte(0,"","","","","","",true,null,null,null),null,null,null);
     this.isConductor = false;
     this.isTransporte = false;
   }
@@ -112,6 +125,7 @@ export class EquipoComponent implements OnInit {
       this.usuarioService.findConductorNombre(this.tokenService.getUserName()).subscribe(
         data=>{
           this.conductort = data;
+          this.usuario$ = data;
           this.camiones$ = this.refreshCamiones$.pipe(switchMap(_=>this.camionService.findAllConductor(data["id"])));
           this.remolques$ = this.refreshRemolques$.pipe(switchMap(_=> this.remolqueService.findAllConductor(data["id"])));
         }
@@ -125,14 +139,21 @@ export class EquipoComponent implements OnInit {
           this.camiones$ = this.refreshCamiones$.pipe(switchMap(_=>this.camionService.findAll(data["id"])));
           this.remolques$ = this.refreshRemolques$.pipe(switchMap(_=> this.remolqueService.findAll(data["id"])));
           this.empresa = data;
+          this.usuario$ = data;
         }
       )
     }
+
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
   }
 
 
 
-  onCamion(data:any){
+  onCamion(data:any , form:NgForm){
     var conductor; 
     if(this.isConductor){
       conductor = this.conductort;
@@ -148,19 +169,37 @@ export class EquipoComponent implements OnInit {
     console.log(camion);
     this.camionService.addCamion(camion).subscribe(
       data=>{ 
-        this.camionCreado = true;
-        this.camionNoCreado = false;
         this.errMsj = data["mensaje"];
+        var notificacion = new NuevaNotificacion(this.errMsj  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsj , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+
+        form.resetForm();
+     
       },
       err=>{
-        this.camionCreado = false;
-        this.camionNoCreado = true;
         this.errMsj = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(this.errMsj , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(this.errMsj, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     );
   }
 
-  onRemolque(data:any){
+
+
+  onRemolque(data:any , form:NgForm){
     var conductor; 
     if(this.isConductor){
       conductor = this.conductort;
@@ -176,14 +215,29 @@ export class EquipoComponent implements OnInit {
     console.log(remolque);
     this.remolqueService.addRemolque(remolque).subscribe(
       data=>{
-        this.remolqueCreado = true;
-        this.remolqueNoCreado = false;
         this.errMsj = data["mensaje"];
+        var notificacion = new NuevaNotificacion(this.errMsj  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsj , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+        form.resetForm();
       },
       err=>{
-        this.remolqueCreado = false;
-        this.remolqueNoCreado = true;
         this.errMsj = err['error']['mensaje'];
+        this.errMsj = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(this.errMsj , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(this.errMsj, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
   }
@@ -192,15 +246,28 @@ export class EquipoComponent implements OnInit {
     var cambiarEstado:CambiarEstado = new CambiarEstado(estado, idCamion);
     this.camionService.updateEstadoCamion(cambiarEstado).subscribe(
       data=>{
-        this.estadoCamionCambiado = true;
-        this.estadoCamionNoCambiado = false;
         this.errMsjC = data["mensaje"];
         this.refreshCamiones$.next(true);
+        var notificacion = new NuevaNotificacion(this.errMsjC  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsjC , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.estadoCamionCambiado = false;
-        this.estadoCamionNoCambiado = true;
         this.errMsjC = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(this.errMsjC , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(this.errMsjC, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
   }
@@ -209,15 +276,31 @@ export class EquipoComponent implements OnInit {
     var cambiarEstado:CambiarEstado = new CambiarEstado(estado, idRemolque);
     this.remolqueService.updateEstadoRemolque(cambiarEstado).subscribe(
       data=>{
-        this.estadoRemolqueCambiado = true;
-        this.estadoCamionNoCambiado = false;
         this.errMsjR = data["mensaje"];
         this.refreshRemolques$.next(true);
+        
+        var notificacion = new NuevaNotificacion(this.errMsjR  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsjR , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+        
       },
       err=>{
-        this.estadoRemolqueCambiado = false;
-        this.estadoCamionNoCambiado = true;
         this.errMsjR = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(this.errMsjR , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(this.errMsjR, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+
       }
     )
   }
@@ -238,15 +321,28 @@ export class EquipoComponent implements OnInit {
    var asignacion:asignacionEquipo = new asignacionEquipo(this.conductort , camionId);
    this.camionService.updateConductorCamion(asignacion).subscribe(
      data=>{
-       this.conductorCAsignado = true;
-       this.conductorCNoAsignado = false;
        this.errMsjC = data["mensaje"];
        this.refreshCamiones$.next(true);
+       var notificacion = new NuevaNotificacion(this.errMsjC  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+       this.notificacionService.addNotificacion(notificacion).subscribe();
+
+       this.toastr.success(this.errMsjC , 'Notificación',{
+         progressBar:true,
+         timeOut: 3000,
+         easing:'ease-in',
+         easeTime:300
+       });
      },
      err=>{
-      this.conductorCAsignado = false;
-      this.conductorCNoAsignado = true;
       this.errMsjC = err['error']['mensaje'];
+      var notificacion = new NuevaNotificacion(this.errMsjC , new Date(),this.usuario$.id, this.gravedad$[2].id);
+      this.notificacionService.addNotificacion(notificacion).subscribe();
+      this.toastr.error(this.errMsjC, 'Notificación',{
+        progressBar:true,
+        timeOut: 3000,
+        easing:'ease-in',
+        easeTime:300
+      });
      }
    )
   }
@@ -271,15 +367,28 @@ export class EquipoComponent implements OnInit {
   eliminarCamion(idCamion:number){
     this.camionService.deleteCamion(idCamion).subscribe(
       data=>{
-        this.camionEliminado = true;
-        this.camionNoEliminado = false;
         this.errMsjC = data["mensaje"];
+        var notificacion = new NuevaNotificacion(this.errMsjC  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsjC , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
         this.refreshCamiones$.next(true);
       },
       err=>{
-        this.camionEliminado = false;
-        this.camionNoEliminado = true;
         this.errMsjC = err["error"]["mensaje"];
+        var notificacion = new NuevaNotificacion(this.errMsjC , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(this.errMsjC, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
   }
@@ -287,15 +396,28 @@ export class EquipoComponent implements OnInit {
   eliminarRemolque(idRemolque:number){
     this.remolqueService.deleteRemolque(idRemolque).subscribe(
       data=>{
-        this.remolqueEliminado = true;
-        this.remolqueNoEliminado = false;
         this.errMsjR = data["mensaje"];
         this.refreshRemolques$.next(true);
+        var notificacion = new NuevaNotificacion(this.errMsjR  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsjR , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.remolqueEliminado = false;
-        this.remolqueNoEliminado = true;
         this.errMsjR = err["error"]["mensaje"];
+        var notificacion = new NuevaNotificacion(this.errMsjR , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(this.errMsjR, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
 

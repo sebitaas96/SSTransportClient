@@ -1,0 +1,327 @@
+<div class="container-fluid p-5">
+    <div class="row g-0">
+      <div class="row g-0">
+        <ng-container *ngIf="isPorte ; else TransporteBlock">
+        <div class="col-12 col-lg-12 col-sm-12 col-md-12">
+          <div class="row g-0">
+            <div class="col">
+                    <div class="row g-0 buscador">
+                      <div class="col-2 m-0 d-flex justify-content-start">
+                        <div class="form-floating">
+                          <input type="text" name="buscador" class="form-control" 
+                            placeholder="Buscar..." [(ngModel)]="filterTerm">
+                          <label for="correo">Buscar...</label>
+                        </div >
+                      </div>
+                      <div class="col-2 m-0 d-flex justify-content-start">
+                        <div class="form-floating">
+                          <select name="estado" 
+                          id="estado" 
+                          #estado="ngModel"
+                          ngModel
+                          class="form-select"
+                          aria-label="Floating label select example"
+                          (ngModelChange)="filtrarEstado($event);" 
+                          >
+                            <option  [ngValue]="null" [selected]>
+                              Ninguno
+                            </option>
+                            <ng-container *ngIf="estadosPago$ | async as estadoPagos">
+                              <ng-container *ngFor="let estadoPago of estadoPagos">
+                                <option  [ngValue]="estadoPago">
+                                  {{estadoPago.nombre}}
+                                </option>
+                              </ng-container>
+                          </ng-container>
+                          </select>
+                          <label for="estado">Estado</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row g-0 mt-3 mb-3">
+                      <div class="col">
+                        <ng-container *ngIf="pagos$ | async as pagos">
+                        <table class="table">
+                          <thead class="table-dark">
+                              <tr>
+                                <th scope="col">Fecha de la factura</th>
+                                <th scope="col">Fecha de pago</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Importe</th>
+                                <th scope="col"></th>
+                              </tr>
+                          </thead>
+                          <tbody >
+                              <tr *ngFor="let pago of pagos|slice: (page-1) * 10: page * 10 |filter: filterTerm">
+                                <td>{{pago.fFactura |date:"mediumDate"}}</td>
+                                <td *ngIf="pago.fPago;else blocktd">
+                                  {{pago.fPago |date:"mediumDate"}}
+                                </td>
+                                <ng-template #blocktd>
+                                  <td>Pendiente..</td>
+                                </ng-template>
+                                <td>
+                                  {{pago.pagoDeEstadoPago.nombre}}
+                                </td>
+                                <td>
+                                  {{pago.importe}}
+                                </td>
+                                <td *ngIf="!pago.fPago && pago.pagoDeEstadoPago.nombre !='Rechazado';else ticket">
+                                  <div class="dropdown">
+                                    <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                      ...
+                                    </div>
+
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                      <li ><a class="dropdown-item"  (click)="RealizarPago(pago.id)">Realizar Pago</a></li>
+                                      <ng-container *ngIf = "pago.pagoDeEstadoPago.nombre!='Disputando'">
+                                        <li ><a class="dropdown-item" (click)="RechazarPago(pago.id)">Rechazar Pago</a></li>
+                                      </ng-container>
+                            
+                                    </ul>
+                                  </div>
+                                </td>
+                                <ng-template #ticket>
+                                  <td *ngIf="pago.pagoDeEstadoPago.nombre=='Pagado'">
+                                    <i class="fa-solid fa-calendar-check verde"></i>
+                                   
+                                  </td>
+                                  <td *ngIf = "pago.pagoDeEstadoPago.nombre=='Rechazado'">
+                                    <i class="fa-solid fa-square-xmark rojo"></i>
+                                  </td>
+                                </ng-template>
+                              </tr>
+                          </tbody>
+                        </table>
+                       <div>
+                          <ngb-pagination [collectionSize]="pagos.length " [(page)]="page" [boundaryLinks]="true">
+                            <ng-template ngbPaginationPages let-page let-pages="pages">
+                              <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+                                 <div class="mb-3 d-flex flex-nowrap px-2">
+                                   <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                                   <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                                   id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                                    (input)="formatInput($any($event).target)"
+                                     aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                                     <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                                     of {{pages.length}}</span>
+                                  </div>
+                               </li>
+                              </ng-template>
+                           </ngb-pagination>
+                        </div>
+                        </ng-container>
+                      </div>
+                    </div>
+            </div>
+          </div>
+        </div>
+        </ng-container>
+        <ng-template #TransporteBlock>
+          <div class="col-12 col-lg-12 col-sm-12 col-md-12">
+            <div class="row g-0">
+              <div class="col">
+                      <div class="row g-0 buscador">
+                        <div class="col-2 m-0 d-flex justify-content-start">
+                          <div class="form-floating">
+                            <input type="text" name="buscador" class="form-control" 
+                              placeholder="Buscar..." [(ngModel)]="filterTerm">
+                            <label for="correo">Buscar...</label>
+                          </div >
+                        </div>
+                        <div class="col-2 m-0 d-flex justify-content-start">
+                          <div class="form-floating">
+                            <select name="estado" 
+                            id="estado" 
+                            #estado="ngModel"
+                            ngModel
+                            class="form-select"
+                            aria-label="Floating label select example"
+                            (ngModelChange)="filtrarEstado($event);" 
+                            >
+                              <option  [ngValue]="null" [selected]>
+                                Ninguno
+                              </option>
+                              <ng-container *ngIf="estadosPago$ | async as estadoPagos">
+                                <ng-container *ngFor="let estadoPago of estadoPagos">
+                                  <option  [ngValue]="estadoPago">
+                                    {{estadoPago.nombre}}
+                                  </option>
+                                </ng-container>
+                            </ng-container>
+                            </select>
+                            <label for="estado">Estado</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row g-0 mt-3 mb-3">
+                        <div class="col">
+                          <ng-container *ngIf="pagos$ | async as pagos">
+                          <table class="table">
+                            <thead class="table-dark">
+                                <tr>
+                                  <th scope="col">Fecha de la factura</th>
+                                  <th scope="col">Fecha de pago</th>
+                                  <th scope="col">Estado</th>
+                                  <th scope="col">Importe</th>
+                                  <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr *ngFor="let pago of pagos|slice: (page-1) * 10: page * 10 |filter: filterTerm">
+                                  <td>{{pago.fFactura |date:"mediumDate"}}</td>
+                                  <td *ngIf="pago.fPago;else blocktd">
+                                    {{pago.fPago |date:"mediumDate"}}
+                                  </td>
+                                  <ng-template #blocktd>
+                                    <td>Pendiente..</td>
+                                  </ng-template>
+                                  <td>
+                                    {{pago.pagoDeEstadoPago.nombre}}
+                                  </td>
+                                  <td>
+                                    {{pago.importe}}
+                                  </td>
+                                  <td *ngIf="!pago.fPago && pago.pagoDeEstadoPago.nombre !='Disputando';else ticket">
+                                    <ng-container *ngIf="pago.pagoDeEstadoPago.nombre =='Pendiente' ; else pendienteBlock">
+                                      <i class="fa-solid fa-rotate azul"></i>
+                                    </ng-container>
+                                    <ng-template #pendienteBlock>
+                                      <div class="dropdown">
+                                        <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                          ...
+                                        </div>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                          <li ><a class="dropdown-item"  (click)="open(content,pago.id)">Disputar Pago</a></li>
+                                        </ul>
+                                      </div>
+                                    </ng-template>
+                                  </td>
+                                  <ng-template #ticket>
+                                    <td *ngIf="pago.pagoDeEstadoPago.nombre=='Pagado'">
+                                      <i class="fa-solid fa-calendar-check verde"></i>
+                                     
+                                    </td>
+                                    <td *ngIf = "pago.pagoDeEstadoPago.nombre=='Disputando'">
+                                      <i class="fa-solid fa-comments-dollar amarillo"></i>
+                                    </td>
+                                  </ng-template>
+                                </tr>
+                            </tbody>
+                          </table>
+                         <div>
+                            <ngb-pagination [collectionSize]="pagos.length " [(page)]="page" [boundaryLinks]="true">
+                              <ng-template ngbPaginationPages let-page let-pages="pages">
+                                <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+                                   <div class="mb-3 d-flex flex-nowrap px-2">
+                                     <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                                     <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                                     id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                                      (input)="formatInput($any($event).target)"
+                                       aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                                       <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                                       of {{pages.length}}</span>
+                                    </div>
+                                 </li>
+                                </ng-template>
+                             </ngb-pagination>
+                          </div>
+                          </ng-container>
+                        </div>
+                      </div>
+              </div>
+            </div>
+            <div class="row g-0">
+              <div class="col d-flex justify-content-end">
+                <ng-template #content let-modal>
+                  <form #disputaForm="ngForm" (submit)="DisputarPago(disputaForm.value)" id="myForm">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">Añadir Expedidor</h4>
+                      <button type="button" class="btn-close" aria-label="Close"
+                        (click)="modal.dismiss('Cross click')"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row g-0">
+                        <div class="col-12 mt-2">
+                          <div class="form-floating">
+                            <input type="text" name="correo" class="form-control" id="correo"
+                              placeholder="Email del Conductor" #correo="ngModel" ngModel emailValidator 
+                              [(ngModel)]="emailAdministrador" readonly
+                              >
+                            <label for="correo">Email administrador</label>
+                            <div *ngIf="correo.invalid && (correo.dirty ||correo.touched)">
+                              <div *ngIf="['emailv']" class="invalid-tooltip d-block">
+                                {{correo.errors?.['requiredValue']}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                          <div class="form-floating">
+                            <input type="text" name="correoPorte" class="form-control" id="correoPorte"
+                              placeholder="CC" #correoPorte="ngModel" ngModel emailValidator 
+                              [(ngModel)]="emailPorte" readonly
+                              >
+                            <label for="correo">CC(Porte)</label>
+                            <div *ngIf="correoPorte.invalid && (correoPorte.dirty ||correoPorte.touched)">
+                              <div *ngIf="['emailv']" class="invalid-tooltip d-block">
+                                {{correoPorte.errors?.['requiredValue']}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                          <div class="form-floating">
+                            <input type="text" name="asunto" class="form-control" id="asunto" placeholder="Asunto"
+                              #asunto="ngModel" ngModel>
+                            <label for="asunto">Asunto</label>
+                          </div>
+                        </div>
+                        <div class="col-5 me-5 mt-2">
+                          <div class="form-floating">
+                            <input type="text" name="empresa" class="form-control" id="empresa"
+                              [(ngModel)]="nombreEmpresaUsuario" readonly>
+                            <label for="empresa">Empresa Transporte</label>
+                          </div>
+                        </div>
+                        <div class="col-6 ms-2 mt-2">
+                          <div class="form-floating">
+                            <input type="text" name="portador" class="form-control" id="portador"
+                              [(ngModel)]="nombreEmpresaPortadora" readonly>
+                            <label for="portador">Empresa Porte</label>
+                          </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                          <div class="form-floating">
+                            <textarea class="form-control" placeholder="Escribe un comentario" id="comentario"
+                              name="comentario"
+                              style="height: 150px" [(ngModel)]="comentario"></textarea>
+                            <label for="comentario">Comentarios</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <div class="spinner-border text-dark" role="status" *ngIf="enviando">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                      <div class="alert alert-success" role="alert" *ngIf="enviadoCorrectamente">
+                        {{errMsj}}
+                      </div>
+                      <div class="alert alert-danger" role="alert" *ngIf="enviadoFail">
+                        {{errMsj}}
+                      </div>
+                      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
+                      <button type="submit" class="btn btn-outline-dark" [disabled]="disputaForm.invalid"
+                        name="Enviar" (click)="modal.close('Save click')">Enviar Disputa</button>
+                    </div>
+                  </form>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+   

@@ -422,14 +422,6 @@
                             <div class="col-6 mt-5">
                               <input type="submit" name="actualizar" [disabled]="perfilform.invalid" class="btn btn-default" value="Actualizar"/>
                             </div>
-                            <div class="col-6 mt-5">
-                              <div class="alert alert-success" role="alert" *ngIf="perfilActualizado">
-                                {{errMsjPerfil}}
-                             </div>
-                              <div class="alert alert-danger" role="alert" *ngIf="perfilNoActualizado">
-                                {{errMsjPerfil}}
-                              </div>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -510,17 +502,6 @@
                           <div class="row g-0">
                             <div class="col-5 mt-5">
                               <input type="submit" name="actualizar" [disabled]="passwordform.invalid" class="btn btn-default" value="Actualizar"/>
-                            </div>
-                            <div class="col-5 mt-5">
-                              <div class="alert alert-danger" role="alert" *ngIf="isCoincidente">
-                               {{errMsjPwd}}
-                            </div>
-                            <div class="alert alert-success" role="alert" *ngIf="pwdActualizada">
-                              {{errMsjPwd}}
-                           </div>
-                           <div class="alert alert-danger" role="alert" *ngIf="pwdNoActualizada">
-                            {{errMsjPwd}}
-                            </div>
                             </div>
                           </div>
                         </div>

@@ -71,17 +71,6 @@
                                             <input type="submit" name="actualizar" [disabled]="cuentaUform.invalid"
                                                 class="btn btn-default" value="Actualizar" />
                                         </div>
-                                        <div class="col-6 mt-5">
-                                            <div class="alert alert-success" role="alert" *ngIf="cuentaActualizada">
-                                                {{errMsj}}
-                                            </div>
-                                            <div class="alert alert-danger" role="alert" *ngIf="cuentaNoActualizada">
-                                                {{errMsj}}
-                                            </div>
-                                            <div class="alert alert-success" role="alert" *ngIf="cuentaCreada">
-                                                {{errMsjC}}
-                                            </div>
-                                        </div>
                                     </div>
 
                                 </div>
@@ -156,11 +145,6 @@
                                         <div class="col-6 mt-5">
                                             <input type="submit" name="actualizar" [disabled]="cuentaform.invalid"
                                                 class="btn btn-default" value="Actualizar" />
-                                        </div>
-                                        <div class="col-6 mt-5">
-                                            <div class="alert alert-danger" role="alert" *ngIf="cuentaNoCreada">
-                                                {{errMsjC}}
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

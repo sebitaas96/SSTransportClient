@@ -21,6 +21,12 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { ViajeService } from 'src/app/services/viaje.service';
 import { Localidad } from '../../../../models/localidad';
 import {ReservarViaje} from '../../../../dto/reservarViaje';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
+import { Usuario } from 'src/app/models/usuario';
 
 
 declare var $:any;
@@ -121,7 +127,9 @@ distanciaMax:number|null;
   public lng = 120.979021;
   public origin: any;
   public destination: any;
-
+    //Notificaciones
+    gravedad$!:Gravedad[];
+    usuario$!:Usuario;
 
   constructor(
     private paisService:PaisService,
@@ -131,7 +139,10 @@ distanciaMax:number|null;
     private viajeService:ViajeService,
     private modalService: NgbModal,
     private tokenService:TokenService,
-    private usuarioService:UsuarioService
+    private usuarioService:UsuarioService,
+    private gravedadService:GravedadService,
+    private notificacionService:NotificacionService,
+    private toastr: ToastrService,
     ) { 
 
       this.viajes = [];
@@ -216,6 +227,12 @@ distanciaMax:number|null;
       this.paisesR = data;
       this.paisesE = data;
     })
+
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
   }
 
 refreshViajes(){
@@ -1072,20 +1089,36 @@ refreshViajes(){
           this.usuarioService.findEmpresaTransprte(this.tokenService.getUserName()).subscribe(
             data=>{
                 transporte = data;
+                this.usuario$ = data;
                 var reservarViaje = new ReservarViaje(this.idViajeAReservar , transporte , null);
                 this.viajeService.reservarViaje(reservarViaje).subscribe(
                   data=>{
-                    this.isReservado = true;
-                    this.notReservado = false;
                     this.errMsj = data["mensaje"];
-                    console.log(data);
                     this.refreshViajes();
+                    var notificacion = new NuevaNotificacion(this.errMsj  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+                    this.notificacionService.addNotificacion(notificacion).subscribe();
+                    this.toastr.success(this.errMsj , 'Notificación',{
+                      progressBar:true,
+                      timeOut: 3000,
+                      easing:'ease-in',
+                      easeTime:300
+                    });
+             
+                    
+                    
                   },
                   err=>{
-                    this.notReservado = true;
-                    this.isReservado = false;
                     this.errMsj = err['error']['mensaje'];
                     this.refreshViajes();
+                    var notificacion = new NuevaNotificacion(this.errMsj , new Date(),this.usuario$.id, this.gravedad$[2].id);
+                    this.notificacionService.addNotificacion(notificacion).subscribe();
+                    this.toastr.error(this.errMsj, 'Notificación',{
+                      progressBar:true,
+                      timeOut: 3000,
+                      easing:'ease-in',
+                      easeTime:300
+                    });
+                    
                   }
                 )
             }
@@ -1096,21 +1129,33 @@ refreshViajes(){
           this.usuarioService.findConductorNombre(this.tokenService.getUserName()).subscribe(
             data=>{
               conductor = data;
+              this.usuario$ = data;
               transporte = data["conductorDeTransporte"];
               var reservarViaje = new ReservarViaje(this.idViajeAReservar , transporte , conductor);
               this.viajeService.reservarViaje(reservarViaje).subscribe(
                 data=>{
-                  this.isReservado = true;
-                  this.notReservado = false;
                   this.errMsj = data["mensaje"];
-                  console.log(data);
                   this.refreshViajes();
+                  var notificacion = new NuevaNotificacion(this.errMsj  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+                  this.notificacionService.addNotificacion(notificacion).subscribe();
+                  this.toastr.success(this.errMsj , 'Notificación',{
+                    progressBar:true,
+                    timeOut: 3000,
+                    easing:'ease-in',
+                    easeTime:300
+                  });
                 },
                 err=>{
-                  this.notReservado = true;
-                  this.isReservado = false;
                   this.errMsj = err['error']['mensaje'];
                   this.refreshViajes();
+                  var notificacion = new NuevaNotificacion(this.errMsj , new Date(),this.usuario$.id, this.gravedad$[2].id);
+                  this.notificacionService.addNotificacion(notificacion).subscribe();
+                  this.toastr.error(this.errMsj, 'Notificación',{
+                    progressBar:true,
+                    timeOut: 3000,
+                    easing:'ease-in',
+                    easeTime:300
+                  });
                 }
               )
             }

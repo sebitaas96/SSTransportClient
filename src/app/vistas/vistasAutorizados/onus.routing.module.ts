@@ -13,6 +13,7 @@ import { ViajeComponent } from './porte/viaje/viaje.component';
 import { GuardService } from 'src/app/guards/guard.service';
 import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedidos.component';
 import { ViajeReservadoComponent } from './transporte/viaje-reservado/viaje-reservado.component';
+import { PagosComponent} from './layaouts/pagos/pagos.component';
 
 const routes: Routes = [
     {
@@ -68,6 +69,11 @@ const routes: Routes = [
                 path: 'viajes-reservados',
                 component: ViajeReservadoComponent,
                 canActivate:[GuardService] , data:{expectedRol: ['admin','transporte','conductor']}
+            },
+            {
+                path: 'pagos',
+                component: PagosComponent,
+                canActivate:[GuardService] , data:{expectedRol: ['admin','transporte','porte']}
             }
             
         ]

@@ -99,6 +99,10 @@ export class UsuarioService {
     return this.http.put<any>(this.usuarioUrl+'/updatePassword', cambioPwd);
   }
 
+  public activarUsuario(idUsuario:string):Observable<any>{
+    return this.http.get<any>(this.usuarioUrl+'/'+idUsuario+'/ActivarUsuario');
+  }
+
   
 
   public findUsuario(nombreUsuario:string):Observable<Usuario>{

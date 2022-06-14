@@ -166,7 +166,7 @@ export class ExpedidoresComponent implements OnInit {
 
   cambiarEstado(estado:boolean , idExpedidor:number){
     var cambioEstado:CambiarEstado = new CambiarEstado(estado , idExpedidor);
-    this.usuarioService.updateEstadoConductor(cambioEstado).subscribe(
+    this.usuarioService.updateEstadoExpedidor(cambioEstado).subscribe(
       data=>{
         this.estadoExpedidorCambiado = true;
         this.estadoExpedidorNoCambiado = false;

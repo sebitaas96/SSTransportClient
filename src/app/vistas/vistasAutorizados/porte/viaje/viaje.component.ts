@@ -103,12 +103,14 @@ export class ViajeComponent implements OnInit {
       new TipoCamion(0,"",false),
       new TipoRemolque(0,""),
       null,
+      null,
+      null,
       new Estado(0,"")
       );
 
       this.estados = [];
-      this.porte = new Porte(0,"","","","","","",null,null,null)
-      this.expedidor = new Expedidor(0,"","","","","","","",false,new Porte(0,"","","","","","",null,null,null),null,null,null);
+      this.porte = new Porte(0,"","","","","","",true,null,null,null)
+      this.expedidor = new Expedidor(0,"","","","","","","",false,new Porte(0,"","","","","","",true,null,null,null),null,null,null);
       this.viajeCreado = false;
       this.viajeNoCreado = false;
       /*Inicializamos dates*/
@@ -215,6 +217,7 @@ export class ViajeComponent implements OnInit {
 
   onDatos(data:any , estado:boolean){
     console.log(data);
+    console.log(this.estados);
     this.viaje.descripcion = data["descripcion"];
     this.viaje.precio = parseFloat($("#precio").val());
     this.viaje.distancia = parseInt($("#hdist").val());
@@ -275,7 +278,17 @@ export class ViajeComponent implements OnInit {
     var distanciaval = response.rows[0].elements[0].distance.value;
     var tiempoTxt = response.rows[0].elements[0].duration.text;
     var tiempo = response.rows[0].elements[0].duration.value;
-    var precio:number = (distanciaval/1000)*0.71;
+
+    if(distanciaval!=0){
+      var precio:number = (distanciaval/1000)*0.71;
+    }
+    else{
+      var precio:number = (20000/1000)*0.71;
+    }
+    
+    if(tiempo==0){
+      tiempo=1800;
+    }
 
     //Configuracion de la fecha
     var fechaEstimada = new Date(new Date().getTime()+(tiempo*1000));
@@ -309,7 +322,14 @@ export class ViajeComponent implements OnInit {
   }
 
   updateTime(){
-    var fechaEstimada = new Date(new Date($("#fInicio").val()).getTime()+($("#hhor").val()*1000));
+    var tiempo;
+    if($("#hhor").val()!=0){
+      tiempo = $("#hhor").val();
+    }
+    else{
+      tiempo=1800;
+    }
+    var fechaEstimada = new Date(new Date($("#fInicio").val()).getTime()+(tiempo*1000));
     fechaEstimada.setMinutes(fechaEstimada.getMinutes()-fechaEstimada.getTimezoneOffset());
     $("#fHoraFin").val(fechaEstimada.toISOString().slice(0,16));
     $("#fHoraFin").attr("min",fechaEstimada.toISOString().slice(0,16));
@@ -320,6 +340,10 @@ export class ViajeComponent implements OnInit {
     var multiMin =parseFloat($("#multiplicador").attr("min"));
     var multi = parseFloat($("#multiplicador").val());
     var distancia = parseFloat($("#hdist").val());
+
+    if(distancia ==0){
+      distancia = 20000;
+    }
 
     if(multi>=multiMin){
       this.slowPrice = false;
@@ -452,7 +476,7 @@ export class ViajeComponent implements OnInit {
 
 
   /* Visualizaciones en página de Resumen */
-  visualizarRecogida() {
+  /*visualizarRecogida() {
     console.log("aqui")
     var $objetivo:any;
     var $contenedorCanvas:any;
@@ -484,7 +508,7 @@ export class ViajeComponent implements OnInit {
     html2canvas($objetivo).then(canvas => {
       $contenedorCanvas.appendChild(canvas);
     })
-  }
+  }*/
 
 
 

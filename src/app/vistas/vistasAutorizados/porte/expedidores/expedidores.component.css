@@ -1,0 +1,9 @@
+.dropdown-toggle{
+    text-decoration: none;
+    font-size: 25px;
+    cursor:pointer;
+}
+
+.dropdown-toggle::after {
+    display: none !important; 
+  }

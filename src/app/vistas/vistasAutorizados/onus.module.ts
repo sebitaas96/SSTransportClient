@@ -30,7 +30,11 @@ import { AgmDirectionModule } from 'agm-direction';
 import { ViajesExpedidosComponent } from './porte/viajes-expedidos/viajes-expedidos.component';
 import { NgxSimpleCountdownModule } from 'ngx-simple-countdown';
 import  {ViajeReservadoComponent} from './transporte/viaje-reservado/viaje-reservado.component';
+import { PagosComponent } from './layaouts/pagos/pagos.component';
+import { FooterAuthComponent } from './layaouts/footer-auth/footer-auth.component';
 
+import { ToastrModule } from 'ngx-toastr';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 @NgModule({
   declarations: [OnusComponent,
@@ -50,7 +54,10 @@ import  {ViajeReservadoComponent} from './transporte/viaje-reservado/viaje-reser
     matriculaRemolqueValidatorDirective,
     matriculaValidatorDirective,
     ViajesExpedidosComponent,
-    ViajeReservadoComponent
+    ViajeReservadoComponent,
+    PagosComponent,
+    FooterAuthComponent
+
 
 ],
   imports: [
@@ -69,7 +76,10 @@ import  {ViajeReservadoComponent} from './transporte/viaje-reservado/viaje-reser
       apiKey:'AIzaSyCGgmjdheC7MRP3yoqNWU2OSEe89dTLNJA'
     }),
     AgmDirectionModule,
-    NgxSimpleCountdownModule
+    NgxSimpleCountdownModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
+    NgApexchartsModule
   ]
 })
 export class OnusModule { }

@@ -1,11 +1,23 @@
 <header class="header" id="header">
     <div class="header_toggle"> <i class='fa fa-bars' id="header-toggle" (click)="iniciarToggle()"></i> </div>
-    <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+
+    <div class="header_img">
+        
+        <div class="dropdown">
+            <a class="dropdown-toggle notifications" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="align-middle fas fa-bell"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li></li>
+            </ul>
+          </div>
+        
+    </div>
 </header>
 <div class="l-navbar" id="nav-bar">
     <nav>
     <div class="nav_s">
-        <div> <a href="#" class="nav_logo"> <i class='fa fa-layer-group nav_logo-icon'></i> <span
+        <div> <a routerLink="/onus/dashboard" class="nav_logo"> <i class='fa fa-layer-group nav_logo-icon'></i> <span
                     class="nav_logo-name">{{nombreUsuario |uppercase}}</span> </a>
             <div class="nav_list" id="menu"> 
                     <a href="#dashboard"  data-bs-toggle="collapse" class="nav_link active" id="menuDashBoard"> 
@@ -16,12 +28,6 @@
                         <li class="w-100"  *ngIf="!datosSinCompletar && !cuentaSinCompletar">
                             <a class="nav_link"  routerLink="/onus/dashboard">
                                 <i class="align-middle fas fa-chart-line"></i> <span class="align-middle">Panel</span>
-                            </a>
-                        </li>
-        
-                        <li *ngIf="!datosSinCompletar && !cuentaSinCompletar">
-                            <a class="nav_link" href="#">
-                                <i class="align-middle fas fa-bell"></i> <span class="align-middle">Notificaciones</span>
                             </a>
                         </li>
                     </ul>
@@ -98,7 +104,7 @@
                             </a>
                         </li>
                         <li *ngIf="!datosSinCompletar && !cuentaSinCompletar && !isConductor">
-                            <a class="nav_link">
+                            <a class="nav_link" routerLink="/onus/pagos">
                                 <i class="align-middle fas fa-money-bill-trend-up"></i> <span class="align-middle">Pagos</span>
                             </a>
                         </li>

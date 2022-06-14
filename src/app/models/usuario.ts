@@ -10,10 +10,12 @@ export class Usuario {
     documento:string;
     email:string;
     telefono:string;
+    activo:boolean;
     residenteDeDireccion:Direccion|null;
     operadorDeProvincia:Provincia|null;
     authorities:String[];
     cuentaBancaria:CuentaBancaria|null;
+    notificaciones:Array<Notification>;
 
     constructor(    
         id:number,
@@ -23,6 +25,7 @@ export class Usuario {
         documento:string,
         email:string,
         telefono:string,
+        activo:boolean,
         residenteDeDireccion:Direccion|null,
         operadorDeProvincia:Provincia|null,
         cuentaBancaria:CuentaBancaria|null)
@@ -34,10 +37,12 @@ export class Usuario {
             this.documento = documento;
             this.email = email;
             this.telefono = telefono;
+            this.activo = activo
             this.residenteDeDireccion = residenteDeDireccion;
             this.operadorDeProvincia = operadorDeProvincia;
             this.authorities = [];
             this.cuentaBancaria = cuentaBancaria;
+            this.notificaciones = [];
         }
 
 

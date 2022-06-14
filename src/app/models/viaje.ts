@@ -8,6 +8,8 @@ import { TipoRemolque } from "./tipo-remolque";
 import { Pago } from "./pago";
 import { Estado } from "./estado";
 import { Porte } from "./porte";
+import { Camion } from "./camion";
+import { Remolque } from "./remolque";
 
 export class Viaje {
     id:number;
@@ -25,6 +27,8 @@ export class Viaje {
     viajeDeConductor:Conductor|null;
     viajeDeTipoCamion:TipoCamion;
     viajeDeTipoRemolque:TipoRemolque|null;
+    viajeDeCamion:Camion|null;
+    viajeDeRemolque:Remolque|null;
     pago:Pago|null;
     viajeDeEstado:Estado;
 
@@ -44,6 +48,8 @@ export class Viaje {
         viajeDeConductor:Conductor|null,
         viajeDeTipoCamion:TipoCamion,
         viajeDeTipoRemolque:TipoRemolque|null,
+        viajeDeCamion:Camion|null,
+        viajeDeRemolque:Remolque|null,
         pago:Pago|null,
         viajeDeEstado:Estado
     )
@@ -63,6 +69,8 @@ export class Viaje {
             this.viajeDeConductor = viajeDeConductor;
             this.viajeDeTipoCamion = viajeDeTipoCamion;
             this.viajeDeTipoRemolque = viajeDeTipoRemolque;
+            this.viajeDeCamion = viajeDeCamion;
+            this.viajeDeRemolque = viajeDeRemolque;
             this.pago = pago;
             this.viajeDeEstado = viajeDeEstado;
         }

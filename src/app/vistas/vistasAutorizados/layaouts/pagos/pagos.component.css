@@ -1,0 +1,34 @@
+.dropdown-toggle{
+    text-decoration: none;
+    font-size: 25px;
+    cursor:pointer;
+}
+
+.dropdown-toggle::after {
+    display: none !important; 
+
+  }
+
+  .dropdown-menu{
+    cursor:pointer;
+  }
+
+  .verde{
+    color: green;
+  }
+
+  .rojo{
+    color:red;
+  }
+
+  .buscador{
+    background-color: rgba(228, 225, 225, 0.555);
+  }
+
+  .amarillo{
+    color: rgb(255, 0, 0);
+  }
+
+  .azul{
+  color: blue;
+  }

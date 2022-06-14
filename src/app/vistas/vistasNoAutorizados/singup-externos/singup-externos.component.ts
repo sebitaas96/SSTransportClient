@@ -65,8 +65,8 @@ export class SingupExternosComponent implements OnInit {
    this.nombreUsuarioModal="";
    this.mensajeOfuscado = "";
    this.nombreEmpresa="";
-   this.empresaTransporte = new Transporte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
-   this.empresaPorte = new Porte(0,"","","","","","",new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
+   this.empresaTransporte = new Transporte(0,"","","","","","",true,new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
+   this.empresaPorte = new Porte(0,"","","","","","",true,new Direccion(0,"","",0,new Localidad(0,"",0,new Provincia(0,"",new Pais(0,"")))),new Provincia(0,"",new Pais(0,"")),null);
    this.email = "";
    this.idEmail = 0;
  }
@@ -119,6 +119,7 @@ export class SingupExternosComponent implements OnInit {
  onSubmit(data:any):void{
    var usuario:Usuario;
    var instruccion;
+   console.log(data);
    if(this.empresaTransporte.id !=0){
     usuario = new Conductor(0, data['nombre'] ,data['apellidos'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], false ,this.empresaTransporte,
     null,

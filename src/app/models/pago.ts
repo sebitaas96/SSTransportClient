@@ -1,33 +1,35 @@
 import { Transporte } from "./transporte";
+import { EstadoPago } from "./estadoPago";
 import { Viaje } from "./viaje";
+import { Porte } from "./porte";
 
 export class Pago {
     id:number;
-    pId:string;
     fFactura:Date;
     fPago:Date;
-    estado:boolean;
     importe:number;
     pagoDeTransporte:Transporte;
+    pagoDePorte:Porte;
+    pagoDeEstadoPago:EstadoPago;
     viaje:Viaje;
 
     constructor(
         id:number,
-        pId:string,
         fFactura:Date,
         fPago:Date,
-        estado:boolean,
         importe:number,
         pagoDeTransporte:Transporte,
+        pagoDePorte:Porte,
+        pagoDeEstadoPago:EstadoPago,
         viaje:Viaje
     ){
         this.id = id;
-        this.pId = pId;
         this.fFactura = fFactura;
         this.fPago = fPago;
-        this.estado = estado;
         this.importe = importe;
         this.pagoDeTransporte = pagoDeTransporte;
+        this.pagoDePorte = pagoDePorte;
+        this.pagoDeEstadoPago = pagoDeEstadoPago;
         this.viaje = viaje;
 
     }

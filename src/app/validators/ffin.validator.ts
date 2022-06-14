@@ -15,9 +15,7 @@ export class fFinValidtor implements Validator, OnInit {
  
   validate(control: FormControl) {
     if (control.value == null) { return null}
-    console.log(control);
     let v = new Date(control.value); 
-    console.log(v);
     if(v.getTime() >= (new Date().getTime()+31536000000)){
       return { 'fechav': true, 'requiredValue': 'La fecha de fin no puede ser superior a 1 año'}
     }

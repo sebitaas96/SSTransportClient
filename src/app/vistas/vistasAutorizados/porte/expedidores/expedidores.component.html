@@ -55,8 +55,8 @@
                                 {{expedidor.telefono}}
                               </td>
                               <td>
-                                <span class="badge rounded-pill bg-danger" *ngIf="!expedidor.estado" style="font-size:1em">Inactivo</span>
-                                <span class="badge rounded-pill bg-success" *ngIf="expedidor.estado" style="font-size:1em">Activo</span>
+                                <span class="badge rounded-pill bg-danger" *ngIf="!expedidor.activo" style="font-size:1em">Inactivo</span>
+                                <span class="badge rounded-pill bg-success" *ngIf="expedidor.activo" style="font-size:1em">Activo</span>
                               </td>
                               <td>
                                 <div class="dropdown">
@@ -64,8 +64,8 @@
                                     ...
                                   </div>
                                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li *ngIf="!expedidor.estado"><a class="dropdown-item" (click)="cambiarEstado(true, expedidor.id)" >Activar</a></li>
-                                    <li *ngIf="expedidor.estado"><a class="dropdown-item" (click)="cambiarEstado(false , expedidor.id)">Desactivar</a></li>
+                                    <li *ngIf="!expedidor.activo"><a class="dropdown-item" (click)="cambiarEstado(true, expedidor.id)" >Activar</a></li>
+                                    <li *ngIf="expedidor.activo"><a class="dropdown-item" (click)="cambiarEstado(false , expedidor.id)">Desactivar</a></li>
                                     <li><a class="dropdown-item" (click)="eliminarExpedidor(expedidor.id)">Eliminar</a></li>
                                   </ul>
                                 </div>

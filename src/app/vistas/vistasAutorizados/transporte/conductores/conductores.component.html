@@ -52,8 +52,8 @@
                               {{conductor.telefono}}
                             </td>
                             <td>
-                              <span class="badge rounded-pill bg-danger" *ngIf="!conductor.estado" style="font-size:1em">Inactivo</span>
-                              <span class="badge rounded-pill bg-success" *ngIf="conductor.estado" style="font-size:1em">Activo</span>
+                              <span class="badge rounded-pill bg-danger" *ngIf="!conductor.activo" style="font-size:1em">Inactivo</span>
+                              <span class="badge rounded-pill bg-success" *ngIf="conductor.activo" style="font-size:1em">Activo</span>
                             </td>
                             <td>
                               <div class="dropdown">
@@ -61,8 +61,8 @@
                                   ...
                                 </div>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                  <li *ngIf="!conductor.estado"><a class="dropdown-item" (click)="cambiarEstado(true, conductor.id)" >Activar</a></li>
-                                  <li *ngIf="conductor.estado"><a class="dropdown-item" (click)="cambiarEstado(false , conductor.id)">Desactivar</a></li>
+                                  <li *ngIf="!conductor.activo"><a class="dropdown-item" (click)="cambiarEstado(true, conductor.id)" >Activar</a></li>
+                                  <li *ngIf="conductor.activo"><a class="dropdown-item" (click)="cambiarEstado(false , conductor.id)">Desactivar</a></li>
                                   <li><a class="dropdown-item" (click)="eliminarConductor(conductor.id)">Eliminar</a></li>
                                 </ul>
                               </div>
@@ -220,7 +220,7 @@
                   </div>
                   <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
                   <button type="submit" class="btn btn-outline-dark" [disabled]="conductorform.invalid"
-                    name="Invitar">Enviar invitacion</button>
+                    name="Invitar"  (click)="modal.close('Save click')">Enviar invitacion</button>
                 </div>
               </form>
             </ng-template>

@@ -1,0 +1,26 @@
+#titulo{
+    color: black;
+}
+
+.botonEditar{
+    border-radius: 25px;
+
+    margin: 0;
+    background-color: white;
+    color: black;
+}
+
+.selectConductor{
+    width: 100%;
+}
+
+.labelConductor{
+    font-size: 10px;
+}
+.pago{
+    background-color: rgb(248, 96, 96);
+}
+
+.pagado{
+    background-color: rgb(157, 248, 96);
+}

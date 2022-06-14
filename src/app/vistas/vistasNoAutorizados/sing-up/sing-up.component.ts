@@ -71,6 +71,7 @@ export class SingUpComponent implements OnInit {
 
   onSubmit(data:any):void{
     let usuario:Usuario = new Usuario(0, data['nombre'] ,data['nombreUsuario'],data['password'],data['documento'] , data['email'] , data['prefijo']+data['phone'], 
+    false,
     null,
     null,
     null

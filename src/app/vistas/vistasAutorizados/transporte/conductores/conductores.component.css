@@ -7,3 +7,7 @@
 .dropdown-toggle::after {
     display: none !important; 
   }
+
+  .dropdown-menu{
+    cursor:pointer;
+  }

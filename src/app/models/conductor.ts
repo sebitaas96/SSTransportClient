@@ -13,7 +13,6 @@ import { Remolque } from "./remolque";
 export class Conductor extends Usuario{
 
     apellido:string;
-    estado:boolean;
     conductorDeTransporte:Transporte;
     viajes:Array<Viaje>;
     camiones:Array<Camion>;
@@ -28,15 +27,14 @@ export class Conductor extends Usuario{
         documento:string,
         email:string,
         telefono:string,
-        estado:boolean,
+        activo:boolean,
         conductorDeTransporte:Transporte,
         residenteDeDireccion:Direccion|null,
         operadorDeProvincia:Provincia|null,
         cuentaBancaria:CuentaBancaria|null,
     ){
-        super(id , nombre ,nombreUsuario,password, documento , email , telefono , residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
+        super(id , nombre ,nombreUsuario,password, documento , email , telefono ,activo, residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
         this.apellido = apellido;
-        this.estado = estado;
         this.conductorDeTransporte = conductorDeTransporte;
         this.viajes = [];
         this.camiones = [];

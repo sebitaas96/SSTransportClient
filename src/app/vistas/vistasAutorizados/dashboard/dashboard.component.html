@@ -4,31 +4,328 @@
     <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
 
     <div class="row">
-
-        <div class="col-xl-6 col-xxl-7">
-            <div class="card flex-fill w-100">
-                <div class="card-header">
-
-                    <h5 class="card-title mb-0">Recent Movement</h5>
-                </div>
-                <div class="card-body py-3">
-                    <div class="chart chart-sm">
-                        <canvas id="chartjs-dashboard-line"></canvas>
+        <ng-container *ngIf="isTransporte || isConductor">
+            <div class="col-xl-8 col-xxl-8 mt-5">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Tus viajes
+                            <a routerLink="/onus/viajes-reservados">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="card-body py-3">
+                                <div class="row">
+                                    <div class="col-3 ms-5 viajes">
+                                        
+                                            <div class="d-flex justify-content-center">
+                                                <h6><strong>RESERVADOS</strong></h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <span class="nViajes">{{viajesReservados}}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light btnEye">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>   
+                                            </div>
+                                           
+                                    
+                                       
+                                    </div>
+                                    <div class="col-3 ms-5 viajes">
+                 
+                                            <div class="d-flex justify-content-center">
+                                                <h6><strong>EN TRÁNSITO</strong></h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <span class="nViajes">{{viajesTransito}}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light btnEye">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>   
+                                            </div>
+            
+                                    </div>
+                                    <div class="col-3 ms-5 viajes">
+                                  
+                                            <div class="d-flex justify-content-center">
+                                                <h6><strong>FINALIZADOS</strong></h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <span class="nViajes">{{viajesFinalizados}}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light btnEye">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>   
+                                            </div> 
+                                    
+                                    </div>
+                                </div>
+                            
+    
+                  
                     </div>
                 </div>
             </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="isPorte || isExpedidor">
+            <div class="col-xl-12 col-xxl-12 mt-5">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Tus viajes
+                            <a routerLink="/onus/viajes-expedidos">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a></h5>
+                    </div>
+                    <div class="card-body py-3">
+
+                                <div class="row">
+                                    <div class="col-2 ms-5  me-5 viajes">
+                                        
+                                        <div class="d-flex justify-content-center">
+                                            <h6><strong>Expedidos</strong></h6>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <span class="nViajes">{{viajesExpedidos}}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn btn-light btnEye">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>   
+                                        </div>
+                                       
+                                        </div>
+                                    <div class="col-2 ms-5 me-5 viajes">
+                                        
+                                            <div class="d-flex justify-content-center">
+                                                <h6><strong>RESERVADOS</strong></h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <span class="nViajes">{{viajesReservados}}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light btnEye">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>   
+                                            </div>
+                                           
+                                    </div>
+
+                                    <div class="col-2 ms-5 me-5 viajes">
+                                  
+                                            <div class="d-flex justify-content-center">
+                                                <h6><strong>FINALIZADOS</strong></h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <span class="nViajes">{{viajesFinalizados}}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light btnEye">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>   
+                                            </div> 
+                                    
+                                    </div>
+                                    <div class="col-2 ms-5 me-5 viajes">
+                 
+                                        <div class="d-flex justify-content-center">
+                                            <h6><strong>CADUCADOS/CANCELADOS</strong></h6>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <span class="nViajes">{{viajesTransito}}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn btn-light btnEye">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>   
+                                        </div>
+        
+                                </div>
+                                </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isTransporte || isConductor">
+            <div class="col-xl-4 col-xxl-4 mt-5">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Panel de carga                         
+                            <a routerLink="/onus/panel-carga">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="card-body py-3">
+                            <div class="row">
+                                <div class="col-12 s">
+                                    <div class="row">
+                                        <div class="col-10 ">
+                                            <h6 class="panel"><strong>BARCELONA-ES</strong></h6>
+                                        </div>
+                                        <div class="col-2"><span class="nViajesPanel">{{viajesBarcelona}}</span></div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4 s">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h6 class="panel"><strong>MADRID-ES</strong></h6>
+                                        </div>
+                                        <div class="col-2"><span class="nViajesPanel">{{viajesMadrid}}</span></div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4 s">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h6 class="panel"><strong>{{OperadorDeProvincia | uppercase}}-ES</strong></h6>
+                                        </div>
+                                        <div class="col-2"><span class="nViajesPanel">{{viajesOperador}}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isPorte ||isTransporte ; else trabjadoresBlock">
+            <div class="col-xl-6 col-xxl-6 mt-5">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+    
+                        <h5 class="card-title mb-0">Notificaciones</h5>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="overflow-auto notis">
+                            <ng-container *ngIf="notificaciones$ | async as notificaciones">
+                                <ng-container *ngFor="let notificacion of notificaciones">
+                                    <ng-container *ngIf="notificacion.notificacionDeGravedad.nombre=='Success';else errorBlock">
+                                        <div class="d-flex">
+                                            <div class="alert alert-success notisuccess" role="alert">
+                                                <i class="fa-solid fa-bell"></i>
+                                                {{notificacion.fecha| date: 'short'}}
+                                                -
+                                                {{notificacion.nombre}}
+                                                <button type="button" class="btn btn-light botonEditar" (click)="eliminarNotificacion(notificacion.id)">
+                                                    <i class="fa-solid fa-square-xmark"></i>
+                                                  </button>
+                                              </div>
+                                              
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #errorBlock>
+                                        <div class="d-flex">
+                                            <div class="alert alert-error notierror" role="alert">
+                                                <i class="fa-solid fa-bell"></i>
+                                                {{notificacion.fecha| date: 'short'}}
+                                                -
+                                                {{notificacion.nombre}}
+                                                <button type="button" class="btn btn-light botonEditar" (click)="eliminarNotificacion(notificacion.id)">
+                                                    <i class="fa-solid fa-square-xmark"></i>
+                                                  </button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+    
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #trabjadoresBlock>
+            <div class="col-xl-12 col-xxl-12 mt-5">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+    
+                        <h5 class="card-title mb-0">Notificaciones</h5>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="overflow-auto notis">
+                            <ng-container *ngIf="notificaciones$ | async as notificaciones">
+                                <ng-container *ngFor="let notificacion of notificaciones">
+                                    <ng-container *ngIf="notificacion.notificacionDeGravedad.nombre=='Success';else errorBlock">
+                                        <div class="d-flex">
+                                            <div class="alert alert-success notisuccess" role="alert">
+                                                <i class="fa-solid fa-bell"></i>
+                                                {{notificacion.fecha| date: 'short'}}
+                                                -
+                                                {{notificacion.nombre}}
+                                                <button type="button" class="btn btn-light botonEditar" (click)="eliminarNotificacion(notificacion.id)">
+                                                    <i class="fa-solid fa-square-xmark"></i>
+                                                  </button>
+                                              </div>
+                                              
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #errorBlock>
+                                        <div class="d-flex">
+                                            <div class="alert alert-error notierror" role="alert">
+                                                <i class="fa-solid fa-bell"></i>
+                                                {{notificacion.fecha| date: 'short'}}
+                                                -
+                                                {{notificacion.nombre}}
+                                                <button type="button" class="btn btn-light botonEditar" (click)="eliminarNotificacion(notificacion.id)">
+                                                    <i class="fa-solid fa-square-xmark"></i>
+                                                  </button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+    
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-container *ngIf="isPorte ||isTransporte">
+            <div class="col-xl-6 col-xxl-6 mt-5 ">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+                        <ng-container *ngIf="isTransporte ; else PorteBlock">
+                            <h5 class="card-title mb-0">Pagos Recibidos
+                                <a routerLink="/onus/pagos">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </h5>
+                        </ng-container>
+                        <ng-template #PorteBlock>
+                            <h5 class="card-title mb-0">Pagos Realizados
+                                <a routerLink="/onus/pagos">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </h5>
+                        </ng-template>
+                        
+                    </div>
+                    <div class="card-body py-3">
+                        <div style="text-align:center">
+                            <apx-chart
+                              [series]="chartOptions.series"
+                              [chart]="chartOptions.chart"
+                              [xaxis]="chartOptions.xaxis"
+                              [title]="chartOptions.title"
+                            ></apx-chart>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </div>
     <div id="errorModal" class="modal fade">
         <div class="modal-dialog modal-confirm modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-
                     <div class="swal2-icon swal2-error swal2-animate-error-icon" style="display: flex;">
                         <span class="swal2-x-mark"><span class="swal2-x-mark-line-left">
                             </span><span class="swal2-x-mark-line-right"></span></span>
                     </div>
-
                 </div>
                 <div class="modal-body">
                     <p class="text-center">{{errMsj}}</p>

@@ -12,6 +12,12 @@ import { data } from 'jquery';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { Conductor } from 'src/app/models/conductor';
 import { CambiarEstado } from 'src/app/dto/cambiarEstado';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
+import { Usuario } from 'src/app/models/usuario';
 const FILTER_PAG_REGEX = /[^0-9]/g;
 var EmpresaId = 0; 
 
@@ -58,13 +64,18 @@ export class ConductoresComponent implements OnInit {
   conductores$!:Observable<Conductor[]>;
   refreshConductores$ = new BehaviorSubject<boolean>(true);
 
-
+    //Notificaciones
+    gravedad$!:Gravedad[];
+    usuario$!:Usuario;
 
 
   constructor(private modalService: NgbModal
     ,private tokenService:TokenService 
     , private mensajeService:EmailService 
-    , private usuarioService:UsuarioService) {
+    , private usuarioService:UsuarioService
+    ,  private gravedadService:GravedadService,
+    private notificacionService:NotificacionService,
+    private toastr: ToastrService,) {
     
     
     this.nombreEmpresaUsuario="";
@@ -89,10 +100,17 @@ export class ConductoresComponent implements OnInit {
   ngOnInit(): void {
     this.nombreEmpresaUsuario = this.tokenService.getUserName();
     this.usuarioService.findEmpresaTransprte(this.nombreEmpresaUsuario).subscribe(data=>{
+      this.usuario$ = data;
       this.empresa = data;
       this.emails$ = this.refreshEmails$.pipe(switchMap(_=>this.mensajeService.findAllEmailsTransporte(this.empresa.id)));
       this.conductores$ = this.refreshConductores$.pipe(switchMap(_=>this.usuarioService.findAllConductores(this.empresa.id)));
     });
+
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
  
 
   }
@@ -115,15 +133,33 @@ export class ConductoresComponent implements OnInit {
         
         this.mensajeService.sendMenssage(email).subscribe(
           data => {
-            this.enviadoCorrectamente = true;
             this.enviando = false;
             this.errMsj = data["mensaje"];
+
+            var notificacion = new NuevaNotificacion(this.errMsj  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+            this.notificacionService.addNotificacion(notificacion).subscribe();
+    
+            this.toastr.success(this.errMsj , 'Notificación',{
+              progressBar:true,
+              timeOut: 3000,
+              easing:'ease-in',
+              easeTime:300
+            });
+            
             this.refreshEmails$.next(true);
           },
           err => {
-            this.enviadoFail = true;
             this.enviando = false;
             this.errMsj = err['error']['mensaje'];
+            var notificacion = new NuevaNotificacion(this.errMsj , new Date(),this.usuario$.id, this.gravedad$[2].id);
+            this.notificacionService.addNotificacion(notificacion).subscribe();
+            this.toastr.error(this.errMsj, 'Notificación',{
+              progressBar:true,
+              timeOut: 3000,
+              easing:'ease-in',
+              easeTime:300
+            });
+
           }
         )
   }
@@ -134,15 +170,31 @@ export class ConductoresComponent implements OnInit {
     this.eliminando = true;
     this.mensajeService.deleteEmail(emailId).subscribe(
       data=>{
-        this.emailEliminadoC = true;
-        this.eliminando = false;
+
         this.errMsjD = data["mensaje"];
+
+        var notificacion = new NuevaNotificacion(this.errMsjD , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsjD , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+
         this.refreshEmails$.next(true);
     },
     err=>{
-      this.eliminando = false;
-      this.emailEliminadoF = true;
       this.errMsjD = err['error']['mensaje'];
+      var notificacion = new NuevaNotificacion( this.errMsjD , new Date(),this.usuario$.id, this.gravedad$[2].id);
+      this.notificacionService.addNotificacion(notificacion).subscribe();
+      this.toastr.error( this.errMsjD, 'Notificación',{
+        progressBar:true,
+        timeOut: 3000,
+        easing:'ease-in',
+        easeTime:300
+      });
     }
     )
   }
@@ -153,15 +205,29 @@ export class ConductoresComponent implements OnInit {
     this.eliminandoConductor = true;
     this.usuarioService.deleteConductor(idConductor).subscribe(
       data=>{
-        this.conductorEeliminadoC = true;
-        this.eliminandoConductor = false;
+
         this.errMsjEC = data["mensaje"];
+        var notificacion = new NuevaNotificacion(this.errMsjEC , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsjEC , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
         this.refreshConductores$.next(true);
       },
       err=>{
-        this.eliminandoConductor = false;
-        this.conductorElminadoF = true;
         this.errMsjEC = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion( this.errMsjEC , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error( this.errMsjEC, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
 
     )
@@ -172,15 +238,29 @@ export class ConductoresComponent implements OnInit {
     var cambioEstado:CambiarEstado = new CambiarEstado(estado , idConductor);
     this.usuarioService.updateEstadoConductor(cambioEstado).subscribe(
       data=>{
-        this.estadoConductorCambiado = true;
-        this.estadoConductorNoCambiado = false;
+
         this.errMsjEC = data["mensaje"];
+        var notificacion = new NuevaNotificacion(this.errMsjEC , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(this.errMsjEC , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
         this.refreshConductores$.next(true);
       },
       err=>{
-        this.estadoConductorCambiado = false;
-        this.estadoConductorNoCambiado = true;
         this.errMsjEC = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion( this.errMsjEC , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error( this.errMsjEC, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
 
       }
     )

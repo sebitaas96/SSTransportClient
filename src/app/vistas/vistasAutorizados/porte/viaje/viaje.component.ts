@@ -25,6 +25,12 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { Expedidor } from 'src/app/models/expedidor';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
+import { Usuario } from 'src/app/models/usuario';
 declare var $:any;
 
 @Component({
@@ -78,7 +84,9 @@ export class ViajeComponent implements OnInit {
   destino:string;
 
   
-
+  //Notificaciones
+  gravedad$!:Gravedad[];
+  usuario$!:Usuario;
 
 
   constructor(
@@ -94,6 +102,9 @@ export class ViajeComponent implements OnInit {
     private  estadoService:EstadoService,
     private usuarioService:UsuarioService,
     private viajeService:ViajeService,
+    private gravedadService:GravedadService,
+    private notificacionService:NotificacionService,
+    private toastr: ToastrService
     ) { 
       /*Viaje*/
       this.viaje = new Viaje(0,"",0,0,0,new Date(), new Date(),
@@ -141,6 +152,7 @@ export class ViajeComponent implements OnInit {
       this.usuarioService.findEmpresaPorteNombre(this.tokenService.getUserName()).subscribe(
         data=>{
           this.porte = data;
+          this.usuario$ = data;
         }
       )
     }
@@ -148,6 +160,7 @@ export class ViajeComponent implements OnInit {
       this.usuarioService.findExpedidorNombre(this.tokenService.getUserName()).subscribe(
         data=>{
           this.expedidor = data;
+          this.usuario$ = data;
         }
       )
     }
@@ -165,23 +178,40 @@ export class ViajeComponent implements OnInit {
       this.paisesR = data;
       this.paisesE = data;
     })
+
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
    }
 
    onSubmit():void{
 
     this.viajeService.addViaje(this.viaje).subscribe(
       data=>{
-        this.viajeCreado = true;
-        this.viajeNoCreado = false;
-        this.errMsj = data["mensaje"];
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
         this.reset();
         $("#reset").trigger("click");
         console.log(data);
       },
       err=>{
-        this.viajeCreado = false;
-        this.viajeNoCreado = true;
-        this.errMsj = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
         $("#reset").trigger("click");
       }
     )

@@ -9,14 +9,14 @@ import { Porte } from "./porte";
 
 export class Expedidor extends Usuario{
 
-    apellidos:string;
+    apellido:string;
     expedidorDePorte:Porte;
     viajes:Array<Viaje>;
 
     constructor(
         id:number,
         nombre:string,
-        apellidos:string,
+        apellido:string,
         nombreUsuario:string,
         password:string,
         documento:string,
@@ -29,7 +29,7 @@ export class Expedidor extends Usuario{
         cuentaBancaria:CuentaBancaria|null,
     ){
         super(id , nombre ,nombreUsuario,password, documento , email , telefono ,activo, residenteDeDireccion , operadorDeProvincia,cuentaBancaria);
-        this.apellidos = apellidos;
+        this.apellido = apellido;
         this.expedidorDePorte = expedidorDePorte;
         this.viajes = [];
     }

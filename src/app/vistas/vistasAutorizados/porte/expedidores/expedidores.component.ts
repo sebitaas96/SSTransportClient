@@ -9,6 +9,12 @@ import { EmailService } from 'src/app/services/email.service';
 import { TokenService } from 'src/app/services/token.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
+import { Usuario } from 'src/app/models/usuario';
 const FILTER_PAG_REGEX = /[^0-9]/g;
 @Component({
   selector: 'app-expedidores',
@@ -54,13 +60,19 @@ export class ExpedidoresComponent implements OnInit {
   expedidores$!:Observable<Expedidor[]>;
   refreshExpedidores$ = new BehaviorSubject<boolean>(true);
 
-
+  //Notificaciones
+  gravedad$!:Gravedad[];
+  usuario$!:Usuario;
 
 
   constructor(private modalService: NgbModal
     ,private tokenService:TokenService 
     , private mensajeService:EmailService 
-    , private usuarioService:UsuarioService) {
+    , private usuarioService:UsuarioService
+    ,  private gravedadService:GravedadService,
+    private notificacionService:NotificacionService,
+    private toastr: ToastrService
+    ) {
     
     
     this.nombreEmpresaUsuario="";
@@ -86,10 +98,15 @@ export class ExpedidoresComponent implements OnInit {
     this.nombreEmpresaUsuario = this.tokenService.getUserName();
     this.usuarioService.findEmpresaPorteNombre(this.nombreEmpresaUsuario).subscribe(data=>{
       this.empresa = data;
+      this.usuario$ = data;
       this.emails$ = this.refreshEmails$.pipe(switchMap(_=>this.mensajeService.findAllEmailsPorte(this.empresa.id)));
       this.expedidores$ = this.refreshExpedidores$.pipe(switchMap(_=>this.usuarioService.findAllExpedidores(this.empresa.id)));
     });
- 
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
 
   }
 
@@ -111,15 +128,28 @@ export class ExpedidoresComponent implements OnInit {
         
         this.mensajeService.sendMenssage(email).subscribe(
           data => {
-            this.enviadoCorrectamente = true;
             this.enviando = false;
-            this.errMsj = data["mensaje"];
             this.refreshEmails$.next(true);
+            var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+            this.notificacionService.addNotificacion(notificacion).subscribe();
+    
+            this.toastr.success(data["mensaje"] , 'Notificación',{
+              progressBar:true,
+              timeOut: 3000,
+              easing:'ease-in',
+              easeTime:300
+            });
           },
           err => {
-            this.enviadoFail = true;
             this.enviando = false;
-            this.errMsj = err['error']['mensaje'];
+            var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+            this.notificacionService.addNotificacion(notificacion).subscribe();
+            this.toastr.error(err['error']['mensaje'], 'Notificación',{
+              progressBar:true,
+              timeOut: 3000,
+              easing:'ease-in',
+              easeTime:300
+            });
           }
         )
   }
@@ -130,15 +160,28 @@ export class ExpedidoresComponent implements OnInit {
     this.eliminando = true;
     this.mensajeService.deleteEmail(emailId).subscribe(
       data=>{
-        this.emailEliminadoC = true;
         this.eliminando = false;
-        this.errMsjD = data["mensaje"];
         this.refreshEmails$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
     },
     err=>{
       this.eliminando = false;
-      this.emailEliminadoF = true;
-      this.errMsjD = err['error']['mensaje'];
+      var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+      this.notificacionService.addNotificacion(notificacion).subscribe();
+      this.toastr.error(err['error']['mensaje'], 'Notificación',{
+        progressBar:true,
+        timeOut: 3000,
+        easing:'ease-in',
+        easeTime:300
+      });
     }
     )
   }
@@ -149,15 +192,26 @@ export class ExpedidoresComponent implements OnInit {
     this.eliminandoExpedidor = true;
     this.usuarioService.deleteExpedidor(idExpedidor).subscribe(
       data=>{
-        this.expedidorEeliminadoC = true;
-        this.eliminandoExpedidor = false;
-        this.errMsjEC = data["mensaje"];
         this.refreshExpedidores$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.eliminandoExpedidor = false;
-        this.expedidorElminadoF = true;
-        this.errMsjEC = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
 
     )
@@ -168,15 +222,26 @@ export class ExpedidoresComponent implements OnInit {
     var cambioEstado:CambiarEstado = new CambiarEstado(estado , idExpedidor);
     this.usuarioService.updateEstadoExpedidor(cambioEstado).subscribe(
       data=>{
-        this.estadoExpedidorCambiado = true;
-        this.estadoExpedidorNoCambiado = false;
-        this.errMsjEC = data["mensaje"];
         this.refreshExpedidores$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.estadoExpedidorCambiado = false;
-        this.estadoExpedidorNoCambiado = true;
-        this.errMsjEC = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
 
       }
     )

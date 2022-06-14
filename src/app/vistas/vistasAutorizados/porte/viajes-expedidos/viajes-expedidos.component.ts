@@ -8,6 +8,12 @@ import { TokenService } from 'src/app/services/token.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { ViajeService } from 'src/app/services/viaje.service';
 import {ReactivarViaje} from 'src/app/dto/reactivarViaje';
+import { ToastrService } from 'ngx-toastr';
+import { NotificacionService} from 'src/app/services/notificacion.service'; 
+import { GravedadService} from 'src/app/services/gravedad.service'; 
+import {NuevaNotificacion} from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
+import { Usuario } from 'src/app/models/usuario';
 declare var $:any;
 
 @Component({
@@ -42,12 +48,19 @@ export class ViajesExpedidosComponent implements OnInit {
   //Viajes
   viajes$!:Observable<Viaje[]>;
   refreshViajes$ = new BehaviorSubject<boolean>(true);
+
+    //Notificaciones
+    gravedad$!:Gravedad[];
+    usuario$!:Usuario;
   
   constructor(
     private viajeService:ViajeService,
     private tokenService:TokenService,
     private usuarioService:UsuarioService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private gravedadService:GravedadService,
+    private notificacionService:NotificacionService,
+    private toastr: ToastrService
   ) { 
     //Time
     this.shortTime = false;
@@ -74,6 +87,7 @@ export class ViajesExpedidosComponent implements OnInit {
     if(this.tokenService.getIsPorte()){
       this.usuarioService.findEmpresaPorteNombre(this.tokenService.getUserName()).subscribe(
         data=>{
+          this.usuario$ = data;
           this.viajes$ = this.refreshViajes$.pipe(switchMap(_=>this.viajeService.findAll(data["id"])));
         }
       )
@@ -81,12 +95,17 @@ export class ViajesExpedidosComponent implements OnInit {
     else if(this.tokenService.getIsExpedidor()){
       this.usuarioService.findExpedidorNombre(this.tokenService.getUserName()).subscribe(
         data=>{
+          this.usuario$ = data;
           this.viajes$ = this.refreshViajes$.pipe(switchMap(_=>this.viajeService.findAllExpedidor(data["id"])));
         }
       )
     }
 
-    
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
   }
 
 
@@ -121,16 +140,26 @@ export class ViajesExpedidosComponent implements OnInit {
   CancelarViaje(viajeId:number){
     this.viajeService.cancelarViaje(viajeId).subscribe(
       data=>{
-        this.isCancelado = true;
-        this.notCancelado = false;
-        this.errMsjCancelado = data["mensaje"];
-        console.log(data);
         this.refreshViajes$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.notCancelado = true;
-        this.isCancelado = false;
-        this.errMsjCancelado = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
   }
@@ -142,15 +171,26 @@ export class ViajesExpedidosComponent implements OnInit {
     var reactivarViaje = new ReactivarViaje(this.idViajeAReactivar , fInicio, fFin);
     this.viajeService.reactivarViaje(reactivarViaje).subscribe(
       data=>{
-        this.isReactivado = true;
-        this.notReactivado = false;
-        this.errMsjReactivado = data["mensaje"];
         this.refreshViajes$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.notReactivado = true;
-        this.isReactivado = false;
-        this.errMsjReactivado = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
 
@@ -159,15 +199,26 @@ export class ViajesExpedidosComponent implements OnInit {
   EliminarViaje(data:any){
     this.viajeService.eliminarViaje(this.idViajeAEliminar).subscribe(
       data=>{
-        this.isEliminado = true;
-        this.notEliminado = false;
-        this.errMsjEliminado = data["mensaje"];
         this.refreshViajes$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.notEliminado = true;
-        this.isEliminado = false;
-        this.errMsjEliminado = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
   }

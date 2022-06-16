@@ -12,3 +12,7 @@
   p{
       color: black;
   }
+
+  .dropdown-menu{
+    cursor:pointer;
+  }

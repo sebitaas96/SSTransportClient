@@ -3,7 +3,7 @@
     color: white;
     padding: 10%;
     padding-right: 0%;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/assets/images/pantalla-principal/entrga2.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../../../assets/images/pantalla-principal/entrga2.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }

@@ -19,6 +19,10 @@ import {
 } from "ng-apexcharts";
 import { PagoService } from 'src/app/services/pago.service';
 import { Pago } from 'src/app/models/pago';
+import { GravedadService } from 'src/app/services/gravedad.service';
+import { ToastrService } from 'ngx-toastr';
+import { NuevaNotificacion } from 'src/app/dto/nuevaNotificacion';
+import { Gravedad } from 'src/app/models/gravedad';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -56,6 +60,8 @@ export class DashboardComponent implements OnInit {
 
   //Pagos 
   pagos$!:Pago[];
+  pagosP$!:Observable<Pago[]>;
+  refreshPagosP$ = new BehaviorSubject<boolean>(true);
   pagosEnero:number=0;
   pagosFebrero:number=0;
   pagosMarzo:number=0;
@@ -76,42 +82,34 @@ export class DashboardComponent implements OnInit {
   viajesOperador:number =0;
   OperadorDeProvincia!:string|any;
 
-
+  //Notificaciones
+  gravedad$!:Gravedad[];
+  usuario$!:Usuario;
 
   constructor(private tokenService:TokenService,
     private usuarioService:UsuarioService,
     private viajeService:ViajeService,
     private notificacionService:NotificacionService,
-    private pagoService:PagoService
+    private pagoService:PagoService,
+   private gravedadService:GravedadService,
+    private toastr: ToastrService,
     ) {
     this.isLogged = false;
-    this.chartOptions = {
-      series: [
-        {
-          name: "€",
-          data: []
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "bar",
-      },
-      title: {
-        text: "Pagos"
-      },
-      xaxis: {
-        categories: ["Jan", "Feb",  "Mar",  "Apr",  "May",  "Jun"],
-        tickPlacement: 'on'
-      }
-    };
+
    }
 
   ngOnInit(): void {
     this.isLogged = this.tokenService.isLogged();
     this.nombreEmpresaUsuario = this.tokenService.getUserName();
+    this.gravedadService.findAll().subscribe(
+      data=>{
+        this.gravedad$ = data;
+      }
+    )
+
     this.usuarioService.findUsuario(this.nombreEmpresaUsuario).subscribe(data=>{
       this.usuario = data;
-     
+      this.usuario$ = data;
       console.log(this.usuario);
 
       if(this.usuario.residenteDeDireccion ===null ||this.usuario.cuentaBancaria ===null){
@@ -170,8 +168,9 @@ export class DashboardComponent implements OnInit {
             this.viajes$ = data;
             this.contarViajes(this.viajes$);
           }
-        );
 
+        );
+        this.pagosP$= this.refreshPagosP$.pipe(switchMap(_=> this.pagoService.findAllPorte(data["id"])));
         this.pagoService.findAllPorte(data["id"]).subscribe(
           data=>{
             this.pagos$ = data;
@@ -262,6 +261,27 @@ export class DashboardComponent implements OnInit {
 
 
   AddGrafica(pagos:Pago[]){
+
+    this.chartOptions = {
+      series: [
+        {
+          name: "€",
+          data: []
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "bar",
+      },
+      title: {
+        text: "Pagos"
+      },
+      xaxis: {
+        categories: ["Jan", "Feb",  "Mar",  "Apr",  "May",  "Jun"],
+        tickPlacement: 'on'
+      }
+    };
+
     for(var pago of pagos){
     if(pago.fPago!=null){
       var fecha = new Date(pago.fPago);
@@ -289,7 +309,7 @@ export class DashboardComponent implements OnInit {
     
     this.chartOptions.series[0].data = [this.pagosEnero.toFixed() , this.pagosFebrero.toFixed() , this.pagosMarzo.toFixed() , this.pagosAbril.toFixed() , this.pagosMayo.toFixed(),
     this.pagosJunio.toFixed()]
-    this.chartOptions.chart.height = Math.max.apply(null, this.chartOptions.series[0].data)+100;
+   
   }
 
   eliminarNotificacion(idNotificacion:number){
@@ -298,6 +318,57 @@ export class DashboardComponent implements OnInit {
         this.refreshNotificaciones$.next(true);
       }
     );
+  }
+
+  RealizarPago(idPago:number){
+    this.pagoService.realizarPago(idPago).subscribe(
+      data=>{
+        this.refreshPagosP$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+      },err=>{
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+      }
+    )
+  }
+  RechazarPago(idPago:number){
+    this.pagoService.rechazarPago(idPago).subscribe(
+      data=>{
+        this.refreshPagosP$.next(true);
+        var notificacion = new NuevaNotificacion(data["mensaje"] , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+
+        this.toastr.success(data["mensaje"] , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+      },err=>{
+        var notificacion = new NuevaNotificacion(err['error']['mensaje'] , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(err['error']['mensaje'], 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
+      }
+    )
   }
 
 

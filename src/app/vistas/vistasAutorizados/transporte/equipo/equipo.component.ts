@@ -351,15 +351,28 @@ export class EquipoComponent implements OnInit {
     var asignacion:asignacionEquipo = new asignacionEquipo(this.conductort , remolqueId);
     this.remolqueService.updateConductorRemolqiue(asignacion).subscribe(
       data=>{
-        this.conductorRAsignado = true;
-        this.conductorRNoAsignado = false;
         this.errMsjR = data["mensaje"];
         this.refreshRemolques$.next(true);
+        var notificacion = new NuevaNotificacion(this.errMsjR  , new Date(),this.usuario$.id, this.gravedad$[1].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+ 
+        this.toastr.success(this.errMsjR , 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       },
       err=>{
-        this.conductorRAsignado = false;
-        this.conductorRNoAsignado = true;
         this.errMsjR = err['error']['mensaje'];
+        var notificacion = new NuevaNotificacion(this.errMsjR , new Date(),this.usuario$.id, this.gravedad$[2].id);
+        this.notificacionService.addNotificacion(notificacion).subscribe();
+        this.toastr.error(this.errMsjR, 'Notificación',{
+          progressBar:true,
+          timeOut: 3000,
+          easing:'ease-in',
+          easeTime:300
+        });
       }
     )
   }

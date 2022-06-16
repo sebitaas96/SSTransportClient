@@ -27,7 +27,7 @@ export const environment = {
   notificacionUrl:'http://localhost:8080/notificacion',
   gravedadUrl:'http://localhost:8080/gravedad',
   recaptcha: {
-    siteKey: '6LdZ-GggAAAAANeQllf2Hd3DvLyaZLtEldMwDAKV',
+    siteKey: '6LcozHIgAAAAAJd4iyKyVrKu6w3drShtMQsXq2p2',
   },
 }
 /*

@@ -18,7 +18,7 @@ body {
 	-webkit-align-items: center;
     background-size: cover;
     background-repeat: no-repeat;
-	background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/assets/images/signup/fondosignup.jpg");
+	background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("../../../../assets/images/signup/fondosignup.jpg");
 	background-position-y: 80%;
 }
 .form-v10-content  {

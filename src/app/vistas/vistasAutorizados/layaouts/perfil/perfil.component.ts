@@ -184,10 +184,11 @@ export class PerfilComponent implements OnInit {
         instruccion = this.usuarioService.updateConductor(usuario);
       }
       else if(this.tokenService.getIsExpedidor()){
+        console.log( data["expedidorDePorte"]);
         usuario = new Expedidor(data["id"] , data["nombre"] ,data["apellido"], data["nombreUsuario"] , data["password"] , data["documento"],
-        data["email"] , this.prefijoO+this.telefonoO , data["activo"] , data["conductorDeTransporte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
+        data["email"] , this.prefijoO+this.telefonoO , data["activo"] , data["expedidorDePorte"], new Direccion(data["residenteDeDireccion"]["id"] , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],localidad) ,provincia,
         data["cuentaBancaria"]); 
-        instruccion = this.usuarioService.updateExpedidor(usuario);
+       // instruccion = this.usuarioService.updateExpedidor(usuario);
       }
 
     }
@@ -220,7 +221,7 @@ export class PerfilComponent implements OnInit {
       else if(this.tokenService.getIsExpedidor()){
         usuario = new Expedidor(data["id"] , data["nombre"] ,data["apellido"] ,data["nombreUsuario"] , data["password"] , data["documento"],
         data["email"] , this.prefijoO+this.telefonoO , data["activo"],
-        data["conductorDeTransporte"],new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
+        data["expedidorDePorte"],new Direccion(0 , dataform["direccionvia"] ,dataform["direccion"],dataform["direccionnumero"],dataform["localidad"]) , 
         dataform["provincia"],
         null); 
         instruccion = this.usuarioService.updateExpedidor(usuario);

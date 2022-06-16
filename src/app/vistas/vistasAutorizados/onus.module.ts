@@ -75,7 +75,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MatStepperModule,
     SharedModule,
     AgmCoreModule.forRoot({
-      apiKey:'AIzaSyCGgmjdheC7MRP3yoqNWU2OSEe89dTLNJA'
+      apiKey:'AIzaSyAOnIWK_ZXwvEKuYsszLJU7Nd0FMOvUDi8'
     }),
     AgmDirectionModule,
     NgxSimpleCountdownModule,

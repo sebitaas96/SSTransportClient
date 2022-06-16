@@ -1402,6 +1402,11 @@ body.swal2-no-backdrop .swal2-shown.swal2-bottom-end,body.swal2-no-backdrop .swa
     }
 }
 
+.botonalerta{
+    margin: 0%;
+    margin-top: 2%;
+}
+
 
 /*Paneles*/
 .viajes{
@@ -1427,9 +1432,10 @@ h6 , .nViajes{
     margin: 0;
 }
 
-h5 , .panel{
+h5 , .panel , .pagoP{
     color:#016270;
 }
+
 
 .panel{
     font-size: 20px;
@@ -1439,6 +1445,10 @@ h5 , .panel{
 .notis {
     height:350px;
     overflow-y: scroll;
+  }
+  .pagospendientes{
+    overflow-y: scroll;
+    height: 150px;
   }
 
 .notisuccess{
@@ -1455,3 +1465,21 @@ h5 , .panel{
 }
   
 
+.dropdown-toggle{
+    text-decoration: none;
+    cursor:pointer;
+   
+}
+
+.dropdown-toggle::after {
+    display: none !important; 
+
+  }
+
+  .dropdown-menu{
+    cursor:pointer;
+  }
+
+  .dropdown{
+    margin-left: 5%;
+  }

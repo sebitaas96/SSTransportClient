@@ -221,8 +221,8 @@
                   <div class="alert alert-danger" role="alert" *ngIf="enviadoFail">
                     {{errMsj}}
                   </div>
-                  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cerrar</button>
-                  <button type="submit" class="btn btn-outline-dark" [disabled]="conductorform.invalid"
+                  <button type="button" class="btn btn-outline-dark botonmodal" (click)="modal.close('Save click')">Cerrar</button>
+                  <button type="submit" class="btn btn-outline-dark botonmodal" [disabled]="conductorform.invalid"
                     name="Invitar"  (click)="modal.close('Save click')">Enviar invitacion</button>
                 </div>
               </form>

@@ -64,14 +64,131 @@
                                     
                                     </div>
                                 </div>
-                            
-    
-                  
                     </div>
                 </div>
             </div>
         </ng-container>
-        <ng-container *ngIf="isPorte || isExpedidor">
+        <ng-container *ngIf="isPorte">
+            <div class="col-xl-10 col-xxl-10 mt-5">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Tus viajes
+                            <a routerLink="/onus/viajes-expedidos">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a></h5>
+                    </div>
+                    <div class="card-body py-3">
+
+                                <div class="row">
+                                    <div class="col-2 ms-5  me-5 viajes">
+                                        
+                                        <div class="d-flex justify-content-center">
+                                            <h6><strong>Expedidos</strong></h6>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <span class="nViajes">{{viajesExpedidos}}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn btn-light btnEye">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>   
+                                        </div>
+                                       
+                                        </div>
+                                    <div class="col-2 ms-5 me-5 viajes">
+                                        
+                                            <div class="d-flex justify-content-center">
+                                                <h6><strong>RESERVADOS</strong></h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <span class="nViajes">{{viajesReservados}}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light btnEye">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>   
+                                            </div>
+                                           
+                                    </div>
+
+                                    <div class="col-2 ms-5 me-5 viajes">
+                                  
+                                            <div class="d-flex justify-content-center">
+                                                <h6><strong>FINALIZADOS</strong></h6>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <span class="nViajes">{{viajesFinalizados}}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-light btnEye">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>   
+                                            </div> 
+                                    
+                                    </div>
+                                    <div class="col-2 ms-5 me-5 viajes">
+                 
+                                        <div class="d-flex justify-content-center">
+                                            <h6><strong>CADUCADOS/CANCELADOS</strong></h6>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <span class="nViajes">{{viajesTransito}}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+                                            <button type="button" class="btn btn-light btnEye">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>   
+                                        </div>
+        
+                                </div>
+                                </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-xxl-2 mt-5">
+                <div class="card flex-fill w-100 h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Pagos pendientes                       
+                            <a routerLink="/onus/pagos">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </h5>
+                    </div>
+                    <div class="card-body py-3">
+                        <div class="overflow-auto pagospendientes">
+                            <ng-container *ngIf="pagosP$ | async as pagosPendientes">
+                                <ng-container *ngFor="let pago of pagosPendientes">
+                                    <ng-container *ngIf="pago.pagoDeEstadoPago.nombre=='Pendiente'">
+                                        <div class="d-flex pagoP">
+                                            <div class="col-10">
+                                                <span>{{pago.pagoDeTransporte.nombre +' : '+ pago.importe}}</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="dropdown">
+                                                    <div class="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                                                    </div>
+                
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                      <li ><a class="dropdown-item"  (click)="RealizarPago(pago.id)">Realizar Pago</a></li>
+                                                    <li ><a class="dropdown-item" (click)="RechazarPago(pago.id)">Rechazar Pago</a></li>
+                                                  
+                                            
+                                                    </ul>
+                                                  </div>
+                                            </div>
+                        
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="isExpedidor">
             <div class="col-xl-12 col-xxl-12 mt-5">
                 <div class="card flex-fill w-100 h-100">
                     <div class="card-header">
@@ -331,9 +448,9 @@
                     <p class="text-center">{{errMsj}}</p>
                 </div>
                 <div class="modal-footer justify-content-center btn-large">
-                    <button class="btn btn-danger" *ngIf="datosSinCompletar" [routerLink]="'/onus/perfil'"
+                    <button class="btn btn-danger botonalerta" *ngIf="datosSinCompletar" [routerLink]="'/onus/perfil'"
                         data-bs-dismiss="modal">Completar datos del perfil</button>
-                    <button class="btn btn-danger" *ngIf="cuentaSinCompletar" [routerLink]="'/onus/cuenta-bancaria'"
+                    <button class="btn btn-danger botonalerta" *ngIf="cuentaSinCompletar" [routerLink]="'/onus/cuenta-bancaria'"
                         data-bs-dismiss="modal">Completar datos bancarios</button>
                 </div>
             </div>

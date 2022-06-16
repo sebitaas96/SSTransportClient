@@ -87,7 +87,16 @@ export class CuentaBancariaComponent implements OnInit {
         )
       },
       err=>{
-
+                          //Notificacion
+                          var notificacion = new NuevaNotificacion("Ha habiado un error añadiendo la cuenta bancaria" , new Date(),this.usuario$.id, this.gravedad$[2].id);
+                          this.notificacionService.addNotificacion(notificacion).subscribe();
+                  
+                          this.toastr.success('Ha sucedido un error!', 'Notificación',{
+                            progressBar:true,
+                            timeOut: 3000,
+                            easing:'ease-in',
+                            easeTime:300
+                          });
       }
     )
   }
